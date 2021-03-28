@@ -13,8 +13,9 @@
 <style>
 
   /*每个页面公共css */
-  @import url('./../static/css/theme.css');
+  @import url('../static/css/basic.css');
   @import url('./../static/css/base.css');
   @import url('./../static/css/other.css');
+  @import url('./../static/css/theme.less');
 
 </style>
