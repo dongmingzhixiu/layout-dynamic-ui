@@ -1,0 +1,196 @@
+/**基本色*/
+body {
+  margin: 0;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 8px;
+}
+
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(85, 170, 255, 0.4);
+}
+
+:root {
+  --primarycolor: rgba(64, 158, 255, 1);
+  --primarycolor9: rgba(64, 158, 255, .9);
+  --primarycolor8: rgba(64, 158, 255, .8);
+  --primarycolor7: rgba(64, 158, 255, .7);
+  --primarycolor6: rgba(64, 158, 255, .6);
+  --primarycolor5: rgba(64, 158, 255, .5);
+  --primarycolor4: rgba(64, 158, 255, .4);
+  --primarycolor3: rgba(64, 158, 255, .3);
+  --primarycolor2: rgba(64, 158, 255, .2);
+  --primarycolor1: rgba(64, 158, 255, .1);
+
+  /**成功颜色 success*/
+  --successcolor: rgba(103, 194, 58, 1);
+  --successcolor9: rgba(103, 194, 58, .9);
+  --successcolor8: rgba(103, 194, 58, .8);
+  --successcolor7: rgba(103, 194, 58, .7);
+  --successcolor6: rgba(103, 194, 58, .6);
+  --successcolor5: rgba(103, 194, 58, .5);
+  --successcolor4: rgba(103, 194, 58, .4);
+  --successcolor3: rgba(103, 194, 58, .3);
+  --successcolor2: rgba(103, 194, 58, .2);
+  --successcolor1: rgba(103, 194, 58, .1);
+
+  /**警告颜色 warning */
+  --warningcolor: rgba(230, 162, 60, 1);
+  --warningcolor9: rgba(230, 162, 60, .9);
+  --warningcolor8: rgba(230, 162, 60, .8);
+  --warningcolor7: rgba(230, 162, 60, .7);
+  --warningcolor6: rgba(230, 162, 60, .6);
+  --warningcolor5: rgba(230, 162, 60, .5);
+  --warningcolor4: rgba(230, 162, 60, .4);
+  --warningcolor3: rgba(230, 162, 60, .3);
+  --warningcolor2: rgba(230, 162, 60, .2);
+  --warningcolor1: rgba(230, 162, 60, .1);
+
+
+  /**危险颜色 danger */
+  --dangercolor: rgba(245, 108, 108, 1);
+  --dangercolor9: rgba(245, 108, 108, .9);
+  --dangercolor8: rgba(245, 108, 108, .8);
+  --dangercolor7: rgba(245, 108, 108, .7);
+  --dangercolor6: rgba(245, 108, 108, .6);
+  --dangercolor5: rgba(245, 108, 108, .5);
+  --dangercolor4: rgba(245, 108, 108, .4);
+  --dangercolor3: rgba(245, 108, 108, .3);
+  --dangercolor2: rgba(245, 108, 108, .2);
+  --dangercolor1: rgba(245, 108, 108, .1);
+
+  /**信息颜色 info */
+  --infocolor: rgba(144, 147, 153, 1);
+  --infocolor9: rgba(144, 147, 153, .9);
+  --infocolor8: rgba(144, 147, 153, .8);
+  --infocolor7: rgba(144, 147, 153, .7);
+  --infocolor6: rgba(144, 147, 153, .6);
+  --infocolor5: rgba(144, 147, 153, .5);
+  --infocolor4: rgba(144, 147, 153, .4);
+  --infocolor3: rgba(144, 147, 153, .3);
+  --infocolor2: rgba(144, 147, 153, .2);
+  --infocolor1: rgba(144, 147, 153, .1);
+
+  /**
+ * 透明色
+ */
+  --transparent: transparent;
+
+
+  --whitecolor: #fff;
+  --blackcolor: #000;
+  --color: rgb(0, 0, 0);
+  --color1: rgb(20, 20, 20);
+  --color2: rgb(40, 40, 40);
+  --color3: rgb(60, 70, 70);
+  --color4: rgb(80, 80, 80);
+  --color5: rgb(100, 100, 100);
+  --color6: rgb(120, 120, 120);
+  --color7: rgb(140, 140, 140);
+  --color8: rgb(160, 160, 160);
+  --color9: rgb(180, 180, 180);
+  --color10: rgb(200, 200, 200);
+  --color11: rgb(220, 220, 220);
+  --color12: rgb(240, 240, 240);
+  --color13: rgb(255, 255, 255);
+
+  --x: 10px;
+  --x1: 1px;
+  --x2: 2px;
+  --x3: 3px;
+  --x4: 4px;
+  --x5: 5px;
+  --x6: 6px;
+  --x8: 8px;
+  --x10: 10px;
+  --x12: 12px;
+  --x14: 14px;
+  --x15: 15px;
+  --x16: 16px;
+  --x18: 18px;
+  --x20: 20px;
+  --x22: 22px;
+  --x24: 24px;
+  --x26: 26px;
+  --x28: 28px;
+  --x30: 30px;
+  --x32: 32px;
+  --x34: 34px;
+  --x36: 36px;
+  --x38: 38px;
+  --x40: 40px;
+  --x42: 42px;
+  --x44: 44px;
+  --x46: 46px;
+  --x48: 48px;
+  --x50: 50px;
+  --x52: 52px;
+  --x54: 54px;
+  --x56: 56px;
+  --x58: 58px;
+  --x60: 60px;
+  --x62: 62px;
+  --x64: 64px;
+  --x66: 66px;
+  --x68: 68px;
+  --x70: 70px;
+  --x72: 72px;
+  --x74: 74px;
+  --x76: 76px;
+  --x78: 78px;
+  --x80: 80px;
+  --x82: 82px;
+  --x84: 84px;
+  --x86: 86px;
+  --x88: 88px;
+  --x90: 90px;
+  --x92: 92px;
+  --x94: 94px;
+  --x96: 96px;
+  --x98: 98px;
+  --x100: 100px;
+  --x102: 102px;
+  --x104: 104px;
+  --x106: 106px;
+  --x108: 108px;
+  --x110: 110px;
+  --x112: 112px;
+  --x114: 114px;
+  --x116: 116px;
+  --x118: 118px;
+  --x120: 120px;
+  --x140: 140px;
+  --x160: 160px;
+  --x180: 180px;
+  --x200: 200px;
+  --x220: 220px;
+  --x240: 240px;
+  --x260: 260px;
+  --x280: 280px;
+  --x300: 300px;
+  --x320: 320px;
+  --x360: 360px;
+  --x400: 400px;
+  --x440: 440px;
+  --x480: 480px;
+  --x520: 520px;
+  --x560: 560px;
+  --x600: 600px;
+}

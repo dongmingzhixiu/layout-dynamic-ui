@@ -1,0 +1,43 @@
+.el-dialog__wrapper {
+		display: flex;
+		align-items: center;
+	}
+
+
+	/* 使顶部进行吸顶 */
+	.top {
+		position: sticky;
+		position: -webkit-sticky;
+		top: 0px;
+	}
+
+	.id-dialog {
+		min-width: 500px;
+	}
+
+	/* 表单大小设置 */
+	.id-dialog .el-dialog {
+		height: 80%;
+		margin-top: 5% !important;
+		overflow: hidden;
+	}
+
+	.id-dialog .el-dialog__body {
+		position: absolute;
+		left: 0;
+		top: 54px;
+		bottom: 20px;
+		right: 0;
+		padding: 0;
+		z-index: 1;
+		overflow: hidden;
+		overflow-y: auto;
+	}
+
+	/**表单 确定和取消 按钮的位置 */
+	.id-dialog .el-dialog__footer {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
