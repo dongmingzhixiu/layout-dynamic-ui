@@ -7,11 +7,8 @@ const config = {
 		'text',
 		'image',
 		'sysdate',
-		'createtime',
 		'datakey',
 		'address',
-		'addr',
-		"label",
 		"tag",
 		'textarea',
 		'date',
@@ -19,8 +16,6 @@ const config = {
 		'checkbox',
 		'select',
 		'icon',
-		'object',
-		'array',
 		'param',
 		'slot', //插槽
 		'number', //计数器

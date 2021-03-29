@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="w box-b">
+  <div id="app" class="w h-vh box-b">
     <router-view class="wh box-b over-a-y" />
   </div>
 </template>

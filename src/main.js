@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import layoutDynamic from './lib/index.js'
+import layoutDynamic from '@/lib/index.js'
 
 
 Vue.use(layoutDynamic);

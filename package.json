@@ -4,8 +4,8 @@
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
-	"main":"lib/index.umd.js",
-	"keyword":"vue forms element-ui layout",
+  "main": "lib/index.umd.js",
+  "keyword": "vue forms element-ui layout",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "element-ui": "^2.15.1",	
+    "element-ui": "^2.15.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
