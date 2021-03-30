@@ -15,7 +15,7 @@
         this.$ld.requestSetting.serverPath.production.set('http://127.0.0.1:8085/frame/');
 
         //重写请求拦截器
-        this.$ld.requestSetting.intercept = {
+        this.$ld.requestSetting.interceptor = {
           /**
            * 请求之前调用的方法
            * @param {object} 请求之前的返回参数
@@ -26,7 +26,7 @@
           before: (event) => {
             console.log("before:进入拦截器。。。。");
             //支持方式
-
+					
 
             return this.$confirm('确定保存数据吗?', '提示', {
               confirmButtonText: '确定',

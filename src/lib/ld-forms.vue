@@ -45,7 +45,7 @@
                   <!-- 数据键 -->
                   <div v-if="isControlsType(item,'datakey')" class="el-disabled w  el-input--suffix">
                     <el-input v-model="forms[item['prop']]" v-show="false"></el-input>
-                    <div class="el-input__inner fs color8">数据键，无需更改！</div>
+                    <div class="el-input__inner fs color8" :class="item['css']" :style="item['style']">数据键，无需更改！</div>
                   </div>
 
 

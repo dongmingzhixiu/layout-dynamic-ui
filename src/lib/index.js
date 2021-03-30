@@ -43,7 +43,7 @@ const install = (Vue, opts = {}) => {
         return apiRequest.axiosInit(axios);
       },
       //拦截器
-      intercept:apiRequest.intercept,
+      interceptor:apiRequest.interceptor,
     },
     //资源
     resource:{
@@ -52,6 +52,8 @@ const install = (Vue, opts = {}) => {
     },
     //请求方法
     request: apiRequest.request,
+		postRequest: apiRequest.postRequest,
+		getRequest: apiRequest.getRequest,
     //工具包
     util: ldUtil,
     //配置

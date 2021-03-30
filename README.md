@@ -61,6 +61,8 @@ this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
 - - 普通使用
 
 ```javascript
+ //重写请求拦截器
+this.$ld.requestSetting.interceptor = {
   /**
    * 请求前拦截
    */
@@ -83,6 +85,8 @@ this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
 > 在少数情况下，我们可能会通过与用户互动后，确定是否需要继续执行请求，这时使用 Promise 无疑是最好的方式。
 
 ```javascript
+ //重写请求拦截器
+this.$ld.requestSetting.interceptor = {
   /**
    * 请求前拦截
    */
@@ -124,6 +128,8 @@ this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
 
 - 请求获取数据使用`this.$ld.request`方法获取数据
 
+- - 支持 多种请求类型
+
 ```javascript
  this.$ld.request('test/getUserInfo', 'get',{}).then(res => {
     //获取到数据
@@ -132,6 +138,32 @@ this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
     console.log(interceptError);
   })
 ```
+
+ > 除此之外对常用的两种请求类型(get;post)提供了额外的使用方式
+
+ - - get 请求
+
+ ```javascript
+  this.$ld.getRequest('test/getUserInfo',{}).then(res => {
+     //获取到数据
+   }, interceptError => {
+     //当请求被拦截是
+     console.log(interceptError);
+   })
+ ```
+ 
+ - - post 请求
+
+```javascript
+ this.$ld.postRequest('test/getUserInfo',{}).then(res => {
+    //获取到数据
+  }, interceptError => {
+    //当请求被拦截是
+    console.log(interceptError);
+  })
+```
+
+
 |入参数名称|类型|说明|示例|
 |-|-|-|-|
 |router|String|请求路径|'test/getUserInfo'|
