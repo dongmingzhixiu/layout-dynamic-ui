@@ -112,7 +112,7 @@ this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
   after: (event) => {
     /**
      * 这里使用 Promise.resolve 返回结果，结果为装饰后的数据
-     * 如： Promise.resolve(event);  //继续执行请求方法
+     * 如： Promise.resolve(event);  //为程序返回最终装饰后的数据
      */
     return Promise.resolve(event);
   }
