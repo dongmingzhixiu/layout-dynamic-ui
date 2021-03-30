@@ -19,6 +19,130 @@ npm run build --report
 ```
 # 目的
 > 我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。
+
+# Axios 封装
+  > axios 进行整套分装，只需要简单的配置即可进行操作。支持全局请求前拦截，请求后装饰。
+
+## 1.设置请求连接服务地址
+
+- 开发环境和生产环境使用不同的地址
+
+```javascript
+//设置开发地址
+this.$ld.requestSetting.serverPath.development.set('http://127.0.0.1:18085/frame/');
+//设置生产地址
+this.$ld.requestSetting.serverPath.production.set('http://127.0.0.1:8085/frame/');
+```
+> 请求地址分为 开发地址和生产地址。当使用 `npm run dev`时，所使用的是开发地址。当使用`npm run build`打包vue项目后，则使用的是生产地址
+
+
+- 开发环境和生产环境使用同一个地址
+
+```javascript
+//会根据当前vue运行环境，进行动态设置地址
+this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
+```
+> 会根据当前vue运行环境，进行动态设置地址
+
+## 2.设置axios请求头等相关信息
+- 设置axios请求等相关信息，需要我们重写`this.$ld.requestSetting.init`方法。
+
+```javascript
+ this.$ld.requestSetting.init= (axios) => {
+    alert('设置axios信息！');
+    return axios;
+  }
+```
+> 重写方法是会获取到一个`axios`对象，需要对axios对象进行操作加工，之后需要返回加工后的`axios`
+
+## 3.请求前拦截和请求后数据装饰
+- 请求前拦截和请求后数据装饰需要我们重写`this.$ld.requestSetting.intercept`对象
+
+- - 普通使用
+
+```javascript
+  /**
+   * 请求前拦截
+   */
+  before: (event) => {
+    //返回 true 和false ,控制是否继续执行请求方法
+    return true;
+  },
+  /**
+   * 请求后拦截装饰
+   */
+  after: (event) => {
+     //对查询到的数据，进行统一装饰。
+     return event.data;
+  }
+}
+
+```
+- - 使用Promise对象控制
+
+> 在少数情况下，我们可能会通过与用户互动后，确定是否需要继续执行请求，这时使用 Promise 无疑是最好的方式。
+
+```javascript
+  /**
+   * 请求前拦截
+   */
+  before: (event) => {
+   /**
+    * 这里使用 Promise.resolve 返回结果，结果为 true或false
+    * 如： Promise.resolve(true);  //继续执行请求方法
+    *      Promise.resolve(false); //不在执行请求方法
+    */
+
+    return this.$confirm('确定保存数据吗?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      //使用 true 和false ,控制是否继续执行请求方法
+      return Promise.resolve(true);
+    }).catch(() => {
+      this.$message.info("用户取消了操作！");
+      //使用 true 和false ,控制是否继续执行请求方法
+      return Promise.resolve(false);
+    });
+  },
+  /**
+   * 请求后拦截装饰
+   */
+  after: (event) => {
+    /**
+     * 这里使用 Promise.resolve 返回结果，结果为装饰后的数据
+     * 如： Promise.resolve(event);  //继续执行请求方法
+     */
+    return Promise.resolve(event);
+  }
+}
+
+```
+
+## 4.请求获取数据方法。返回类型：`Promise`
+
+- 请求获取数据使用`this.$ld.request`方法获取数据
+
+```javascript
+ this.$ld.request('test/getUserInfo', 'get',{}).then(res => {
+    //获取到数据
+  }, interceptError => {
+    //当请求被拦截是
+    console.log(interceptError);
+  })
+```
+|入参数名称|类型|说明|示例|
+|-|-|-|-|
+|router|String|请求路径|'test/getUserInfo'|
+|methodType|String|请求方法：get`\|`post|'get'|
+|data|Object`\|`Array|请求参数|`{userName:'188888888',password:'1111111'}`|
+
+
+
+
+
+
 # 插件
 ## 一.支持插件 (`v1.0.0`)
 ### 1. `id-address` 地址组件，目前支持国内常见地区使用。
