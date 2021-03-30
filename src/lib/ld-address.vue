@@ -40,7 +40,7 @@
     data() {
       return {
         value: [],
-        cityList: this.$ldaddressItem['tb'],
+        cityList: this.$ld.resource.addressItem['tb'],
         options: [],
         provinceName: '',
         addrs: this.addr,

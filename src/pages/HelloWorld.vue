@@ -263,7 +263,7 @@
             label: '数组',
             dataType: 'arra',
             parseType: 'json',
-            value: JSON.stringify(["参数。。。","参数1"])
+            value: JSON.stringify(["参数。。。", "参数1"])
           }, {
             prop: 'remake',
             type: 'textarea',
@@ -307,27 +307,21 @@
     },
     methods: {
       saveData() {
-        this.$serverRequestPath.development.set('http://st.orange-info.cn/nh');
-        this.$serverRequestPath.production.set('http://yi.orange-info.cn/nh');
-        this.$requestInit = (axios) => {
-          alert('设置axios信息！');
-          return axios;
-        }
-        this.$request('/login/login', 'get', {
-          userName: '张三',
-          password: '123456'
-        }).then(res => {
+        this.$ld.request('test/getUserInfo', 'get',{}).then(res => {
+          debugger
+          console.log(res)
           if (res.code == 0) {
             return;
           }
-          this.$message.error("保存失败！");
+        }, error => {
+          console.log(error);
         })
       },
     },
     created() {
       setTimeout(() => {
         this.loading = false;
-      }, 2000);
+      }, 200);
     }
   }
 </script>

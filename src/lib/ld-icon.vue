@@ -81,7 +81,7 @@
 				search: '',
 				dialog: this.showDialog,
 				icon: this.value,
-				iconList: this.$ldIconList.resource.concat("el-xxxx")
+				iconList: this.$ld.resource.iconList.resource.concat("el-xxxx")
 			}
 		},
 		methods: {

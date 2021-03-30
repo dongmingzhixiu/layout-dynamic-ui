@@ -8,12 +8,16 @@ import layoutDynamic from '@/lib/index.js'
 
 Vue.use(layoutDynamic);
 
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

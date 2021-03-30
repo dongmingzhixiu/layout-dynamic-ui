@@ -24,41 +24,55 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 
 
-const install = (Vue,opts={})=> {
-	locale.use(opts.locale);
-	locale.i18n(opts.i18n);
-	
-	Vue.use(ElementUI);
-	
-	Vue.prototype.$requestInit = function(axios) {
-		return apiRequest.axiosInit(axios);
-	};
+const install = (Vue, opts = {}) => {
+  locale.use(opts.locale);
+  locale.i18n(opts.i18n);
 
-	Vue.prototype.$serverRequestPath = apiRequest.serverRequestPath;
-	Vue.prototype.$request = apiRequest.request;
-	Vue.prototype.$screen = screen;
-	Vue.prototype.$ldIconList = iconList;
-	Vue.prototype.$ldaddressItem = addressItem;
-	Vue.prototype.$ld = {
-		util: ldUtil,
-		config: {
+  Vue.use(ElementUI);
 
-		}
-	};
+  Vue.prototype.$requestInit = function(axios) {
+    return apiRequest.axiosInit(axios);
+  };
+  Vue.prototype.$ld = {
+    //请求
+    requestSetting: {
+      //设置请求服务地址
+      serverPath: apiRequest.serverRequestPath,
+      //初始化设置
+      init: function(axios) {
+        return apiRequest.axiosInit(axios);
+      },
+      //拦截器
+      intercept:apiRequest.intercept,
+    },
+    //资源
+    resource:{
+       iconList: iconList,
+       addressItem: addressItem,
+    },
+    //请求方法
+    request: apiRequest.request,
+    //工具包
+    util: ldUtil,
+    //配置
+    config: {
 
-	Vue.component('ld-page-loading', ldPageLoading);
+    }
+  };
 
-	Vue.component('ld-forms', ldForms);
+  Vue.component('ld-page-loading', ldPageLoading);
 
-	Vue.component('ld-icon', ldIcon);
+  Vue.component('ld-forms', ldForms);
 
-	Vue.component('ld-tags', ldTags);
+  Vue.component('ld-icon', ldIcon);
 
-	Vue.component('ld-address', ldAddress);
+  Vue.component('ld-tags', ldTags);
 
-	Vue.component('ld-params', ldParams);
+  Vue.component('ld-address', ldAddress);
 
-	Vue.component('ld-images', ldImages);
+  Vue.component('ld-params', ldParams);
+
+  Vue.component('ld-images', ldImages);
 
 
 }
@@ -66,20 +80,19 @@ const install = (Vue,opts={})=> {
 
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
-	install(window.Vue);
+  install(window.Vue);
 }
-export default { 
-	version: '1.0.0',
-	// locale: locale.use,
-	// i18n: locale.i18n,
-	install,
-	ldPageLoading,
-	ldForms,
-	ldIcon,
-	ldTags,
-	ldAddress,
-	ldParams,
-	ldImages,
-	
-}
+export default {
+  version: '1.0.0',
+  // locale: locale.use,
+  // i18n: locale.i18n,
+  install,
+  ldPageLoading,
+  ldForms,
+  ldIcon,
+  ldTags,
+  ldAddress,
+  ldParams,
+  ldImages,
 
+}
