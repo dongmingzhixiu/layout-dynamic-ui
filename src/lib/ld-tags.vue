@@ -3,13 +3,13 @@
   <div class="m-t4">
     <div v-if="title" class="color8 p2" style="height: 28px;">{{title}}</div>
     <div class="f-s-w w">
-      <el-tag v-for="(item,i) in tags" :key="i" effect="plain" closable class="m-r4 m-t1 m-b1" @close="closeTags(item)">
+      <el-tag :disabled="disabled" v-for="(item,i) in tags" :key="i" effect="plain" closable class="m-r4 m-t1 m-b1" @close="closeTags(item)">
         {{item}}
       </el-tag>
       <el-input v-if="isAdd" v-model="text" placeholder="请输入内容" size="small" class="input-new-tag  m-r4 m-t1 m-b1"
         style="width: 100px;" />
       <div style="width: 80px;">
-        <el-button type="primary" size="mini" plain class="m-t1 m-b1"
+        <el-button :disabled="disabled" type="primary" size="mini" plain class="m-t1 m-b1"
           :class="{'el-icon-plus':!isAdd,'el-icon-check':isAdd}" style="height: 32px;" @click="addTag">
           {{!isAdd?'Add':'确定'}}
         </el-button>
@@ -19,9 +19,13 @@
 </template>
 
 <script>
-  export default {	
+  export default {
 		name: "ld-tags",
     props: {
+      disabled:{
+        type: Boolean,
+        default: false
+      },
       tag: {
         type: [Array, String],
         default: () => {
@@ -72,7 +76,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .el-input .input-placeholder,
   .el-input input {
     font-size: 14px !important;

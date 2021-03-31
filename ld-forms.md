@@ -432,6 +432,66 @@ data(){
 
 
 [回首页](./README.md)
+# `ld-forms`事件
+  ## 组件联动和联动后的数据更改
+  > 通过在`layout`布局参数的子项中设置 `change`事件，来控制联动或联动后更新相关数据；
+
+- 联动控制组件
+
+  ```javascript
+data(){
+  return {
+    layout:[
+
+      {
+        prop: 'testRadio',
+        type: 'radio',
+        label: '特殊资源',
+        options: [{
+            label: '线下场地免费',
+            value: '1'
+          },
+          {
+            label: '线上品牌商赞助',
+            value: '0'
+          }
+        ],
+        //联动事件
+        change:(val,event)=>{
+          return {
+            //prop:{元素具备的属性}
+            addressName:{
+              visabled:val==1 //当 val==1时，将组件prop='addressName'组件的visabled(可见)设为true(显示)
+            },
+            sponsorship:{
+              visabled:val==0 //当 val==0时，将组件prop='sponsorship'组件的visabled(可见)设为true(显示)
+            },
+          }
+        }
+      },
+
+      {
+        prop: 'addressName',
+        type: 'textarea',
+        label: '场地名称',
+        visabled:true,
+      },
+      {
+        prop: 'sponsorship',
+        type: 'text',
+        label: '赞助商名称',
+        visabled:false,
+      },
+    ]
+  };
+}
+  ```
+
+- 联动控制这个表单的数据
+
+
+
+
 # 附录1
 ```html
 <template>

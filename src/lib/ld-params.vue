@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="c10 a-i-c f-s p2 el-input__inner">
-      <el-button type="primary" plain size="mini" @click="addItem">添加一行</el-button>
+      <el-button :disabled="disabled" type="primary" plain size="mini" @click="addItem">添加一行</el-button>
 		</div>
 		<div class="box-b p2">
 			<template v-if="Array.isArray(params)">
@@ -16,7 +16,7 @@
 						<el-input v-model="keyList[i]"
 							class=" color3 fs14 over-h-y w-200" placeholder="请输入键"
 							placeholder-class="c10" @input="confirmItem" @change="confirmItem"  />
-						<el-input v-model="valueList[i]" class="color3 fs14 over-h-y" placeholder="请输入参数值"
+						<el-input v-model="valueList[i]" :disabled="disabled" class="color3 fs14 over-h-y" placeholder="请输入参数值"
 							placeholder-class="c10" @input="confirmItem" @change="confirmItem"  />
 					</div>
 				</template>
@@ -29,6 +29,10 @@
 	export default {
 		name:'ld-params',
 		props: {
+      disabled:{
+        type: Boolean,
+        default: false,
+      },
 			type: {
 				type: String,
 				default: 'array'

@@ -18,8 +18,12 @@
 </template>
 <script>
   export default {
-		name:'ld-images',
+    name: 'ld-images',
     props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
       limit: {
         type: Number,
         default: 4

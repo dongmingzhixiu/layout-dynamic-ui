@@ -16,7 +16,8 @@
         </el-input>
       </div>
       <div class="w f-s over-h-y h" style="height: calc(100% - 60px);">
-        <el-cascader-panel filterable class="h" size="medium" v-model="value" :options="options" @change="addressChange">
+        <el-cascader-panel filterable class="h" size="medium" v-model="value" :options="options"
+          @change="addressChange">
         </el-cascader-panel>
       </div>
     </el-dialog>
@@ -27,6 +28,10 @@
   export default {
     name: 'ld-address',
     props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
       addr: {
         type: String,
         default: ''
@@ -48,26 +53,26 @@
       }
     },
     methods: {
-      openCheckAddr(){
-        this.dialogVisible=!this.dialogVisible;
+      openCheckAddr() {
+        this.dialogVisible = this.disabled ? this.dialogVisible : !this.dialogVisible;
       },
       addressChange(value) {
-        if(!value||value.length<=0){
+        if (!value || value.length <= 0) {
           return;
         }
-        const getItem=function(data,val){
-         let _data= data.filter(item=>item.value==val);
-         if(_data.length<=0){
-           return {};
-         }
-         return _data[0];
+        const getItem = function(data, val) {
+          let _data = data.filter(item => item.value == val);
+          if (_data.length <= 0) {
+            return {};
+          }
+          return _data[0];
         }
-        let item=null;
-        let add="";
-        for(let i=0;i<value.length;i++){
-          item=getItem(i==0?this.cityList:item['children'],value[i]);
-          add +=item['label']?(`${item['label']}${i<value.length-1?',':''}`):item['label'];
-          if(!add){
+        let item = null;
+        let add = "";
+        for (let i = 0; i < value.length; i++) {
+          item = getItem(i == 0 ? this.cityList : item['children'], value[i]);
+          add += item['label'] ? (`${item['label']}${i<value.length-1?',':''}`) : item['label'];
+          if (!add) {
             return;
           }
         }
@@ -111,7 +116,8 @@
   .el-scrollbar.el-cascader-menu {
     height: 100%;
   }
-  .el-scrollbar__view.el-cascader-menu__list.is-empty{
+
+  .el-scrollbar__view.el-cascader-menu__list.is-empty {
     display: none;
   }
 </style>

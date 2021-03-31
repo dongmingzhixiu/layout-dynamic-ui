@@ -1,7 +1,7 @@
 <template>
 	<div class="position-relative">
 		<div class="">
-			<div class="el-input el-input__inner f-b" @click="dialog=!dialog" @blur="changeEvent" @focus="changeEvent">
+			<div class="el-input el-input__inner f-b" @click="dialog=!disabled?!dialog:dialog" @blur="changeEvent" @focus="changeEvent">
 				<div class="ellipsis align-items-center">
 					<div v-if="icon" class="fs20 p-18 " :class="icon"></div>
 					<div class="color8 fs14">{{!icon?'点击选择图标':icon}}</div>
@@ -46,10 +46,6 @@
 	export default {
 		name: 'ld-icon',
 		props: {
-			readonly: {
-				type: Boolean,
-				default: false,
-			},
 			disabled: {
 				type: Boolean,
 				default: false,

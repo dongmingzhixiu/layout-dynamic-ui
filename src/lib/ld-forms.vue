@@ -57,25 +57,30 @@
 
                   <!-- 文本框 -->
                   <template v-if="isControlsType(item,'text')">
-                    <el-input v-model="forms[item['prop']]" :class="{'error-bor-d':item['error']==true}" clearable
-                      :show-password="item['password']" :placeholder="getPlaceholder(item)"
-                      @change="regexFormVal(item,i)" @input="regexFormVal(item,i)" @blur="regexFormVal(item,i)"
-                      @focus="regexFormVal(item,i)">
+                    <!-- :class="{'error-bor-d':item['error']==true}" -->
+                    <el-input v-model="forms[item['prop']]"
+                      :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
+                      clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
+                      :disabled="getDisabled(item)" @change="regexFormVal(item,i)" @input="regexFormVal(item,i)"
+                      @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                     </el-input>
                   </template>
 
                   <!-- 文本域 -->
                   <template v-if="isControlsType(item,'textarea')">
-                    <el-input v-model="forms[item['prop']]" :class="{'error-bor-d':item['error']==true}" type="textarea"
-                      clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
-                      :rows="item['rows']||4" @change="regexFormVal(item,i)" @input="regexFormVal(item,i)"
-                      @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)"></el-input>
+                    <el-input v-model="forms[item['prop']]"
+                      :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
+                      :disabled="getDisabled(item)" type="textarea" clearable :show-password="item['password']"
+                      :placeholder="getPlaceholder(item)" :rows="item['rows']||4" @change="regexFormVal(item,i)"
+                      @input="regexFormVal(item,i)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                    </el-input>
                   </template>
 
                   <!-- 下拉框 -->
                   <template v-if="isControlsType(item,'select')">
-                    <el-select class="w m-l0" v-model="forms[item['prop']]" :class="{'error-bor-d':item['error']==true}"
-                      clearable :allow-create="item['allowCreate']||false"
+                    <el-select class="w m-l0" v-model="forms[item['prop']]"
+                      :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
+                      :disabled="getDisabled(item)" clearable :allow-create="item['allowCreate']||false"
                       :filterable="item['filterable']||item['allowCreate']||false" :multiple="item['multiple']||false"
                       collapse-tags style="margin-left: 20px;" placeholder="请选择" @change="regexFormVal(item,i)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
@@ -88,10 +93,11 @@
 
                   <!-- 单选框   -->
                   <template v-if="isControlsType(item,'radio')">
-                    <div class="box-b f-s a-i-c bor-ff"
-                      :class="{'el-input':!item['isButton'],'el-input__inner':!item['isButton'],'bor-d':item['error']==true}"
-                      style="height: auto;">
-                      <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)">
+                    <div class="box-b f-s a-i-c bor-ff box-b"
+                      :class="getStyleOrCss({'el-input el-input__inner':!item['isButton'],'bor-d':item['error']==true},item,'css')"
+                      :style="item['style']" style="height: auto;">
+                      <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)"
+                        :disabled="getDisabled(item)">
                         <template v-if="item['isButton']===true">
                           <el-radio-button v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value"
                             :border="item[' border']||false" :key="j">
@@ -109,10 +115,12 @@
 
                   <!-- 复选框   -->
                   <template v-if="isControlsType(item,'checkbox')">
-                    <div class="el-input box-b el-input__inner f-s a-i-c" :class="{'bor-d':item['error']==true}"
+                    <div class="el-input box-b el-input__inner f-s a-i-c box-b"
+                      :class="getStyleOrCss({'bor-d':item['error']==true},item,'css')" :style="item['style']"
                       style="height: auto;">
-                      <el-checkbox-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)">
-                        <el-checkbox v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value" :key="j">
+                      <el-checkbox-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)"
+                        :disabled="getDisabled(item)">
+                        <el-checkbox v-for="(opt,j) in item['options']" :label="opt.value" :key="j">
                           {{opt.label}}
                         </el-checkbox>
                       </el-checkbox-group>
@@ -122,7 +130,8 @@
 
                   <!-- 日期控件 -->
                   <template v-if="isControlsType(item,'date')">
-                    <el-date-picker class="w" style="width: 100%;" :class="{'error-bor-d':item['error']==true}"
+                    <el-date-picker class="w" style="width: 100%;"
+                      :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :align="item['align']||'left'" :value-format="layoutDateFormat[item['dateType']||'date']"
                       :type="item['dateType']||'date'" :placeholder="item['placeholder']" v-model="forms[item['prop']]"
                       :readonly="getDisabled(item)" :picker-options="item['pickerOptions']"
@@ -132,30 +141,32 @@
 
                   <!-- 图标控件 -->
                   <template v-if="isControlsType(item,'icon')">
-                    <div class="w" :class="{'error-bor-d':item['error']==true}" @mouseenter="regexFormVal(item,i)"
-                      @mouseleave="regexFormVal(item,i)">
-                      <ld-icon class="w" :value="forms[item['prop']]" @icon="ldChangeValToForm(item,$event,i)"
-                        :clearable="false">
+                    <div class="w" :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')"
+                      :style="item['style']" @mouseenter="regexFormVal(item,i)" @mouseleave="regexFormVal(item,i)">
+                      <ld-icon class="w" :disabled="getDisabled(item)" :value="forms[item['prop']]"
+                        @icon="ldChangeValToForm(item,$event,i)" :clearable="false">
                       </ld-icon>
                     </div>
                   </template>
 
                   <!-- 标签 -->
                   <template v-if="isControlsType(item,'tag')">
-                    <div class="w" :class="{'error-bor-d':item['error']==true}" @mouseenter="regexFormVal(item,i)"
-                      @mouseleave="regexFormVal(item,i)">
-                      <ld-tags class="w" :tag="forms[item['prop']]" :title="item['title']||''"
-                        @tag="ldChangeValToForm(item,$event,i)" :clearable="false">
+                    <div class="w" :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')"
+                      :style="item['style']" @mouseenter="regexFormVal(item,i)" @mouseleave="regexFormVal(item,i)">
+                      <ld-tags :disabled="getDisabled(item)" class="w" :tag="forms[item['prop']]"
+                        :title="item['title']||''" @tag="ldChangeValToForm(item,$event,i)" :clearable="false">
                       </ld-tags>
                     </div>
                   </template>
 
                   <!-- 地址 -->
                   <template v-if="isControlsType(item,'address')">
-                    <div class="w" @mouseenter="regexFormVal(item,i)" @mouseleave="regexFormVal(item,i)">
+                    <div class="w" :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')"
+                      :style="item['style']" @mouseenter="regexFormVal(item,i)" @mouseleave="regexFormVal(item,i)">
                       <input :name="item['prop']" v-model="forms[item['prop']]"
                         class="el-input__inner color3 fs14 over-h-y" v-show="false" />
-                      <ld-address :addr="forms[item['prop']]" @addr="ldChangeValToForm(item,$event,i,'text')">
+                      <ld-address :disabled="getDisabled(item)" :addr="forms[item['prop']]"
+                        @addr="ldChangeValToForm(item,$event,i,'text')">
                       </ld-address>
                     </div>
                   </template>
@@ -169,22 +180,23 @@
 
                   <!-- 数据参数类型 -->
                   <template v-if="isControlsType(item,'param')">
-                    <ld-params :type="item['dataType']" :param="forms[item['prop']]"
+                    <ld-params :disabled="getDisabled(item)" :type="item['dataType']" :param="forms[item['prop']]"
                       @param="forms[item['prop']]=$event"></ld-params>
                   </template>
 
 
                   <!-- 图片控件 -->
                   <template v-if="isControlsType(item,'image')">
-                    <ld-images :limit="item['limit']||1" :value="forms[item['prop']]"
+                    <!-- TODO  :disabled="getDisabled(item)" -->
+                    <ld-images :disabled="getDisabled(item)" :limit="item['limit']||1" :value="forms[item['prop']]"
                       @image="ldChangeValToForm(item,$event,i)" :clearable="false"></ld-images>
                   </template>
 
                   <!-- 计数器 -->
                   <template v-if="isControlsType(item,'number')">
                     <!-- precision 小数点位数 -->
-                    <el-input-number size="small" v-model="forms[item['prop']]" :min="parseInt(item['min'])||0"
-                      :max="parseInt(item['max'])||1000" :step="item['step']||1"
+                    <el-input-number :disabled="getDisabled(item)" size="small" v-model="forms[item['prop']]"
+                      :min="parseInt(item['min'])||0" :max="parseInt(item['max'])||1000" :step="item['step']||1"
                       :step-strictly="item['stepStrictly']||false" :precision="item['precision ']||0"
                       :placeholder="getPlaceholder(item)">
                     </el-input-number>
@@ -192,30 +204,33 @@
 
                   <!-- 开关 -->
                   <template v-if="isControlsType(item,'switch')">
-                    <el-switch v-model="forms[item['prop']]" :active-text="item['activeText']||''"
-                      :inactive-text="item['inactiveText']||''">
+                    <el-switch :disabled="getDisabled(item)" v-model="forms[item['prop']]"
+                      :active-text="item['activeText']||''" :inactive-text="item['inactiveText']||''">
                     </el-switch>
                   </template>
 
                   <!-- 滑块 -->
                   <template v-if="isControlsType(item,'slider')">
-                    <el-slider v-model="forms[item['prop']]" class="m-l6 m-r6" :marks="item['marks']||{}"
-                      :min="parseInt(item['min']) ||0" :max="parseInt(item['max'])||100" :step="item['step']||1"
-                      :format-tooltip="item['formatTooltip']||null" :show-stops="item['showStops']||true">
+                    <el-slider :disabled="getDisabled(item)" v-model="forms[item['prop']]" class="m-l6 m-r6"
+                      :marks="item['marks']||{}" :min="parseInt(item['min']) ||0" :max="parseInt(item['max'])||100"
+                      :step="item['step']||1" :format-tooltip="item['formatTooltip']||null"
+                      :show-stops="item['showStops']||true">
                     </el-slider>
                   </template>
 
                   <!-- 评分 -->
                   <template v-if="isControlsType(item,'rate')">
-                    <el-rate v-model="forms[item['prop']]" :show-text="item['showText']||false"
-                      :show-score="item['showScore']||false" :texts="item['texts']||['极差', '失望', '一般', '满意', '惊喜']"
+                    <el-rate :disabled="getDisabled(item)" v-model="forms[item['prop']]"
+                      :show-text="item['showText']||false" :show-score="item['showScore']||false"
+                      :texts="item['texts']||['极差', '失望', '一般', '满意', '惊喜']"
                       :colors="item['colors']||['#99A9BF', '#F7BA2A', '#FF9900']">
                     </el-rate>
                   </template>
 
                   <!-- 颜色 -->
                   <template v-if="isControlsType(item,'color')">
-                    <el-color-picker v-model="forms[item['prop']]" :show-alpha="item['showAlpha']||true"
+                    <el-color-picker :disabled="getDisabled(item)" v-model="forms[item['prop']]"
+                      :show-alpha="item['showAlpha']||true"
                       :predefine="item['predefine']||layoutColorPacikerDefaultList">
                     </el-color-picker>
                   </template>
@@ -223,6 +238,7 @@
                   <!-- 穿梭框 -->
                   <template v-if="isControlsType(item,'transfer')">
                     <el-card class="box-card" shadow="always">
+                      <!-- TODO :disabled="getDisabled(item)"  -->
                       <el-transfer v-model="forms[item['prop']]"
                         :titles="item['title']?typeof item['title']=='string'?item['title'].split(layoutTypeEmitParser.ArraySplit.chart):item['title']:['原数据','设置数据']"
                         :props="{key: 'value', label: 'label' }" :data="item['options']"
@@ -234,10 +250,11 @@
                   <!-- ================ 组件开始 end ================ -->
 
                 </div>
-                <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px;bottom:14px">
-                  <div v-if="item['error']==true" class="c-d fs" style="height: 12px;line-height: 12px;"
-                    :class="{'p-r10':isControlsType(item,'select')||forms[item['prop']]}">
-                    {{item['errorMsg']}}
+                <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px; z-index: 3;">
+                  <div v-if="item['error']==true" class="c-d fs"
+                    :class="{'p-r10':(isControlsType(item,'select')||forms[item['prop']])&&!isControlsType(item,'checkbox')}">
+                    <div v-if="isControlsType(item,'checkbox')" class="p4 b-i2 r4">{{item['errorMsg']}}</div>
+                    <template v-else>{{item['errorMsg']}}</template>
                   </div>
                   <div
                     v-if="!getDisabled(item)&&forms[item['prop']]&&forms[item['prop']].length>0&&hasClearButton.includes(item['type'].toLocaleLowerCase())"
@@ -408,6 +425,17 @@
     },
     methods: {
       /**
+       * 获取设置的css或style
+       * /
+       */
+      getStyleOrCss(obj = {}, item, type) {
+        type = type || 'css';
+        let s = Object.assign({}, obj);
+        s[item[type]] = true;
+        return s;
+      },
+
+      /**
        * 生成日期或时间
        * @param {Object} item
        */
@@ -451,8 +479,8 @@
           item['type']) ? '请填写' : '请输入';
 
         let text = item['placeholder'] ||
-          `${msg}${item['label']}`;
-        return this.getDisabled(item) ? `${item['label']}` : text;
+          `${msg}${item['label']||''}`;
+        return this.getDisabled(item) ? `${item['label']||''}` : text;
       },
       /**
        * 加载远程数据
@@ -533,19 +561,10 @@
        * 数据校验
        */
       regexFormVal(item, i, info) {
-        // if (typeof info == 'object') {
-        //   if (info['type'] == 'checkbox') {
-        //     let _v = this.forms[item['prop']];
-        //     if (info['checked']) {
-        //       if (!_v.includes(info['value'])) {
-        //         _v[_v.length] = info['value'];
-        //       }
-        //     } else {
-        //       _v = _v.filter(item => item != info['value'])
-        //     }
-        //     this.$set(this.forms, item['prop'], _v);
-        //   }
-        // }
+
+        let value = this.forms[item['prop']] ? this.forms[item['prop']] : this.layoutTypeArray.includes(item['type']) ?
+          [] : this.layoutTypeObject.includes(item['type']) ? {} : '';
+        this.setChange(item, value)
 
         this.$set(this.layouts[i], "error", false)
         this.$set(this.layouts[i], "errorMsg", `验证通！`)
@@ -600,7 +619,51 @@
         }
         return true;
 
-      }
+      },
+      /**
+       * 联动
+       */
+      setChange(item, value) {
+        let event = {
+          prop: item['prop'],
+          value: value,
+          form: this.forms
+        }
+        this.$emit("rowChangeBefore", Object.assign({}, event, {
+          layout: this.layouts
+        }));
+        let change = item['change'];
+        if (typeof change == 'function') {
+          let changeResult = change(value, event);
+          Object.keys(changeResult).map(key => {
+            let lays = this.layouts.filter(la => la['prop'] == key);
+            if (['form', 'layout'].includes(key)) {
+              let _v = changeResult[key];
+              if (typeof _v == "function") {
+                _v = _v(value, event);
+              }
+              if (key == 'form') {
+                this.forms = _v;
+              } else if (key == 'layout') {
+                this.layout = this.layout || _v;
+              }
+              return;
+            }
+            if (lays.length <= 0) {
+              return;
+            }
+
+            let _i = this.layouts.indexOf(lays[0]);
+            Object.keys(changeResult[key]).map(_key => {
+              let _v = changeResult[key][_key];
+              if (typeof _v == "function") {
+                _v = _v(value, event);
+              }
+              this.$set(this.layouts[_i], _key, _v);
+            });
+          });
+        }
+      },
 
     },
     created() {
