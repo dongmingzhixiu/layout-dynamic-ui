@@ -42,6 +42,8 @@ const install = (Vue, opts = {}) => {
       init: function(axios) {
         return apiRequest.axiosInit(axios);
       },
+      //配置
+      config:apiRequest.config||{timeout:'1000*60'},
       //拦截器
       interceptor:apiRequest.interceptor,
     },
@@ -57,9 +59,6 @@ const install = (Vue, opts = {}) => {
     //工具包
     util: ldUtil,
     //配置
-    config: {
-
-    }
   };
 
   Vue.component('ld-page-loading', ldPageLoading);

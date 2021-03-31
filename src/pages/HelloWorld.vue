@@ -307,9 +307,7 @@
 		},
 		methods: {
 			saveData() {
-				debugger
-				this.$ld.getRequest('test/getUserInfo', {}).then(res => {
-					debugger
+				this.$ld.getRequest('test/getUserInfo').then(res => {
 					console.log(res)
 					if (res.code == 0) {
 						return;

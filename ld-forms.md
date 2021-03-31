@@ -98,7 +98,8 @@ data(){
 
   > 当前支持21种组件类型，且每种的组件类型都支持`通用属性`(见上表)
 
--  type=`tip`：文字提示内容；可以在from表单中独居一个form子元素，也可用来说明某一个元素相关信息；
+## tip
+ - type=`tip`：文字提示内容；可以在from表单中独居一个form子元素，也可用来说明某一个元素相关信息；
  ```javascript
  //格式
  data(){
@@ -120,7 +121,7 @@ data(){
   ![tip文字可以独居一个子元素，也可以用来说明当前项的相关信息你](./效果图/ld-forms/tip.png)
 ----
 
-
+## slot
 -  type=`slot`：插槽；通过指定定`prop`值，来自定义表单内容
 ```javascript
   <template>
@@ -161,7 +162,7 @@ data(){
 
   > 通过自定义插槽实现个性化内容；
 ----
-
+## text
 - `text`：文本输入框；
 ```javascript
  data() {
@@ -180,7 +181,7 @@ data(){
 ```
   ![text](./效果图/text.png)
 ----
-
+## textarea
 - `textarea`：文本域；
  ```javascript
   data() {
@@ -199,12 +200,12 @@ data(){
      }
  ```
   ![文本域](./效果图/textarea.png)
- ##  type=`textarea` 特有属性
+ ### type=`textarea` 特有属性
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |rows|Number|文本域行数|4||文本域显示的行数,只是显示在界面上的可输入的行数，当超过设定的行数后会出现滚动条|
 ----
-
+## select
 - `select`：下拉框；
 
  ```javascript
@@ -229,7 +230,7 @@ data(){
      }
  ```
   ![select](./效果图/ld-forms/select.png)
- ## type=`select` 特有属性
+ ### type=`select` 特有属性
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
@@ -239,10 +240,10 @@ data(){
 |multiple      |Boolean|是否多选|false||详情参考[Element-UI select的相关属性](https://element.eleme.cn/#/zh-CN/component/select)|
 ----
 
-
+## radio
 - `radio`：单选组；
   ![radio](./效果图/radio.png)
- ## type=`radio` 特有属性
+ ### type=`radio` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
@@ -250,12 +251,12 @@ data(){
 |isButton   |Boolean|是否按钮样式|false||上图左侧是按钮样式，有测试默认样式|
   > 通过`isButton`来控制显示类型
 ----
-
+## checkbox
 - `checkbox`：复选组；
 
   ![checkbox](./效果图/checkbox.png)
 
-  ## type=`checkbox` 特有属性
+  ### type=`checkbox` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
@@ -263,18 +264,18 @@ data(){
 
 ----
 
-
+## date
 - `date`：日期组件；支持`Element-ui`中常见的日期类型
   ![date](./效果图/date.png)
 
-  ## type=`date` 特有属性
+### type=`date` 特有属性
 |关键字|类型|解释|可选址|默认值|是否必须|说明|
 |-|-|-|-|-|-|-|
 |align|String|对齐方式|left, center, right|left||对齐方式|
 |dateType|String|日期类型|year/month/date/dates/ week/datetime/datetimerange/ daterange/monthrange|date||日期类型|
 |pickerOptions|Object|当前时间日期选择器特有的选项参考下表||||想起参考[Element-UI的日期选择器picker-options](https://element.eleme.cn/#/zh-CN/component/date-picker)|
 
-### Picker Options
+#### Picker Options
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |shortcuts|设置快捷选项，需要传入 { text, onClick } 对象用法参考 demo 或下表	|Object[]|	—|	—|
@@ -287,30 +288,30 @@ data(){
   > 可以通过 `dateType`控制日期类型。
   > 支持`year/month/date/dates/week/datetime/datetimerange/daterange/monthrange`
 ----
-
+## icon
 - `icon`：图标组件；使用上文提到的`ld-icon`实现图标选取
   ![icon](./效果图/icon1.png)
   ![icon](./效果图/icon.png)
 > 仅支持 通用属性
 ----
-
+## tag
 - `tag`：标签组；使用上文提到的`ld-tag`实现标签设置和录入
   ![tag](./效果图/tag.png)
 
   > 仅支持 通用属性
 
 ----
-
+## address
 - `address`：地址选择组件；使用上文提到的`id-address`实现标签设置和录入
   ![地址](./效果图/address1.png)
   ![地址](./效果图/address.png)
 
   > 仅支持 通用属性
 ----
-
+## sysdate
 - `sysdate`：系统日期；在使用创建日期和修改日期时非常有用；
   ![sysdate](./效果图/sysdate.png)
-## type=`sysdate` 特有属性
+ ### type=`sysdate` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |update|是否更新，true:会动态更新，false:只会在没有值得情况下获取数据|Boolean|	true,false|	—|
@@ -320,20 +321,20 @@ data(){
   > 修改日期会动态更新，保持获取最新的日期。
 ----
 
-
+## image
 - `image`：图片上传组；
   ![iamge](./效果图/image1.png)
   ![iamge](./效果图/image.png)
-## type=`image` 特有属性
+ ### type=`image` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |limit|图片最大选择数量|Number||	1|
 
 ---
-
+## number
 - `number`：计数器；
   ![计数器](./效果图/number.png)
-## type=`number` 特有属性
+ ### type=`number` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |max|最大值|Number||	1000|
@@ -343,20 +344,20 @@ data(){
 |stepStrictly|是否只能输入 step 的倍数[Element-UI计数器的step-strictly](https://element.eleme.cn/#/zh-CN/component/input-number)|Boolean||faslse|
 
 ---
-
+## switch
 - `switch`：开关；
   ![开关](./效果图/switch.png)
- ## type=`switch` 特有属性
+ ### type=`switch` 特有属性
 |参数|说明	|类型|可选值|默认值|是否必须|
 |-|-|-|-|-|-|
 |activeText|switch 打开时的文字描述|string|-|-|可为空|
 |inactiveText|switch 关闭时的文字描述|string|-|-|可为空|
 
 ---
-
+## slider
 - `slider`：滑块;
   ![滑块](./效果图/slider.png)
-## type=`slider` 特有属性
+ ### type=`slider` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |max|最大值|Number||	1000|
@@ -366,10 +367,10 @@ data(){
 |marks|标记， key 的类型必须为 number 且取值在闭区间 [min, max] 内，每个标记可以单独设置样式[Element-UI滑块的marks](https://element.eleme.cn/#/zh-CN/component/slider)|object|-|-|
 
 ---
-
+## rate
 - `rate`：评分；
   ![评分](./效果图/rate.png)
-## type=`rate` 特有属性
+ ### type=`rate` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |showText|是否显示辅助文字，若为真，则会从 texts 数组中选取当前分数对应的文字内容|boolean||	false|
@@ -378,20 +379,20 @@ data(){
 |colors|icon 的颜色。若传入数组，共有 3 个元素，为 3 个分段所对应的颜色；若传入对象，可自定义分段，键名为分段的界限值，键值为对应的颜色|array/object||['#F7BA2A', '#F7BA2A', '#F7BA2A']|
 
 ---
-
+## color
 - `color`：颜色选择器；
   ![颜色选择器](./效果图/color.png)
-## type=`color` 特有属性
+ ### type=`color` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |showAlpha|是否支持透明度|boolean||true|
 |predefine|预定义颜色|Array||['#ff4500','#ff8c00','#ffd700','#90ee90','#00ced1','#1e90ff','#c71585','rgba(255, 69, 0, 0.68)','rgb(255, 120, 0)','hsv(51, 100, 98)','hsva(120, 40, 94, 0.5)','hsl(181, 100%, 37%)','hsla(209, 100%, 56%, 0.73)','#c7158577']|
 
 ---
-
+## transfer
 - `transfer`：穿梭框；
   ![穿梭框](./效果图/transfer.png)
-## type=`transfer` 特有属性
+ ### type=`transfer` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |title|标题,字符串是需要根据配置的分隔字符隔开|String,Array||['原数据','设置数据']或者'原数据\|设置数据'|
@@ -401,18 +402,17 @@ data(){
 |rightDefaultChecked|初始状态下右侧列表的已勾选项的 key 数组|array||[]|
 
 ---
-
-
+## param
 - `param`：参数；
   ![参数](./效果图/param.png)
-## type=`param` 特有属性
+ ### type=`param` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |dataType|数据类型,注意是`dataType`,不是`dateType`和日期没有关系|String|object,array|-|
 
 ---
 
-
+## datakey
 - `datakey`：数据键；只用来在某些特定情况下显示数据；
   ![用来显示表单主键，又不想用户能够直接看到](./效果图/datakey.png)
   > 用来显示表单主键，又不想用户能够直接看到主键值；
@@ -430,6 +430,8 @@ data(){
 |在布局中使用type=select,插槽名=options_${prop值}，如{type:'select',prop:'testInfo',label:'测试信息'}，则插槽名为：'options_testInfo'|具名插槽(作用域插槽)|对表单行的下拉框选项值部分进行自定义|{Object}:option,下拉框的option信息|
 
 
+
+[回首页](./README.md)
 # 附录1
 ```html
 <template>

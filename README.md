@@ -139,9 +139,20 @@ this.$ld.requestSetting.interceptor = {
   })
 ```
 
+- `request`入参参数
+
+|顺序|名称|类型|必填|默认|说明|示例|
+|-|-|-|-|-|-|-|
+|1|router|String|√|-|请求路径|'test/getUserInfo'|
+|2|methodType|String||get|请求方法：get`\|`post|'get'|
+|3|data|Object`\|`Array||{}|请求参数|`{userName:'188888888',password:'1111111'}`|
+|4|timeout|Number||60000|超时时间(毫秒);如需全局设置需要调用`this.$ld.requestSetting.config.timeout = 2000;`|1000*2|
+
+
  > 除此之外对常用的两种请求类型(get;post)提供了额外的使用方式
 
  - - get 请求
+
 
  ```javascript
   this.$ld.getRequest('test/getUserInfo',{}).then(res => {
@@ -151,7 +162,7 @@ this.$ld.requestSetting.interceptor = {
      console.log(interceptError);
    })
  ```
- 
+
  - - post 请求
 
 ```javascript
@@ -163,13 +174,13 @@ this.$ld.requestSetting.interceptor = {
   })
 ```
 
+- `getRequest`和`postRequest`入参参数
 
-|入参数名称|类型|说明|示例|
-|-|-|-|-|
-|router|String|请求路径|'test/getUserInfo'|
-|methodType|String|请求方法：get`\|`post|'get'|
-|data|Object`\|`Array|请求参数|`{userName:'188888888',password:'1111111'}`|
-
+|顺序|名称|类型|必填|默认|说明|示例|
+|-|-|-|-|-|-|-|
+|1|router|String|√|-|请求路径|'test/getUserInfo'|
+|2|data|Object`\|`Array||{}|请求参数|`{userName:'188888888',password:'1111111'}`|
+|3|timeout|Number||60000|超时时间(毫秒);如需全局设置需要调用`this.$ld.requestSetting.config.timeout = 2000;`|1000*2|
 
 
 
@@ -177,20 +188,20 @@ this.$ld.requestSetting.interceptor = {
 
 # 插件
 ## 一.支持插件 (`v1.0.0`)
-### 1. `id-address` 地址组件，目前支持国内常见地区使用。
-### 2. `id-icon` 图标组件，当前支持`Element-ui`内置的icon，可以通过`Vue.prototype.$ld.iconList`进行扩展。
-### 3. `id-image` 图片组件，使用`Element-ui`的文件上传组件，当前只能获取图片相关上传数据，不支持上传到指定服务器（待完善！）。
-### 4. `id-page-loading` 加载组件,在页面出现之前使用可以获得更高的体验效果。
-### 5. `id-tags` 标签组件，实现一组标签的添加和删除。
-### 6. `id-forms` 表单组件
+ ### 1. `id-address` 地址组件，目前支持国内常见地区使用。
+ ### 2. `id-icon` 图标组件，当前支持`Element-ui`内置的icon，可以通过`Vue.prototype.$ld.iconList`进行扩展。
+ ### 3. `id-image` 图片组件，使用`Element-ui`的文件上传组件，当前只能获取图片相关上传数据，不支持上传到指定服务器（待完善！）。
+ ### 4. `id-page-loading` 加载组件,在页面出现之前使用可以获得更高的体验效果。
+ ### 5. `id-tags` 标签组件，实现一组标签的添加和删除。
+ ### 6. `id-forms` 表单组件
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
-1. 整体效果图
+ ### 1. 整体效果图
 
   ![效果图](./效果图/ld-forms.png)
 
-2. 当前支持的组件类型（`v1.0.0`）
+ ### 2. 当前支持的组件类型（`v1.0.0`）
 
-- `tip`：文字提示内容；可以在from表单中独居一个form子元素，也可用来说明某一个元素相关信息；
+- [`tip`](./ld-forms.md#tip)：文字提示内容；可以在from表单中独居一个form子元素，也可用来说明某一个元素相关信息；
 
 
   ![tip文字可以独居一个子元素，也可以用来说明当前项的相关信息你](./效果图/tip.png)
