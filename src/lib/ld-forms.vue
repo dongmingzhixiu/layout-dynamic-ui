@@ -24,6 +24,9 @@
                     {{item['label']||''}}
                   </div>
                 </div>
+                <div v-if="item['prepend']&&!isControlsType(item,'text')" class="f-n-c-w c7 p-l2 p-r2 c8">
+                  {{item['prepend']}}
+                </div>
                 <template v-if="$scopedSlots.rowCustom">
                   <div class="w  el-input--suffix box-b" :style="{'cursor':getDisabled(item)?'no-drop':'default'}">
                     <slot name="rowCustom" :item="item"></slot>
@@ -56,6 +59,7 @@
                     </slot>
                   </template>
 
+
                   <!-- 文本框 -->
                   <template v-if="isControlsType(item,'text')">
                     <!-- :class="{'error-bor-d':item['error']==true}" -->
@@ -64,6 +68,8 @@
                       clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
                       :disabled="getDisabled(item)" @change="regexFormVal(item,i,true)" @input="regexFormVal(item,i)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      <template v-if="item['prepend']" slot="prepend">{{item['prepend']}}</template>
+                      <template v-if="item['append']" slot="suffix">{{item['append']}}</template>
                     </el-input>
                   </template>
 
@@ -251,6 +257,9 @@
                   <!-- ================ 组件开始 end ================ -->
 
                 </div>
+                <div v-if="item['append']&&!isControlsType(item,'text')" class="f-n-c-w c7 p-l2 p-r2 c8">
+                  {{item['append']}}
+                </div>
                 <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px; z-index: 3;"
                   :style="{'right':getErrorMsgPosition(item),'bottom':item['tip']?'12px':'auto'}">
                   <div v-if="item['error']==true" class="c-d fs">
@@ -435,14 +444,18 @@
       /**
        *
        */
-      getErrorMsgPosition(item){
-        if(this.isControlsType(item,'text')&&item['password']){
-          return this.forms[item['prop']]?'50px':'30px';
+      getErrorMsgPosition(item) {
+        let size = 10;
+        if (this.isControlsType(item, 'text') && item['password']) {
+          size = this.forms[item['prop']] ? 50 : 30;
+        } else if ((this.isControlsType(item, 'select') || this.forms[item['prop']]) && !this.isControlsType(item,
+            'checkbox')) {
+          size = 30;
         }
-        if((this.isControlsType(item,'select')||this.forms[item['prop']])&&!this.isControlsType(item,'checkbox')){
-          return '30px';
-        }
-        return '10px';
+        size += item['append'] && item['append'].length ? item['append'].length *
+          17 : 0;
+        size += this.isControlsType(item, 'text') ? item['append'] ? -8 : 0 : 0;
+        return `${size}px`;
       },
 
       /**
@@ -583,28 +596,28 @@
        * 在form保存数据之前操作
        */
       checkForm() {
-      	//校验数据
-      	for (let i = 0; i < this.layouts.length; i++) {
-      		if (!this.layoutType.includes(this.layouts[i]['type'])) {
-      			continue;
-      		}
-      		let flg = this.regexFormVal(this.layouts[i], i);
-      		if (!flg) {
-      			break;
-      		}
-      	}
-      	let errList = this.layouts.filter(item => item['error'] == true);
-      	if (errList.length > 0) {
-      		return {
-      			error: true,
-      			msg: errList[0]['errorMsg'],
-      			item: errList[0],
-      		};
-      	}
-      	return {
-      		error: false,
-      		msg: '验证通过!'
-      	}
+        //校验数据
+        for (let i = 0; i < this.layouts.length; i++) {
+          if (!this.layoutType.includes(this.layouts[i]['type'])) {
+            continue;
+          }
+          let flg = this.regexFormVal(this.layouts[i], i);
+          if (!flg) {
+            break;
+          }
+        }
+        let errList = this.layouts.filter(item => item['error'] == true);
+        if (errList.length > 0) {
+          return {
+            error: true,
+            msg: errList[0]['errorMsg'],
+            item: errList[0],
+          };
+        }
+        return {
+          error: false,
+          msg: '验证通过!'
+        }
       },
 
 
@@ -643,7 +656,7 @@
             .includes(item['type']) ? '不能为空' : '不能为空';
 
           this.$set(this.layouts[i], "errorMsg",
-            `${item['label']||item['placeholder'] ||''}${msg}`
+            `${item['label']||item['placeholder'].replace(/^请输入/,'') ||''}${msg}`
           )
           if (this.errorType == 'alert') {
             this.$message.error(this.layouts[i]['errorMsg'])
@@ -765,7 +778,48 @@
   .el-checkbox-group.error-bor-d,
   .el-select.error-bor-d input,
   .el-input.el-input--suffix.error-bor-d input,
-  .el-textarea.el-input--suffix.error-bor-d textarea {
+  .el-textarea.el-input--suffix.error-bor-d textarea .el-input.el-input-group.el-input-group--append.el-input--suffix.error-bor-d {
     border: 1px solid red;
+  }
+
+  .el-input.el-input-group.el-input-group--append.el-input--suffix.error-bor-d input {
+    border-right: 0px;
+  }
+
+  .el-input.el-input-group.el-input-group--append.el-input--suffix.error-bor-d .el-input-group__append {
+    border: 1px solid red;
+    border-left: 0px;
+  }
+
+  .el-input.el-input-group.el-input-group--append.el-input-group--prepend.el-input--suffix.error-bor-d input,
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix.error-bor-d input {
+    border-left: 0;
+  }
+
+  .el-input.el-input-group.el-input-group--append.el-input-group--prepend.el-input--suffix.error-bor-d .el-input-group__prepend,
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix.error-bor-d .el-input-group__prepend {
+    border: 1px solid red;
+    border-right: 0;
+  }
+
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix.error-bor-d .el-input-group__prepend {
+    padding-right: 0 !important;
+  }
+
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix.error-bor-d input {
+    padding-left: 4px;
+  }
+
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix span.el-input__suffix,
+  .el-input.el-input--prefix.el-input--suffix span.el-input__suffix,
+  .el-input.el-input-group.el-input-group--prepend.el-input--suffix span.el-input__prefix,
+  .el-input.el-input--prefix.el-input--suffix span.el-input__prefix {
+    align-items: center !important;
+    display: flex;
+  }
+
+  .el-input-group__append,
+  .el-input-group__prepend {
+    padding: 0 10px !important;
   }
 </style>

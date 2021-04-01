@@ -40,6 +40,13 @@
             regex: /^[1][0-9]{10}$/,
             require:true,
           },
+          {
+            prop: 'password',
+            type: 'icon',
+            label: '金额',
+            placeholder: 'append',
+            require:true,
+          },
         ]
       }
     },
