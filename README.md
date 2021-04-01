@@ -36,7 +36,7 @@ npm run build --report
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
  ### 1. 整体效果图
 
-  ![效果图](./effect/ld-forms.png)
+  ![效果图](../effect/ld-forms.png)
 
  ### 2. 当前支持的组件类型（`v1.0.0`）
 

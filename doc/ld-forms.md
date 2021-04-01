@@ -1,7 +1,7 @@
 # 目的
 > 我们期望通过一些预定成熟的参数，来动态的显示表单布局。通过简单的参数发挥最大的功能，做更多的事情。
 # 整体效果图
-  ![效果图](./effect/ld-forms.png)
+  ![效果图](../effect/ld-forms.png)
   > 当前布局的配置参数详见[附录1](#附录1)
   >
   >详细代码，请查看源码，详细布局配置请查看 `HelloWorld.vue`
@@ -134,7 +134,7 @@ data(){
    };
  }
  ```
-  ![tip文字可以独居一个子元素，也可以用来说明当前项的相关信息你](./effect/ld-forms/tip.png)
+  ![tip文字可以独居一个子元素，也可以用来说明当前项的相关信息你](../effect/ld-forms/tip.png)
 ----
 
 ## slot
@@ -174,7 +174,7 @@ data(){
     }
   </script>
 ```
-  ![通过自定义插槽实现个性化内容](./effect/ld-forms/slot.png)
+  ![通过自定义插槽实现个性化内容](../effect/ld-forms/slot.png)
 
   > 通过自定义插槽实现个性化内容；
 ----
@@ -195,7 +195,7 @@ data(){
       }
     }
 ```
-  ![text](./effect/text.png)
+  ![text](../effect/text.png)
  ### type=`text` 特有属性
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -220,7 +220,7 @@ data(){
        }
      }
  ```
-  ![文本域](./effect/textarea.png)
+  ![文本域](../effect/textarea.png)
  ### type=`textarea` 特有属性
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -250,7 +250,7 @@ data(){
        }
      }
  ```
-  ![select](./effect/ld-forms/select.png)
+  ![select](../effect/ld-forms/select.png)
  ### type=`select` 特有属性
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -263,7 +263,7 @@ data(){
 
 ## radio
 - `radio`：单选组；
-  ![radio](./effect/radio.png)
+  ![radio](../effect/radio.png)
  ### type=`radio` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -275,7 +275,7 @@ data(){
 ## checkbox
 - `checkbox`：复选组；
 
-  ![checkbox](./effect/checkbox.png)
+  ![checkbox](../effect/checkbox.png)
 
   ### type=`checkbox` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
@@ -287,7 +287,7 @@ data(){
 
 ## date
 - `date`：日期组件；支持`Element-ui`中常见的日期类型
-  ![date](./effect/date.png)
+  ![date](../effect/date.png)
 
 ### type=`date` 特有属性
 |关键字|类型|解释|可选址|默认值|是否必须|说明|
@@ -311,27 +311,27 @@ data(){
 ----
 ## icon
 - `icon`：图标组件；使用上文提到的`ld-icon`实现图标选取
-  ![icon](./effect/icon1.png)
-  ![icon](./effect/icon.png)
+  ![icon](../effect/icon1.png)
+  ![icon](../effect/icon.png)
 > 仅支持 通用属性
 ----
 ## tag
 - `tag`：标签组；使用上文提到的`ld-tag`实现标签设置和录入
-  ![tag](./effect/tag.png)
+  ![tag](../effect/tag.png)
 
   > 仅支持 通用属性
 
 ----
 ## address
 - `address`：地址选择组件；使用上文提到的`id-address`实现标签设置和录入
-  ![地址](./effect/address1.png)
-  ![地址](./effect/address.png)
+  ![地址](../effect/address1.png)
+  ![地址](../effect/address.png)
 
   > 仅支持 通用属性
 ----
 ## sysdate
 - `sysdate`：系统日期；在使用创建日期和修改日期时非常有用；
-  ![sysdate](./effect/sysdate.png)
+  ![sysdate](../effect/sysdate.png)
  ### type=`sysdate` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -344,8 +344,8 @@ data(){
 
 ## image
 - `image`：图片上传组；
-  ![iamge](./effect/image1.png)
-  ![iamge](./effect/image.png)
+  ![iamge](../effect/image1.png)
+  ![iamge](../effect/image.png)
  ### type=`image` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -354,7 +354,7 @@ data(){
 ---
 ## number
 - `number`：计数器；
-  ![计数器](./effect/number.png)
+  ![计数器](../effect/number.png)
  ### type=`number` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -367,7 +367,7 @@ data(){
 ---
 ## switch
 - `switch`：开关；
-  ![开关](./effect/switch.png)
+  ![开关](../effect/switch.png)
  ### type=`switch` 特有属性
 |参数|说明	|类型|可选值|默认值|是否必须|
 |-|-|-|-|-|-|
@@ -377,7 +377,7 @@ data(){
 ---
 ## slider
 - `slider`：滑块;
-  ![滑块](./effect/slider.png)
+  ![滑块](../effect/slider.png)
  ### type=`slider` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -390,7 +390,7 @@ data(){
 ---
 ## rate
 - `rate`：评分；
-  ![评分](./effect/rate.png)
+  ![评分](../effect/rate.png)
  ### type=`rate` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -402,7 +402,7 @@ data(){
 ---
 ## color
 - `color`：颜色选择器；
-  ![颜色选择器](./effect/color.png)
+  ![颜色选择器](../effect/color.png)
  ### type=`color` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -412,7 +412,7 @@ data(){
 ---
 ## transfer
 - `transfer`：穿梭框；
-  ![穿梭框](./effect/transfer.png)
+  ![穿梭框](../effect/transfer.png)
  ### type=`transfer` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -425,7 +425,7 @@ data(){
 ---
 ## param
 - `param`：参数；
-  ![参数](./effect/param.png)
+  ![参数](../effect/param.png)
  ### type=`param` 特有属性
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
@@ -435,7 +435,7 @@ data(){
 
 ## datakey
 - `datakey`：数据键；只用来在某些特定情况下显示数据；
-  ![用来显示表单主键，又不想用户能够直接看到](./effect/datakey.png)
+  ![用来显示表单主键，又不想用户能够直接看到](../effect/datakey.png)
   > 用来显示表单主键，又不想用户能够直接看到主键值；
   >
   > 仅支持 通用属性
@@ -632,7 +632,7 @@ data(){
 
 > 可以使用代码实现下图的效果
 
-![联动](./effect/ld-forms/change.gif)
+![联动](../effect/ld-forms/change.gif)
 
 ```javascript
 <template>
