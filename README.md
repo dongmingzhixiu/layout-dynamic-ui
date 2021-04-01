@@ -1,22 +1,12 @@
 # layout-dynamic
 
-> Generate layout based on parameters
+> 基于Element-UI自动生成表单布局，表格布局等
 
-## Build Setup
+# 使用方式
 
-``` bash
-# install dependencies
-npm install
+> npm i layout-dynamic-ui
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
 # 目的
 > 我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。
 
