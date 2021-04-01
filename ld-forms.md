@@ -7,7 +7,23 @@
   >详细代码，请查看源码，详细布局配置请查看 `HelloWorld.vue`
 
 -----
-<br/>
+
+# `ld-forms` 的属性
+
+|关键字|类型|解释|默认值|是否必须|说明|
+|-|-|-|-|-|-|
+|form|Object|布局参数的数据值|{}|√|在编辑等情况下，需要打开页面就显示组件相关数据值，此时需要通过form来初始化表单数据值|
+|layout|Array[Object]|布局参数|[]|√|整个表单需要显示的布局参数。是数组包含一组对象的集合，形如[{...},{...}...]|
+|is-overflow-y|Boolean|是否显示纵向(y)滚动条|false|-|form表单的主体是否显示纵向(y)滚动条|
+|show-tip-button|Boolean|是否显示提示按钮|false|-|位于表单的右上角提示按钮|
+|show-default-tip|Boolean|是否显示默认tip文字|false|-|是否显示位于每个表单子元素组件上的解释说明文字信息|
+|label-position|String|左侧文字位置|right|-|组件文字的位置；可选址为：left,right,top|
+|label-width|String|左侧文字大小|100px||左侧文字大小|
+|is-row|Boolean|是否是行模式|false||true:行模式，通常组件数量较少，且开启后会忽略label-position的值，通常用作布局界面的查询条件|
+|cols|Number|form表单的列数|1||可选址为：1,2,3,4|
+|auto-save|Boolean|【待定】是否自动保存|true||【待定】该参数暂时无效，相关功能，正在开发中.|
+|is-more-level-update-el-date|Boolean|【待定】是否强制刷新Date组件|false||【待定】当前组件封装层数过多时，element-date日期控件会出现不能及时刷新的问题，此时需要设置该属性为 true|
+
 
 # 如何构建一个form表单 代码如下
 ```javascript
@@ -53,7 +69,7 @@ data(){
 }
 ```
 > 布局文件是 多个子项对象的集合，每个子项包含许多属性，通过属性控制布局显示。
-## 通常每个对象都支持如下属性(见下表)：
+## 通常`ld-forms`的子元素的每个对象都支持如下属性(见下表)：
 ```javascript
 //格式
 data(){
@@ -73,7 +89,7 @@ data(){
   };
 }
 ```
-### 通用属性说明
+### `ld-forms`的`子元素`通用属性说明
 
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -493,6 +509,7 @@ data(){
   ```
 
 - 联动控制整个表单的数据
+
 ```javascript
 data(){
   return {
@@ -544,6 +561,7 @@ data(){
 ```
 
 - 联动控制整个表单的布局
+
 ```javascript
 data(){
   return {
@@ -574,7 +592,7 @@ data(){
               //{}
               {prop:'textInfo',type:'select',options:[{label:'测试1',value:'1'},{label:'测试2',value:'2'}],label:'修改为select'}
              ],
-            
+
             //方式2；使用function(value,event)函数设置元素的值
             layout: (value, event) => {
               let layout = event['layout'];
@@ -611,9 +629,10 @@ data(){
   };
 }
 ```
-> 可以使用下代码下图的效果
 
-[联动](./效果图/ld-forms/change.gif)
+> 可以使用代码实现下图的效果
+
+![联动](./效果图/ld-forms/change.gif)
 
 ```javascript
 <template>
@@ -839,14 +858,11 @@ layouts: [{
     prop: 'name',
     type: 'text',
     label: '姓名',
+    css: 'c-d',
+    style: 'color:red;',
     tip: `<div>姓名必须是<span class="c-d">3-6</span>个字符</div>`,
     tipClass: 'tip-d b-d1 p1 fs12',
-    require: true,
-    change: (layout, forms, val) => {
-
-    },
-    css: 'c-d',
-    style: '',
+    require: true
   }, {
     prop: 'password',
     type: 'text',
@@ -870,12 +886,29 @@ layouts: [{
         value: '0'
       },
     ],
+    change: (val, event) => {
+      return {
+        height: {
+          label: val == '1' ? '男生身高' : '女生身高'
+        },
+        birthday: {
+          require: val == '1'
+        }
+      }
+    },
     value: '1',
     regex: (val) => {
       return val == 1
     },
     require: true
-  }, {
+  },
+  {
+    prop: 'height',
+    type: 'text',
+    label: '身高',
+
+  },
+  {
     prop: 'testSlider',
     type: 'slider',
     label: '滑块',
@@ -970,7 +1003,6 @@ layouts: [{
     update: true,
     value: '2021-03-26 09:28:00'
   },
-
   {
     prop: 'testRadio',
     type: 'radio',
@@ -987,6 +1019,28 @@ layouts: [{
     ],
     value: '1',
     require: true,
+    change:(val,event)=>{
+      return {
+        addressName:{
+          visabled:val==1
+        },
+        sponsorship:{
+          visabled:val==0
+        },
+      }
+    }
+  },
+  {
+    prop: 'addressName',
+    type: 'textarea',
+    label: '场地名称',
+    visabled:true,
+  },
+  {
+    prop: 'sponsorship',
+    type: 'text',
+    label: '赞助商名称',
+    visabled:false,
   },
   {
     prop: 'testRadio2',
@@ -1048,7 +1102,7 @@ layouts: [{
     label: '数组',
     dataType: 'arra',
     parseType: 'json',
-    value: JSON.stringify(["参数。。。","参数1"])
+    value: JSON.stringify(["参数。。。", "参数1"])
   }, {
     prop: 'remake',
     type: 'textarea',
@@ -1087,5 +1141,6 @@ layouts: [{
     splitChart: ','
   }
 ]
+
 
 ```
