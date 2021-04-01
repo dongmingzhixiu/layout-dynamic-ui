@@ -40,7 +40,6 @@
         isPreview: false,
         dialogImageUrl: '',
         dialogVisible: false,
-        disabled: false,
         fileList: [],
       };
     },

@@ -57,8 +57,8 @@
 
 <style>
   /*每个页面公共css */
-  @import url('../static/css/basic.css');
-  @import url('./../static/css/base.css');
-  @import url('./../static/css/other.css');
-  @import url('./../static/css/theme.less');
+ /* @import url('lib/static/css/basic.css');
+  @import url('lib/static/css/base.css');
+  @import url('lib/static/css/other.css');
+  @import url('lib/static/css/theme.less'); */
 </style>

@@ -579,6 +579,36 @@
       },
 
       /**
+       * 验证数据
+       * 在form保存数据之前操作
+       */
+      checkForm() {
+      	//校验数据
+      	for (let i = 0; i < this.layouts.length; i++) {
+      		if (!this.layoutType.includes(this.layouts[i]['type'])) {
+      			continue;
+      		}
+      		let flg = this.regexFormVal(this.layouts[i], i);
+      		if (!flg) {
+      			break;
+      		}
+      	}
+      	let errList = this.layouts.filter(item => item['error'] == true);
+      	if (errList.length > 0) {
+      		return {
+      			error: true,
+      			msg: errList[0]['errorMsg'],
+      			item: errList[0],
+      		};
+      	}
+      	return {
+      		error: false,
+      		msg: '验证通过!'
+      	}
+      },
+
+
+      /**
        * 数据校验
        */
       regexFormVal(item, i, change) {
@@ -590,7 +620,7 @@
         }
         //当使用布局参数联动进行操作布局是，布局已发生改变，不能在进行校验
         if (!this.layouts || this.layouts.length <= 0 || !this.layouts[i] || this.layouts[i] != item) {
-          return;
+          return true;
         }
 
         this.$set(this.layouts[i], "error", false)
@@ -620,7 +650,7 @@
           }
           return false;
         }
-        let msg = item['msg'] || `${item['label']||item['placeholder'] ||''}不符合验证规则！`;
+        let msg = item['msg'] || `${(item['label']||item['placeholder'] ||'').replace(/^请输入/,'')}不符合验证规则！`;
         let _regex = item['regex'];
         try {
           if (_regex instanceof RegExp && _val) {
@@ -700,7 +730,6 @@
     },
     created() {
       this.formReset();
-      console.log(config.layoutType)
     }
   }
 </script>

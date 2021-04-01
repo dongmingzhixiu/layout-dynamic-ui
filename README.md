@@ -1,10 +1,135 @@
 # layout-dynamic
 
-> 基于Element-UI自动生成表单布局，表格布局等
+> 基于Element-ui自动生成表单布局，表格布局等
 
 # 使用方式
 
-> npm i layout-dynamic-ui
+## 安装依赖包
+
+  因为是基于Element-ui开发的，所以需要在使用之前安装Element-ui;之后安装本项目`layout-dynamic-ui`
+  > npm i element-ui -S
+  >
+  > npm i layout-dynamic-ui
+
+ 在main.js中，使用如下js引入依赖
+
+```javascript
+import Vue from 'vue'
+import App from './App'
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+import layoutDynamicUI from 'layout-dynamic-ui';
+import 'layout-dynamic-ui/lib/index.css';
+
+Vue.use(ElementUI);
+
+Vue.use(layoutDynamicUI);
+
+Vue.config.productionTip = false
+
+
+new Vue({
+  el: '#app',
+  components: { App },
+  template: '<App/>'
+})
+```
+
+  在App.vue页面写入如下内容
+
+```javascript
+<template>
+  <div id="app" class="h-vh">
+    <ld-page-loading :loading="loading" class="box-b b-i1">
+      <div class="w h f-c over-a-y p10  box-b a-i-c">
+        <el-card class="w b-f p10" style="width:350px;height: auto;padding: 80px 40px;">
+          <ld-forms ref="loginForm" :cols="1" :form="forms" :layout="layouts">
+            <template v-slot:buttons="e">
+              <div class="w f-b">
+                <el-button type="primary" style="flex-grow: 2;" :loading="loginLoading" @click="loginData">登陆
+                </el-button>
+                <el-button @click="resetData">重置</el-button>
+              </div>
+            </template>
+          </ld-forms>
+        </el-card>
+      </div>
+    </ld-page-loading>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'App',
+    data() {
+      return {
+        loginLoading: false,
+        loading: false,
+        forms: {},
+        layouts: [{
+            prop: 'phone',
+            type: 'text',
+            label: '',
+            placeholder: '请输入电话号码',
+            regex: /^[1][0-9]{10}$/,
+            require:true,
+          },
+          {
+            prop: 'password',
+            type: 'text',
+            label: '',
+            placeholder: '请输入用户密码',
+            regex: /^[1][0-9]{10}$/,
+            require:true,
+          },
+        ]
+      }
+    },
+    methods: {
+      loginData() {
+        console.log('login')
+
+        //验证数据
+        let result=this.$refs.loginForm.checkForm();
+        if(result['error']){
+          this.$message.error(result['msg'])
+          return;
+        }
+
+        this.loginLoading = true;
+        //模拟请求耗时
+        setTimeout(() => {
+          this.loginLoading = false;
+        }, 2000);
+
+
+
+      },
+      resetData() {
+        this.forms = {};
+      }
+    },
+    created() {
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    }
+  }
+</script>
+
+
+  ```
+
+效果如下
+- 非空时
+![login效果图](./effect/ld-forms/login1.png)
+- 数据校验不合法时
+![login效果图](./effect/ld-forms/login2.png)
+- 数据校验通过时
+![login效果图](./effect/ld-forms/login3.png)
+
 
 
 # 目的

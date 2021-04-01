@@ -1,3 +1,8 @@
+//引入样式
+import  '@/lib/static/css/basic.css';
+import  '@/lib/static/css/base.css';
+import  '@/lib/static/css/other.css';
+
 //引入axios 请求封装方法
 import apiRequest from '@/lib/utils/api-request.js';
 
