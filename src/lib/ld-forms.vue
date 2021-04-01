@@ -9,15 +9,16 @@
       </div>
       <div v-if="forms&&Object.keys(forms).length>0" class="el-form w h p-b10" :class="{'over-a-y':isOverflowY}">
         <div class="a-i-c w" :class="{'f-b-w':!isRow,'f-s':isRow}">
-          <div v-if="item['visabled']!=false" v-for="(item,i) in layout" class="el-form-item position-relative w"
+          <div v-if="item['visabled']!=false" v-for="(item,i) in layouts" class="el-form-item position-relative w"
             :key='i' :style="{'max-width':isRow?'250px':'','flex-grow': '2'}"
             :class="{'w':isRow,'cols_1':fcols==1||!fcols,'cols_2':fcols==2,'cols_3':fcols==3,'cols_4':fcols==4}">
             <div class="w" :class="{'el-disabled':getDisabled(item),'el-readonly':getDisabled(item)}">
               <div v-if="layoutType.includes(item['type'].toLocaleLowerCase())" class="a-i-c w"
                 style="position: relative;"
                 :class="{'a-i-c':labelPosition!='top', 'f-s':labelPosition!='top','item':item['error']!=true,'error-item':item['error']==true}">
-                <div v-if="item['label']||item['showLabel']" class="el-form-item__label  w-180 f-n-c-w a-i-c f-r"
-                  :class="{'f-s':labelPosition=='left','f-e':labelPosition=='right'}" style="flex-shrink: 0;">
+                <div v-if="item['label']||item['showLabel']" class="el-form-item__label f-n-c-w a-i-c f-r"
+                  :class="{'f-s':labelPosition=='left','f-e':labelPosition=='right'}" :style="{'width':labelWidth}"
+                  style="flex-shrink: 0;">
                   <div v-if="item['require']==true" class="c-d">*</div>
                   <div :class="{'c8':getDisabled(item)}">
                     {{item['label']||''}}
@@ -51,7 +52,7 @@
 
                   <!-- 作用域插槽，插槽名称为 prop值 -->
                   <template v-if="isControlsType(item,'slot')">
-                    <slot :name="item['prop']" :item="item" :layout="layout" :form="forms" :onRegex="regexFormVal">
+                    <slot :name="item['prop']" :item="item" :layout="layouts" :form="forms" :onRegex="regexFormVal">
                     </slot>
                   </template>
 
@@ -61,7 +62,7 @@
                     <el-input v-model="forms[item['prop']]"
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
-                      :disabled="getDisabled(item)" @change="regexFormVal(item,i)" @input="regexFormVal(item,i)"
+                      :disabled="getDisabled(item)" @change="regexFormVal(item,i,true)" @input="regexFormVal(item,i)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                     </el-input>
                   </template>
@@ -71,7 +72,7 @@
                     <el-input v-model="forms[item['prop']]"
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :disabled="getDisabled(item)" type="textarea" clearable :show-password="item['password']"
-                      :placeholder="getPlaceholder(item)" :rows="item['rows']||4" @change="regexFormVal(item,i)"
+                      :placeholder="getPlaceholder(item)" :rows="item['rows']||4" @change="regexFormVal(item,i,true)"
                       @input="regexFormVal(item,i)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                     </el-input>
                   </template>
@@ -82,7 +83,7 @@
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :disabled="getDisabled(item)" clearable :allow-create="item['allowCreate']||false"
                       :filterable="item['filterable']||item['allowCreate']||false" :multiple="item['multiple']||false"
-                      collapse-tags style="margin-left: 20px;" placeholder="请选择" @change="regexFormVal(item,i)"
+                      collapse-tags style="margin-left: 20px;" placeholder="请选择" @change="regexFormVal(item,i,true)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                       <el-option v-for="opt in item['options']" :key="opt.value" :label="opt.label" :value="opt.value"
                         :disabled="opt.disabled||false">
@@ -96,7 +97,7 @@
                     <div class="box-b f-s a-i-c bor-ff box-b"
                       :class="getStyleOrCss({'el-input el-input__inner':!item['isButton'],'bor-d':item['error']==true},item,'css')"
                       :style="item['style']" style="height: auto;">
-                      <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)"
+                      <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i,true)"
                         :disabled="getDisabled(item)">
                         <template v-if="item['isButton']===true">
                           <el-radio-button v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value"
@@ -118,7 +119,7 @@
                     <div class="el-input box-b el-input__inner f-s a-i-c box-b"
                       :class="getStyleOrCss({'bor-d':item['error']==true},item,'css')" :style="item['style']"
                       style="height: auto;">
-                      <el-checkbox-group v-model="forms[item['prop']]" @change="regexFormVal(item,i)"
+                      <el-checkbox-group v-model="forms[item['prop']]" @change="regexFormVal(item,i,true)"
                         :disabled="getDisabled(item)">
                         <el-checkbox v-for="(opt,j) in item['options']" :label="opt.value" :key="j">
                           {{opt.label}}
@@ -135,7 +136,7 @@
                       :align="item['align']||'left'" :value-format="layoutDateFormat[item['dateType']||'date']"
                       :type="item['dateType']||'date'" :placeholder="item['placeholder']" v-model="forms[item['prop']]"
                       :readonly="getDisabled(item)" :picker-options="item['pickerOptions']"
-                      @change="regexFormVal(item,i)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                     </el-date-picker>
                   </template>
 
@@ -250,10 +251,10 @@
                   <!-- ================ 组件开始 end ================ -->
 
                 </div>
-                <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px; z-index: 3;">
-                  <div v-if="item['error']==true" class="c-d fs"
-                    :class="{'p-r10':(isControlsType(item,'select')||forms[item['prop']])&&!isControlsType(item,'checkbox')}">
-                    <div v-if="isControlsType(item,'checkbox')" class="p4 b-i2 r4">{{item['errorMsg']}}</div>
+                <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px; z-index: 3;"
+                  :style="{'right':getErrorMsgPosition(item),'bottom':item['tip']?'12px':'auto'}">
+                  <div v-if="item['error']==true" class="c-d fs">
+                    <div v-if="isControlsType(item,'checkbox')" class="p4 <b-i2></b-i2> r4">{{item['errorMsg']}}</div>
                     <template v-else>{{item['errorMsg']}}</template>
                   </div>
                   <div
@@ -267,11 +268,11 @@
 
             </div>
             <div v-if="isRow">
-              <slot name="buttons" :form="forms" :layout="layout"></slot>
+              <slot name="buttons" :form="forms" :layout="layouts"></slot>
             </div>
           </div>
           <div class="w" v-if="!isRow">
-            <slot name="buttons" :form="forms" :layout="layout"></slot>
+            <slot name="buttons" :form="forms" :layout="layouts"></slot>
           </div>
         </div>
       </div>
@@ -303,6 +304,13 @@
       showDefaultTip: {
         type: Boolean,
         default: false,
+      },
+      /**
+       * 左侧文字高度
+       */
+      labelWidth: {
+        type: String,
+        default: '100px',
       },
       /**
        * 是否是行模式
@@ -424,6 +432,19 @@
       }
     },
     methods: {
+      /**
+       *
+       */
+      getErrorMsgPosition(item){
+        if(this.isControlsType(item,'text')&&item['password']){
+          return this.forms[item['prop']]?'50px':'30px';
+        }
+        if((this.isControlsType(item,'select')||this.forms[item['prop']])&&!this.isControlsType(item,'checkbox')){
+          return '30px';
+        }
+        return '10px';
+      },
+
       /**
        * 获取设置的css或style
        * /
@@ -554,17 +575,23 @@
       ldChangeValToForm(item, event, index, key) {
         let prop = item['prop'];
         this.$set(this.forms, prop, key ? event[key] : event);
-        this.regexFormVal(item, index);
+        this.regexFormVal(item, index, true);
       },
 
       /**
        * 数据校验
        */
-      regexFormVal(item, i, info) {
+      regexFormVal(item, i, change) {
 
         let value = this.forms[item['prop']] ? this.forms[item['prop']] : this.layoutTypeArray.includes(item['type']) ?
           [] : this.layoutTypeObject.includes(item['type']) ? {} : '';
-        this.setChange(item, value)
+        if (change) {
+          this.setChange(item, value)
+        }
+        //当使用布局参数联动进行操作布局是，布局已发生改变，不能在进行校验
+        if (!this.layouts || this.layouts.length <= 0 || !this.layouts[i] || this.layouts[i] != item) {
+          return;
+        }
 
         this.$set(this.layouts[i], "error", false)
         this.$set(this.layouts[i], "errorMsg", `验证通！`)
@@ -636,19 +663,22 @@
         if (typeof change == 'function') {
           let changeResult = change(value, event);
           Object.keys(changeResult).map(key => {
-            let lays = this.layouts.filter(la => la['prop'] == key);
             if (['form', 'layout'].includes(key)) {
               let _v = changeResult[key];
               if (typeof _v == "function") {
-                _v = _v(value, event);
+                _v = _v(value, Object.assign({}, event, {
+                  layout: this.layouts
+                }));
               }
               if (key == 'form') {
                 this.forms = _v;
               } else if (key == 'layout') {
-                this.layout = this.layout || _v;
+                this.$set(this, 'layouts', _v || this.layouts)
+                this.$forceUpdate();
               }
               return;
             }
+            let lays = this.layouts.filter(la => la['prop'] == key);
             if (lays.length <= 0) {
               return;
             }
@@ -659,7 +689,9 @@
               if (typeof _v == "function") {
                 _v = _v(value, event);
               }
-              this.$set(this.layouts[_i], _key, _v);
+              this.$nextTick(() => {
+                this.$set(this.layouts[_i], _key, _v);
+              });
             });
           });
         }
