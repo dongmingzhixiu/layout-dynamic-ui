@@ -162,7 +162,7 @@
         default: true,
       },
       /**
-       *自动加载数据时，设置的参数信息
+       *自动加载数据时，设置的request请求参数信息
        */
       autoLoadDataApi: {
         type: Object,
@@ -185,7 +185,7 @@
         default: false
       },
       /**
-       * 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。
+       * 行数据的 Key，用来优化 Table 的渲染；在使用树形数据时，该属性是必填的。
        */
       rowKey: {
         type: String,
