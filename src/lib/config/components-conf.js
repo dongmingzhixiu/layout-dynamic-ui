@@ -99,7 +99,14 @@ const config = {
 	_errTextPrefix: {
 		select: ['select', 'icon','rate', 'checkbox','radio'],
 		write: ['date', 'tag', 'select']
-	}
+	},
+
+  //表格
+  tableConfig:{
+    defaultWidth:'auto',
+    defaultToolsWidth:'auto',
+    isReplaceNull:true,
+  }
 }
 export {
 	config

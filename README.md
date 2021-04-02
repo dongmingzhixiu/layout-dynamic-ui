@@ -124,10 +124,15 @@ new Vue({
 
 效果如下
 - 非空时
+
 ![login效果图](./effect/ld-forms/login1.png)
+
 - 数据校验不合法时
+
 ![login效果图](./effect/ld-forms/login2.png)
+
 - 数据校验通过时
+
 ![login效果图](./effect/ld-forms/login3.png)
 
 

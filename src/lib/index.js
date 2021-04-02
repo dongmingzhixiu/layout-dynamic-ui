@@ -1,7 +1,7 @@
 //引入样式
-import  '@/lib/static/css/basic.css';
-import  '@/lib/static/css/base.css';
-import  '@/lib/static/css/other.css';
+import '@/lib/static/css/basic.css';
+import '@/lib/static/css/base.css';
+import '@/lib/static/css/other.css';
 
 //引入axios 请求封装方法
 import apiRequest from '@/lib/utils/api-request.js';
@@ -21,19 +21,12 @@ import ldTags from '@/lib/ld-tags.vue'
 import ldAddress from '@/lib/ld-address.vue'
 import ldParams from '@/lib/ld-params.vue'
 import ldImages from '@/lib/ld-images.vue'
-import locale from 'element-ui/src/locale';
-
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import ldTable from '@/lib/ld-table.vue'
 
 
 
 
 const install = (Vue, opts = {}) => {
-  locale.use(opts.locale);
-  locale.i18n(opts.i18n);
-
-  Vue.use(ElementUI);
 
   Vue.prototype.$requestInit = function(axios) {
     return apiRequest.axiosInit(axios);
@@ -48,19 +41,36 @@ const install = (Vue, opts = {}) => {
         return apiRequest.axiosInit(axios);
       },
       //配置
-      config:apiRequest.config||{timeout:'1000*60'},
+      config: apiRequest.config || {
+        timeout: '1000*60'
+      },
       //拦截器
-      interceptor:apiRequest.interceptor,
+      interceptor: apiRequest.interceptor,
     },
     //资源
-    resource:{
-       iconList: iconList,
-       addressItem: addressItem,
+    resource: {
+      iconList: iconList,
+      addressItem: addressItem,
     },
     //请求方法
     request: apiRequest.request,
-		postRequest: apiRequest.postRequest,
-		getRequest: apiRequest.getRequest,
+    postRequest: apiRequest.postRequest,
+    getRequest: apiRequest.getRequest,
+
+    //获取表格数据之后，装载数据到表格之前，处理数据的函数
+    getTableRemoteDataAfter: function(data, isPagination) {
+      if (isPagination) {
+        let list = Array.isArray(data) ? data : data['list'] ? data['list'] : data;
+        return {
+          list: list,
+          currentPage: data['pageNum'],
+          pageSize: data['pageSize'],
+          total : data['total']
+        }
+      } //分页
+      return !Array.isArray(data) && data && data['list'] ? data['list'] : data;
+    },
+
     //工具包
     util: ldUtil,
     //配置
@@ -80,6 +90,8 @@ const install = (Vue, opts = {}) => {
 
   Vue.component('ld-images', ldImages);
 
+  Vue.component('ld-table', ldTable);
+
 
 }
 
@@ -89,9 +101,6 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 export default {
-  version: '1.0.0',
-  // locale: locale.use,
-  // i18n: locale.i18n,
   install,
   ldPageLoading,
   ldForms,

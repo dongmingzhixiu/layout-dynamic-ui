@@ -15,7 +15,6 @@
         this.$ld.requestSetting.serverPath.production.set('http://127.0.0.1:8085/frame/');
 
         this.$ld.requestSetting.init = (axios) => {
-          alert('设置axios信息！');
           return axios;
         }
 
@@ -28,6 +27,9 @@
         this.$ld.requestSetting.interceptor = {
           before: (event) => {
             console.log("before:进入拦截器。。。。");
+            if(event.options.method=='get'){
+              return true;
+            }
             return this.$confirm('确定保存数据吗?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',

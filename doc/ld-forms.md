@@ -107,7 +107,8 @@ data(){
 |tipClass		|String|辅助提示文字样式	|				|					|通常配置`tip`使用，多个class名称，中间用空格隔开|
 |css				|String|class样式				|				|					|设置当前组件的class样式|
 |style			|String|style样式				|				|					|设置当前组件的style样式|
-
+|prepend		|String|前缀|				|					|设置输入数据的前缀，长度不宜过长，控制在1-3个字符。如果字符过都则推荐使用插槽处理|
+|append			|String|后缀|				|					|设置输入的单位等，长度不宜过长，控制在1-3个字符。如果字符过都则推荐使用插槽处理|
 
 # `ld-forms`支持的组件类型（`v1.0.0`）
 
