@@ -61,7 +61,7 @@
     </el-table>
     <template v-if="showPageHelper&&lists&&lists.length>0">
       <div class="f-e p-r2 m-t5">
-        <el-pagination @size-change="sizeChange" @current-change="currentChange" @prev-click="" @next-click=""
+        <el-pagination @size-change="sizeChange" @current-change="currentChange"
           :current-page="currentPage" :page-sizes="elPagination.pageSizes||[10, 20, 30, 50]" :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
