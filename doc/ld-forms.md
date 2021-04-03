@@ -149,7 +149,7 @@ data(){
           <!-- 这里的插槽名称customSlot和 prop的值保持一致 -->
           <template #customSlot="e">
             <div>插槽数据：{{e}} </div>
-            <!-- 可以通过具名插槽获取到的值，进行自由设置布局 -->
+            <!-- 可以通过作用域插槽获取到的值，进行自由设置布局 -->
           </template>
         </ld-forms>
       </el-card>
@@ -445,11 +445,11 @@ data(){
 # `ld-forms`插槽
 |slot name|类型|说明|插槽值|
 |-|-|-|-|
-|buttons|具名插槽(作用域插槽)|表单的最后插槽，同来用来插入操作按钮|{Array}:layout布局信息;{Object}:form表单输入值|
-|custom	|具名插槽(作用域插槽)|自定义表单所有子项内容，配置。这意味着，你需要自己来完成许多的表单内容|{Array}:layout布局信息;{Object}:form表单输入值|
-|rowCustom	|具名插槽(作用域插槽)|对表单的整个行进行自定义。这意味着你需要自己来完成表单的每个子项|{Object}:item 表单子项布局信息|
-|在布局中使用type=slot,插槽名=prop，如{type:'select',prop:'testInfo',label:'测试信息'}，则插槽名为：'testInfo'	|具名插槽(作用域插槽)|对表单行的输入部分进行自定义|{Array}:layout布局信息;{Object}:form表单输入值;{Object}:item 表单子项布局信息|
-|在布局中使用type=select,插槽名=options_${prop值}，如{type:'select',prop:'testInfo',label:'测试信息'}，则插槽名为：'options_testInfo'|具名插槽(作用域插槽)|对表单行的下拉框选项值部分进行自定义|{Object}:option,下拉框的option信息|
+|buttons|作用域插槽|表单的最后插槽，同来用来插入操作按钮|{Array}:layout布局信息;{Object}:form表单输入值|
+|custom	|作用域插槽|自定义表单所有子项内容，配置。这意味着，你需要自己来完成许多的表单内容|{Array}:layout布局信息;{Object}:form表单输入值|
+|rowCustom	|作用域插槽|对表单的整个行进行自定义。这意味着你需要自己来完成表单的每个子项|{Object}:item 表单子项布局信息|
+|在布局中使用type=slot,插槽名=prop，如{type:'select',prop:'testInfo',label:'测试信息'}，则插槽名为：'testInfo'	|作用域插槽|对表单行的输入部分进行自定义|{Array}:layout布局信息;{Object}:form表单输入值;{Object}:item 表单子项布局信息|
+|在布局中使用type=select,插槽名=options_${prop值}，如{type:'select',prop:'testInfo',label:'测试信息'}，则插槽名为：'options_testInfo'|作用域插槽|对表单行的下拉框选项值部分进行自定义|{Object}:option,下拉框的option信息|
 
 
 

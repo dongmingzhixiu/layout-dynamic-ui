@@ -1,6 +1,6 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
@@ -11,6 +11,12 @@
     "element-ui",
     "param  layout"
   ],
+	"keywords": [
+	  "vue",
+	  "forms",
+	  "element-ui",
+	  "param  layout"
+	],
   "repository": {
     "type": "git",
     "url": "https://github.com/dongmingzhixiu/layout-dynamic-ui"

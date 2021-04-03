@@ -6,7 +6,7 @@
 			@select="rowSelect" @select-all="selectAll" empty-text="没有找到相关数据" :fit="elTablProperty.fit||true"
 			:border="elTablProperty.border||true" :stripe="elTablProperty.stripe"
 			:highlight-current-row="elTablProperty.highlightCurrentRow||false"
-			:default-sort="elTablProperty.defaultSort" :tooltip-effect="elTablProperty.tooltipEffect"
+			:default-sort="elTablProperty.defaultSort" :tooltip-effect="elTablProperty.tooltipEffect||'light'"
 			:show-summary="elTablProperty.showSummary||false" :sum-text="elTablProperty.sumText||'合计'"
 			:summary-method="getSummaries" :indent="elTablProperty.indent||16" :span-method="elTabSpanMethod"
 			:height="`calc(100% - ${showPageHelper?'100px':'20px'})`"
@@ -30,33 +30,31 @@
 					:width="col.width?col.width:tableConfig.defaultWidth" :sortable="col.sortable||false" :key="i">
 					<template
 						v-if="typeof col.label=='object'&&col.label&&col.label['children']&&col.label['children'].length>0">
-						<el-table-column v-for="(item,c) in col.label['children']" :prop="item['prop']"
+						<ld-table-column-item :table-config="tableConfig" :list="col.label['children']"></ld-table-column-item>
+						<!-- <el-table-column v-for="(item,c) in col.label['children']" :prop="item['prop']"
 							:label="item['label']" :key="c" :align="item['align']||'center'"
 							:width="item.width?item.width:tableConfig.defaultWidth">
+							
+							
 							<template slot-scope="scope">
-								<div v-if="typeof item.html=='function'" v-html="getHtmlResult(item,scope.row)"></div>
-								<div v-else-if="typeof item.format=='function'">{{getFormatResult(item,scope.row)}}</div>
-								<template v-else-if="item['replace']&&Object.keys(item['replace']).length>0">
-									<template v-if="scope.row[`${item['prop']}_reqplace_val`]"><label class="color11">计算中...</label></template>
-									<template>{{getNullReplaceEmptyVal(scope.row[item.prop])}}</template>
-								</template> 
-								<div v-else class="ellipsis" :style="{'width':item.width}">
-									<template v-if="scope.row[item['prop']]">{{getNullReplaceEmptyVal(scope.row[item['prop']])}}</template>
-								</div>
+								<ld-table-item :item="item" :row="scope.row">
+									<template #replace="{item,row}">
+										<template v-if="row[`${item['prop']}_reqplace_val`]"><label
+												class="color11">计算中...</label></template>
+										<template>{{getNullReplaceEmptyVal(row[item.prop])}}</template>
+									</template>
+								</ld-table-item>
 							</template>
-						</el-table-column>
+						</el-table-column> -->
 					</template>
 					<template slot-scope="scope">
-						<div v-if="typeof col.html=='function'" v-html="getHtmlResult(col,scope.row)"></div>
-						<div v-else-if="typeof col.format=='function'">{{getFormatResult(col,scope.row)}}</div>
-						<template v-else-if="col['replace']&&Object.keys(col['replace']).length>0">
-							<template v-if="scope.row[`${col['prop']}_reqplace_val`]"><label class="color11">计算中...</label></template>
-							<template>{{getNullReplaceEmptyVal(scope.row[col.prop])}}</template>
-						</template>
-						<div v-else class="ellipsis" :style="{'width':col.width}">
-							<template
-								v-if="scope.row[col.prop]">{{getNullReplaceEmptyVal(scope.row[col.prop])}}</template>
-						</div>
+						<ld-table-item :item="col" :row="scope.row">
+							<template #replace="{item,row}">
+								<template v-if="row[`${item['prop']}_reqplace_val`]"><label
+										class="color11">计算中...</label></template>
+								<template>{{getNullReplaceEmptyVal(row[item.prop])}}</template>
+							</template>
+						</ld-table-item>
 					</template>
 				</el-table-column>
 			</template>
@@ -64,12 +62,17 @@
 			<!-- 操作按钮列  -->
 			<el-table-column v-if="$scopedSlots.tools" class="t-c" label="操作" :width="tableConfig.defaultToolsWidth">
 				<template v-if="$scopedSlots.toolsHeader" slot="header" slot-scope="scope">
-					<slot name="toolsHeader" :item="scope.row"> </slot>
+					<slot name="toolsHeader" :item="scope.row"></slot>
 				</template>
 				<template slot-scope="scope">
 					<slot name="tools" :item="scope.row"> </slot>
 				</template>
 			</el-table-column>
+
+			<template #append>
+				<slot name="append" v-if="$slots.append"> </slot>
+			</template>
+
 		</el-table>
 		<template v-if="showPageHelper&&lists&&lists.length>0">
 			<div class="f-e p-r2 m-t5">
@@ -86,8 +89,15 @@
 	const {
 		config
 	} = require("@/lib/config/components-conf.js");
+
+ import ldTableItem from './ld-table-item.vue'
+ import ldTableColumnItem from './ld-table-column-item.vue'
 	export default {
 		name: "ld-table",
+		components:{
+			ldTableItem,
+			ldTableColumnItem
+		},
 		props: {
 			/**
 			 * el-table 常用属性
@@ -129,7 +139,7 @@
 			},
 			total: {
 				type: Number,
-				default: 30,
+				default: 0,
 			},
 			currentPage: {
 				type: Number,
@@ -185,7 +195,6 @@
 						remoteMethodType: "get",
 						remoteTimeout: 1200,
 						//是否是第三方请求
-						remoteIsThirdRequest: false,
 					}
 				}
 			},
@@ -232,14 +241,14 @@
 			total(news) {
 				this.totals = news;
 			},
-			currentPage(news){
-				this.currentPages=news;
+			currentPage(news) {
+				this.currentPages = news;
 			}
 		},
 		data() {
 			return {
 				loading: false,
-				currentPages:this.currentPage,
+				currentPages: this.currentPage,
 				pageSizes: this.pageSize,
 				tableConfig: config.tableConfig,
 				layouts: this.layout,
@@ -284,10 +293,7 @@
 			 * @param {Object} val
 			 */
 			changeCheckBoxValue(val) {
-				this.$emit("checkbox", {
-					data: this.$refs.elTable.data,
-					selection: this.$refs.elTable.selection
-				});
+				this.$emit("checkbox", this.$refs.elTable);
 			},
 			/**
 			 * 注意在获取初始数据时，所有节点（包括子节点）都增加一个isChecked 标志参数
@@ -463,8 +469,8 @@
 							let val = item[prop];
 							let mapKey = `${remoteKey}_${val}`;
 							map[mapKey] = "";
-							
-							item[`${prop}_reqplace_val`]=true; 
+
+							item[`${prop}_reqplace_val`] = true;
 							item['_table_layout_repplace_val'] = item['_table_layout_repplace_val'] || {};
 							item['_table_layout_repplace_val'][`${mapKey}_${prop}`] = mapKey;
 
@@ -513,7 +519,7 @@
 				let list = this.lists;
 				list.map(item => {
 					let index = this.lists.indexOf(item);
-					
+
 					let obj = item['_table_layout_repplace_val'];
 					Object.keys(obj).map(replace => {
 						let replaceInfo = replace.split("_");
