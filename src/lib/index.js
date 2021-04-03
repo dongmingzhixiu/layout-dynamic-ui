@@ -59,6 +59,7 @@ const install = (Vue, opts = {}) => {
 
     //获取表格数据之后，装载数据到表格之前，处理数据的函数
     getTableRemoteDataAfter: function(data, isPagination) {
+			debugger
       if (isPagination) {
         let list = Array.isArray(data) ? data : data['list'] ? data['list'] : data;
         return {
