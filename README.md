@@ -37,7 +37,7 @@ new Vue({
 })
 ```
 
-  在App.vue页面写入如下内容
+  在App.vue页面写入如下内容（这里只演示`ld-forms`组件的使用）
 
 ```javascript
 <template>
@@ -207,3 +207,8 @@ new Vue({
 详细使用说明请阅读[ld-forms详细使用说明](./doc/ld-forms.md)
 ## 三 表格组件
 >  [详情点这里](./doc/ld-table.md)
+
+- 效果图
+
+![效果图ld-table](./effect/ld-table.png);
+![效果图ld-table](./effect/ld-table-more-head.png);
