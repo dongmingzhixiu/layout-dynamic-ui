@@ -1,10 +1,7 @@
 import axios from 'axios'
 
 
-const serverRequestPath = {
-	production: '',
-	development: ''
-}
+let serverRequestPath =""
 
 
 
@@ -52,39 +49,17 @@ const request = {
 	 */
 	serverRequestPath: {
 		/**
-		 * 生产路径
-		 */
-		production: {
-			get: () => {
-				return serverRequestPath['production'];
-			},
-			set: (val) => {
-				serverRequestPath['production'] = val;
-			}
-		},
-		/**
-		 * 调试路径
-		 */
-		development: {
-			get: () => {
-				return serverRequestPath['development'];
-			},
-			set: (val) => {
-				serverRequestPath['development'] = val;
-			}
-		},
-		/**
 		 * 获取当前环境请求路径
 		 */
 		get: () => {
-			return serverRequestPath[process.env.NODE_ENV === 'development' ? 'development' : 'production'];
+			return serverRequestPath;
 		},
 
 		/**
 		 * 设置当前环境请求路径
 		 */
 		set: (val) => {
-			serverRequestPath[process.env.NODE_ENV === 'development' ? 'development' : 'production'] = val;
+			serverRequestPath = val;
 		}
 	},
 	/**
@@ -97,7 +72,7 @@ const request = {
 
 		// 为没个请求添加token拦截
 		var url = router.indexOf('http://') == 0 || router.indexOf('https://') == 0 ? router :
-			`${serverRequestPath[process.env.NODE_ENV === 'development' ?'development':'production']}${router}`;
+			`${serverRequestPath}${router}`;
 		var option = {
 			method,
 			url

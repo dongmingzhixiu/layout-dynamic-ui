@@ -1,17 +1,6 @@
 # Axios 封装后的使用
 ## 1.设置请求连接服务地址
 
-- 开发环境和生产环境使用不同的地址
-
-```javascript
-//设置开发地址
-this.$ld.requestSetting.serverPath.development.set('http://127.0.0.1:18085/frame/');
-//设置生产地址
-this.$ld.requestSetting.serverPath.production.set('http://127.0.0.1:8085/frame/');
-```
-> 请求地址分为 开发地址和生产地址。当使用 `npm run dev`时，所使用的是开发地址。当使用`npm run build`打包vue项目后，则使用的是生产地址
-
-
 - 开发环境和生产环境使用同一个地址
 
 ```javascript

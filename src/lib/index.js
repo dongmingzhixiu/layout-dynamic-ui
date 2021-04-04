@@ -28,69 +28,78 @@ import ldTable from '@/lib/ld-table.vue'
 
 const install = (Vue, opts = {}) => {
 
-  Vue.prototype.$requestInit = function(axios) {
-    return apiRequest.axiosInit(axios);
-  };
-  Vue.prototype.$ld = {
-    //请求
-    requestSetting: {
-      //设置请求服务地址
-      serverPath: apiRequest.serverRequestPath,
-      //初始化设置
-      init: function(axios) {
-        return apiRequest.axiosInit(axios);
-      },
-      //配置
-      config: apiRequest.config || {
-        timeout: '1000*60'
-      },
-      //拦截器
-      interceptor: apiRequest.interceptor,
-    },
-    //资源
-    resource: {
-      iconList: iconList,
-      addressItem: addressItem,
-    },
-    //请求方法
-    request: apiRequest.request,
-    postRequest: apiRequest.postRequest,
-    getRequest: apiRequest.getRequest,
+	Vue.prototype.$requestInit = function(axios) {
+		return apiRequest.axiosInit(axios);
+	};
+	Vue.prototype.$ld = {
+		//请求
+		requestSetting: {
+			//设置请求服务地址
+			serverPath: apiRequest.serverRequestPath,
+			//初始化设置
+			init: function(axios) {
+				return apiRequest.axiosInit(axios);
+			},
+			//配置
+			config: apiRequest.config || {
+				timeout: '1000*60'
+			},
+			//拦截器
+			interceptor: apiRequest.interceptor,
+		},
+		//资源
+		resource: {
+			iconList: iconList,
+			addressItem: addressItem,
+		},
+		//请求方法
+		request: apiRequest.request,
+		postRequest: apiRequest.postRequest,
+		getRequest: apiRequest.getRequest,
 
-    //获取表格数据之后，装载数据到表格之前，处理数据的函数
-    getTableRemoteDataAfter: function(data, isPagination) {
-      if (isPagination) {
-        let list = Array.isArray(data) ? data : data['list'] ? data['list'] : data;
-        return {
-          list: list,
-          currentPage: data['pageNum'],
-          pageSize: data['pageSize'],
-          total : data['total']
-        }
-      } //分页
-      return !Array.isArray(data) && data && data['list'] ? data['list'] : data;
-    },
+		//`ld-table`获取表格数据之后，装载数据到表格之前，处理数据的函数
+		getTableRemoteDataAfter: function(data, isPagination) {
+			if (isPagination) {
+				data = data['data'] || data;
+				let list = Array.isArray(data) ? data : data['list'] ? data['list'] : data;
+				return {
+					list: list,
+					currentPage: data['pageNum'],
+					pageSize: data['pageSize'],
+					total: data['total']
+				}
+			} //分页
+			return !Array.isArray(data) && data && data['list'] ? data['list'] : data;
+		},
+		//`ld-forms`保存是数据之前，处理数据的函数
+		saveFormsDataBefore:function(data){
+			return data;
+		},
+		//`ld-forms`保存数据之后的 , 处理函数
+		saveFormsDataAfter:function(result){
+			
+		},
 
-    //工具包
-    util: ldUtil,
-    //配置
-  };
+		//工具包
+		util: ldUtil,
+		//配置
+	};
 
-  Vue.component('ld-page-loading', ldPageLoading);
+	Vue.component('ld-page-loading', ldPageLoading);
 
-  Vue.component('ld-forms', ldForms);
+	Vue.component('ld-forms', ldForms);
 
-  Vue.component('ld-icon', ldIcon);
+	Vue.component('ld-icon', ldIcon);
 
-  Vue.component('ld-tags', ldTags);
+	Vue.component('ld-tags', ldTags);
 
-  Vue.component('ld-address', ldAddress);
+	Vue.component('ld-address', ldAddress);
 
-  Vue.component('ld-params', ldParams);
+	Vue.component('ld-params', ldParams);
 
-  Vue.component('ld-images', ldImages);
+	Vue.component('ld-images', ldImages);
 
-  Vue.component('ld-table', ldTable);
+	Vue.component('ld-table', ldTable);
 
 
 }
@@ -98,16 +107,16 @@ const install = (Vue, opts = {}) => {
 
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
-  install(window.Vue);
+	install(window.Vue);
 }
 export default {
-  install,
-  ldPageLoading,
-  ldForms,
-  ldIcon,
-  ldTags,
-  ldAddress,
-  ldParams,
-  ldImages,
+	install,
+	ldPageLoading,
+	ldForms,
+	ldIcon,
+	ldTags,
+	ldAddress,
+	ldParams,
+	ldImages,
 
 }

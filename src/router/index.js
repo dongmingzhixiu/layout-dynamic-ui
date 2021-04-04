@@ -6,14 +6,20 @@ import test1 from '@/pages/test1'
 import test2 from '@/pages/test2'
 import test3 from '@/pages/test3'
 import test4 from '@/pages/test4'
+import saveForms from '@/pages/saveFormTest.vue'
+import table from '@/pages/table.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/',
+      path: '/HelloWorld',
       name: 'HelloWorld',
       component: HelloWorld
+    },{
+      path: '/',
+      name: 'table',
+      component: table
     },
     {
       path: '/test1',
@@ -34,6 +40,11 @@ export default new Router({
       path: '/test4',
       name: 'test4',
       component: test4
+    },
+    {
+      path: '/saveForms',
+      name: 'saveForms',
+      component: saveForms
     },
     {
       path: '/formChange',

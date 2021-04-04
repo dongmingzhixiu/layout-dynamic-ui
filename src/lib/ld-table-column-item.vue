@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<el-table-column v-for="(item,c) in lists" :prop="item['prop']" :label="typeof item.label=='string'?item.label:item.label['label']" :key="c"
+		<el-table-column v-for="(item,c) in lists" :prop="item['prop']"
+			:label="typeof item.label=='string'?item.label:item.label['label']" :key="c"
 			:align="item['align']||'center'" :width="item.width?item.width:tableConfig.defaultWidth">
 
 			<template
@@ -11,9 +12,7 @@
 			<template slot-scope="scope">
 				<ld-table-item :item="item" :row="scope.row">
 					<template #replace="{item,row}">
-						<template v-if="row[`${item['prop']}_reqplace_val`]"><label
-								class="color11">计算中...</label></template>
-						<template>{{getNullReplaceEmptyVal(row[item.prop])}}</template>
+						<slot name="replace" :item="item" :row="scope.row"></slot>
 					</template>
 				</ld-table-item>
 			</template>
@@ -63,7 +62,6 @@
 			},
 		},
 		created() {
-			debugger
 			console.log(this.lists)
 		}
 	}

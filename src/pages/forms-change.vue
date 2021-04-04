@@ -106,7 +106,6 @@
                 // },
                 //方式2；使用function(value,event)函数设置元素的值
                 form: (value, event) => {
-                  debugger
                   let form = event['form'];
                   form['textInfo'] =val==2 ? '123456' : '';
                   return form;

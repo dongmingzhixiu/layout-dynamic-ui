@@ -9,10 +9,8 @@
     name: 'App',
     methods: {
       init() {
-        //设置开发地址
-        this.$ld.requestSetting.serverPath.development.set('http://127.0.0.1:18085/frame/');
-        //设置生产地址
-        this.$ld.requestSetting.serverPath.production.set('http://127.0.0.1:8085/frame/');
+        //设置请求地址
+        this.$ld.requestSetting.serverPath.set('http://127.0.0.1:18085/frame/');
 
         this.$ld.requestSetting.init = (axios) => {
           return axios;

@@ -21,9 +21,28 @@
 |label-width|String|左侧文字大小|100px||左侧文字大小|
 |is-row|Boolean|是否是行模式|false||true:行模式，通常组件数量较少，且开启后会忽略label-position的值，通常用作布局界面的查询条件|
 |cols|Number|form表单的列数|1||可选址为：1,2,3,4|
+|save-forms-data-before|Function(data)|保存数据之前的修饰方法|||也可以通过全局配置。优先使用参数，如果该参数为空，则会使用全局配置函数|
+|save-forms-data-after|Function(data)|保存数据之后的处理方法|||也可以通过全局配置。优先使用参数，如果该参数为空，则会使用全局配置函数|
+|editor-forms-init-api|Object|编辑数据时配置参数|||详情见如下[editor-forms-init-api](##editor-forms-init-api)|
 |auto-save|Boolean|【待定】是否自动保存|true||【待定】该参数暂时无效，相关功能，正在开发中.|
 |is-more-level-update-el-date|Boolean|【待定】是否强制刷新Date组件|false||【待定】当前组件封装层数过多时，element-date日期控件会出现不能及时刷新的问题，此时需要设置该属性为 true|
 
+## editor-forms-init-api
+ > 在编辑数据时，通过该参数 ，可以自动加载表单初始值。比如通过di=3查询test/getById中的一条数据作为表单的初始值，配置如下
+ ```javascript
+{
+	//请求路径
+	remotePath: 'test/getUserById',
+	//请求参数
+	remoteParam: {id:3},
+	//请求方法
+	remoteMethodType: "get",
+	//得到数据后对数据的预处理
+	getDataAfter: (data) => {
+		return data.data;
+	}
+}
+ ```
 
 # 如何构建一个form表单 代码如下
 ```javascript
@@ -109,6 +128,7 @@ data(){
 |style			|String|style样式				|				|					|设置当前组件的style样式|
 |prepend		|String|前缀|				|					|设置输入数据的前缀，长度不宜过长，控制在1-3个字符。如果字符过多则推荐使用插槽处理|
 |append			|String|后缀|				|					|设置输入的单位等，长度不宜过长，控制在1-3个字符。如果字符过多则推荐使用插槽处理|
+
 
 # `ld-forms`支持的组件类型（`v1.0.0`）
 
@@ -238,12 +258,21 @@ data(){
             prop:'select', //[String]
             label:'下拉框',//[String]
             type:'select',
+						//方式一 
             options:[
               {label:'文本一',value:'1'},
               {label:'文本二',value:'2'},
               {label:'文本三',value:'3'},
               {label:'文本四',value:'4'},
-            ]
+            ],
+						//方式二.动态加载数据
+						getOptions:{
+							remotePath: 'test/getUserInfo', //请求方法
+							remoteMethodType: "get",//请求类型
+							remoteParam:{},//参数
+							label:'${nickName}(${phone})',//下拉框显示文字；比如有数据[{id:1,nickName:'张三',phone:'18888888888'}] => '张三(18888888888)'
+							value:'${id}', //此处的'${id}'<=>'id' 下拉框选项值；比如有数据[{id:1,nickName:'张三',phone:'18888888888'}] => '1'
+						}
           },
           //....更多组件内容
          ],
@@ -256,7 +285,7 @@ data(){
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
-|getOptions|Object|远程加载下拉框选项值(`暂时不支持，正在规划中`)|||下拉框options的选项值`暂时不支持`|
+|getOptions|Object|远程加载下拉框选项值|||下拉框options的选项值[详情查看select的getOptions的示例代码](##select)|
 |allowCreate   |Boolean|是否允许用户创建新条目，需配合 filterable 使用|false||详情参考[Element-UI select的相关属性](https://element.eleme.cn/#/zh-CN/component/select)|
 |filterable    |Boolean|是否可搜索|false||详情参考[Element-UI select的相关属性](https://element.eleme.cn/#/zh-CN/component/select)|
 |multiple      |Boolean|是否多选|false||详情参考[Element-UI select的相关属性](https://element.eleme.cn/#/zh-CN/component/select)|
@@ -268,8 +297,8 @@ data(){
  ### type=`radio` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
 |-|-|-|-|-|-|
-|options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
-|getOptions|Object|远程加载下拉框选项值(`暂时不支持，正在规划中`)|||下拉框options的选项值`暂时不支持`|
+|options|Array[Object]|选项值|||options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
+|getOptions|Object|远程加载选项值|||options的选项值，options的选项值与select值配置方式一致。[详情查看select的getOptions的示例代码](##select)|
 |isButton   |Boolean|是否按钮样式|false||上图左侧是按钮样式，有测试默认样式|
   > 通过`isButton`来控制显示类型
 ----
@@ -281,8 +310,8 @@ data(){
   ### type=`checkbox` 特有属性
 |关键字|解释|类型|默认值|是否必须|说明|
 |-|-|-|-|-|-|
-|options|Array[Object]|下拉框选项值|||下拉框options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
-|getOptions|Object|远程加载下拉框选项值(`暂时不支持，正在规划中`)|||下拉框options的选项值`暂时不支持`|
+|options|Array[Object]|选项值|||options的选项值，object:{label:'',value:''},label:是现实出现的文字，value:是选择后获取到的值|
+|getOptions|Object|远程加载框选项值|||options的选项值与select值配置方式一致。[详情查看select的getOptions的示例代码](##select)|
 
 ----
 
@@ -704,7 +733,6 @@ data(){
                   //使用正则和 函数混合使用
                   regex: val=='6' ? /^[\u4e00-\u9fa5]{4,6}$/ : (textVal) => {
                     return function(textVal) {
-                      debugger
                       if (val != "5"&&val!='7') {
                         return true;
                       }
@@ -744,7 +772,6 @@ data(){
                 // },
                 //方式2；使用function(value,event)函数设置元素的值
                 form: (value, event) => {
-                  debugger
                   let form = event['form'];
                   form['textInfo'] =val==2 ? '123456' : '';
                   return form;
@@ -807,7 +834,29 @@ data(){
 </script>
 ```
 
-
+## 自动保存数据所触发事件
+### `saveFormsDataBefore` 保存数据之前修饰数据的方法
+> 在自动保存数据之前，通过该函数，可以修改需要保存数据
+> 可以通过重写`this.$ld.saveFormsDataBefore`(全局) 或者 通过`save-forms-data-before`参数设置函数
+```javascript
+this.$ld.saveFormsDataBefore=function(data){
+	data['createBy']="1";//为所有的保存数据添加创建人
+	return data;
+}
+```
+### `saveFormsDataAfter` 保存完数据之后处理数据的方法
+> 在自动保存数据之后，通过结果处理信息
+> 可以通过重写`this.$ld.saveFormsDataAfter`(全局) 或者 通过`save-forms-data-after`参数设置函数
+```javascript
+this.$ld.saveFormsDataAfter=function(result){
+	if(result.code==0){
+		this.$message.success("保存成功！");
+		return;
+	}
+	this.$message.error("保存失败！");
+	return;
+}
+```
 
 # 附录1
 ```html

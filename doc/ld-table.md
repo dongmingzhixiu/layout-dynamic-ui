@@ -48,8 +48,8 @@ layout:[
 	{prop: 'birthday',label: '出生日期',format:(val)=>{ return !val?'': this.$ld.util.getNowD(0,new Date(val))} },
 	{prop: 'createdTime',label: '创建时间',format:(val)=>{ return !val?'': this.$ld.util.getNowDT(0,new Date(val))	} },
 	{prop: 'updatedTime',label: '修改时间',format:(val)=>{  return !val?'': this.$ld.util.getNowDT(0,new Date(val))} },
-	{prop: 'createdBy',label: '创建人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
-	{prop: 'updatedBy',label: '修改人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
+	{prop: 'createdBy',label: '创建人', replace: {  remotePath: 'test/getUserById',remoteMethodType:'get', label: 'nickName', value: 'id'} },
+	{prop: 'updatedBy',label: '修改人', replace: {  remotePath: 'test/getUserById',remoteMethodType:'get', label: 'nickName', value: 'id'} },
 ]
 ```
 
@@ -232,3 +232,36 @@ list:[
 ]
 ```
 > 以上数据的 `row-key`就可以设置为`row-key='id'`
+
+# `ld-table`表格获取数据装载到布局之前的装饰函数
+ >重写 `this.$ld.getTableRemoteDataAfter`(全局作用)，也可通过`ld-table`的`get-table-remote-data-after`的参数设置装饰函数。
+ >
+ >通过全局设置，在多处使用`ld-table`组件时，会自动调用处理数据
+ > 
+ >获取表格数据之后，装载数据到表格之前，处理数据的函数
+```javascript
+this.$ld.getTableRemoteDataAfter=function(data, isPagination) {
+	if (isPagination) {
+		data = data['data'] || data;
+		let list = Array.isArray(data) ? data : data['list'] ? data['list'] : data;
+		return {
+			list: list,
+			currentPage: data['pageNum'],
+			pageSize: data['pageSize'],
+			total: data['total']
+		}
+	} //分页
+	return !Array.isArray(data) && data && data['list'] ? data['list'] : data;
+},
+```
+- 如上，分页所具备基本的函数变量和值，如下表
+## 分页所需返回值参数说明 ，返回类型为`Object`=>{list:[],currentPage:1,pageSize:30,total:300}
+|关键字|类型|解释|是否必须|补充|
+|-|-|-|-|-|
+|list|Array|分页获取当前页的数据|√|形如:[{a:1,b:2,c:3},{a:1,b:2,c:3},{a:1,b:2,c:3}]|
+|currentPage|Number|当前页|√|当前分页数据所查询的所在页|
+|pageSize|Number|每页显示条数|√|| 
+|total|Number|总条数|√|通过总条数会计算总页数等相关信息|
+## 不分页所需的返回值说明，返回类型为`Array`=>[{a:1,b:2,c:3},{a:1,b:2,c:3},{a:1,b:2,c:3}]
+
+

@@ -109,8 +109,8 @@
 							{prop: 'birthday',label: '出生日期',format:(val)=>{ return !val?'': this.$ld.util.getNowD(0,new Date(val))} },
 							{prop: 'createdTime',label: '创建时间',format:(val)=>{ return !val?'': this.$ld.util.getNowDT(0,new Date(val))	} },
 							{prop: 'updatedTime',label: '修改时间',format:(val)=>{  return !val?'': this.$ld.util.getNowDT(0,new Date(val))} },
-							{prop: 'createdBy',label: '创建人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
-							{prop: 'updatedBy',label: '修改人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
+							{prop: 'createdBy',label: '创建人', replace: {  remotePath: 'test/getUserById',remoteMethodType:'get', label: 'nickName', value: 'id'} },
+							{prop: 'updatedBy',label: '修改人', replace: {  remotePath: 'test/getUserById',remoteMethodType:'get', label: 'nickName', value: 'id'} },
 							{prop: '',label:{
 								label:'地址',
 								children:[

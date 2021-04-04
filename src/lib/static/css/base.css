@@ -1741,32 +1741,32 @@
 
 .height-vh,
 .h-vh {
-	height: 100vh;
+	height: 100vh!important;
 }
 
 .height-vh0,
 .h-vh0 {
-	height: 10vh;
+	height: 0vh!important;
 }
 
 .height-vh1,
 .h-vh1 {
-	height: 10vh;
+	height: 10vh!important;
 }
 
 .height-vh2,
 .h-vh2 {
-	height: 20vh;
+	height: 20vh!important;
 }
 
 .height-vh3,
 .h-vh3 {
-	height: 30vh;
+	height: 30vh!important;
 }
 
 .height-vh4,
 .h-vh4 {
-	height: 40vh;
+	height: 40vh!important;
 }
 
 .height-vh5,
@@ -1776,27 +1776,27 @@
 
 .height-vh6,
 .h-vh6 {
-	height: 60vh;
+	height: 60vh!important;
 }
 
 .height-vh7,
 .h-vh7 {
-	height: 70vh;
+	height: 70vh!important;
 }
 
 .height-vh8,
 .h-vh8 {
-	height: 80vh;
+	height: 80vh!important;
 }
 
 .height-vh9,
 .h-vh9 {
-	height: 90vh;
+	height: 90vh!important;
 }
 
 .height-vh10,
 .h-vh10 {
-	height: 100vh;
+	height: 100vh!important;
 }
 
 

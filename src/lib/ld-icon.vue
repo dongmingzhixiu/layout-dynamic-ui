@@ -82,7 +82,6 @@
 		},
 		methods: {
 			changeEvent() {
-				debugger
 				this.$emit("change", this.icon);
 			},
 			checkIcon(item) {

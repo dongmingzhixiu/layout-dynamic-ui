@@ -30,29 +30,18 @@
 					:width="col.width?col.width:tableConfig.defaultWidth" :sortable="col.sortable||false" :key="i">
 					<template
 						v-if="typeof col.label=='object'&&col.label&&col.label['children']&&col.label['children'].length>0">
-						<ld-table-column-item :table-config="tableConfig" :list="col.label['children']"></ld-table-column-item>
-						<!-- <el-table-column v-for="(item,c) in col.label['children']" :prop="item['prop']"
-							:label="item['label']" :key="c" :align="item['align']||'center'"
-							:width="item.width?item.width:tableConfig.defaultWidth">
-							
-							
-							<template slot-scope="scope">
-								<ld-table-item :item="item" :row="scope.row">
-									<template #replace="{item,row}">
-										<template v-if="row[`${item['prop']}_reqplace_val`]"><label
-												class="color11">计算中...</label></template>
-										<template>{{getNullReplaceEmptyVal(row[item.prop])}}</template>
-									</template>
-								</ld-table-item>
+						<ld-table-column-item :table-config="tableConfig" :list="col.label['children']">
+							<template #replace="{item,row}">
+								<template v-if="row[`${item['prop']}_reqplace_val`]"><div v-if="loadingReaplce" class="el-icon-loading"></div></template>
+								<template>{{getNullReplaceEmptyVal(row[item.prop])||''}}</template>
 							</template>
-						</el-table-column> -->
+						</ld-table-column-item>
 					</template>
 					<template slot-scope="scope">
 						<ld-table-item :item="col" :row="scope.row">
 							<template #replace="{item,row}">
-								<template v-if="row[`${item['prop']}_reqplace_val`]"><label
-										class="color11">计算中...</label></template>
-								<template>{{getNullReplaceEmptyVal(row[item.prop])}}</template>
+								<template v-if="row[`${item['prop']}_reqplace_val`]"><div v-if="loadingReaplce" class="el-icon-loading"></div></template>
+								<template>{{getNullReplaceEmptyVal(row[item.prop])||''}}</template>
 							</template>
 						</ld-table-item>
 					</template>
@@ -90,11 +79,11 @@
 		config
 	} = require("@/lib/config/components-conf.js");
 
- import ldTableItem from './ld-table-item.vue'
- import ldTableColumnItem from './ld-table-column-item.vue'
+	import ldTableItem from './ld-table-item.vue'
+	import ldTableColumnItem from './ld-table-column-item.vue'
 	export default {
 		name: "ld-table",
-		components:{
+		components: {
 			ldTableItem,
 			ldTableColumnItem
 		},
@@ -194,7 +183,6 @@
 						remoteParam: {},
 						remoteMethodType: "get",
 						remoteTimeout: 1200,
-						//是否是第三方请求
 					}
 				}
 			},
@@ -416,13 +404,13 @@
 							null)
 						.then(res => {
 							this.loading = false;
-							let d = data;
+							let d = res.data.data;
 							if (typeof this.getTableRemoteDataAfter == 'function') {
 								d = this.getTableRemoteDataAfter(res.data, this.showPageHelper);
 							} else {
 								d = this.$ld.getTableRemoteDataAfter(res.data, this.showPageHelper);
 							}
-							let data = d || res.data;
+							let data = d || res.data.data;
 
 							//判断是否是分页
 							if (this.showPageHelper) {
@@ -451,13 +439,18 @@
 			 * 替换数据 ,通过外键编号，获取显示到页面的字符
 			 */
 			replaceValToList() {
+				this.loadingReaplce=true;
+				setTimeout(()=>{
+					this.loadingReaplce=false;
+					this.$forceUpdate();
+				},1200);
 				let list = this.lists;
 				let map = {};
-				const getRemote = (lay) => {
+				const getRemote = (lay, list) => {
 					if (typeof lay['label'] == 'object' && lay['label']['children'] && lay['label']['children']
 						.length > 0) {
 						lay['label']['children'].map(item => {
-							getRemote(item);
+							getRemote(item, list);
 						});
 					}
 					if (lay['replace'] && typeof lay['replace'] == 'object') {
@@ -471,6 +464,10 @@
 							map[mapKey] = "";
 
 							item[`${prop}_reqplace_val`] = true;
+							setTimeout(()=>{
+								this.$set(this.lists[index], `${prop}_reqplace_val`, false);
+							},1000);
+							
 							item['_table_layout_repplace_val'] = item['_table_layout_repplace_val'] || {};
 							item['_table_layout_repplace_val'][`${mapKey}_${prop}`] = mapKey;
 
@@ -481,7 +478,7 @@
 				}
 
 				this.layouts.map(lay => {
-					getRemote(lay);
+					getRemote(lay, list);
 				});
 				this.getRemoteReplaceValToMap(map);
 			},
@@ -490,7 +487,7 @@
 				let count = 0;
 				Object.keys(map).map(key => {
 					let info = key.split("_");
-					if (info[4] == 'null' || info[4] == 'undefined') {
+					if (!info[4] || info[4].trim().toLocaleLowerCase() == 'null' || info[4] == 'undefined') {
 						count++;
 						map[key] = "";
 						if (count >= Object.keys(map).length) {
@@ -502,11 +499,8 @@
 						param[info[3]] = info[4];
 						this.$ld.request(info[0], info[1], param).then(res => {
 							count++;
-							if (res.code == 0) {
-								let d = res.data;
-								map[key] = d[info[2]];
-							}
-							console.log(map);
+							let d = res.data.data || res.data;
+							map[key] = d[info[2]] || '';
 							if (count >= Object.keys(map).length) {
 								this.replaceMapToList(map);
 							}
@@ -519,14 +513,13 @@
 				let list = this.lists;
 				list.map(item => {
 					let index = this.lists.indexOf(item);
-
 					let obj = item['_table_layout_repplace_val'];
 					Object.keys(obj).map(replace => {
 						let replaceInfo = replace.split("_");
 						let replaceFeild = replaceInfo[replaceInfo.length - 1];
+						this.$set(this.lists[index], `${replaceFeild}_reqplace_val`, false);
 						let remoteKey = obj[replace];
 						let replaceValue = map[remoteKey];
-						this.$set(this.lists[index], `${replaceFeild}_reqplace_val`, false);
 						this.$set(this.lists[index], replaceFeild, replaceValue);
 					});
 				});
@@ -538,7 +531,7 @@
 			 */
 			getRemoteKey(item) {
 				let remoteInfo = item['replace'];
-				return `${remoteInfo['method']}_${remoteInfo['methodType']}_${remoteInfo['label']}_${remoteInfo['value']}`;
+				return `${remoteInfo['remotePath']}_${remoteInfo['remoteMethodType']}_${remoteInfo['label']}_${remoteInfo['value']}`;
 			},
 
 
