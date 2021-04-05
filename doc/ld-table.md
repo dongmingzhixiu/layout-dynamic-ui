@@ -155,8 +155,8 @@ layout:[
  
 |关键字|类型|解释|是否必须|补充|
  |-|-|-|-|-|
- |method|String|请求路径|√|形如:`test/getUserById`,当为第三方请求时，请填写完整请求路径|
- |methodType|String|请求方式|√|请求方式`get``post``delete``post``put``patch``head`|
+ |remotePath|String|请求路径|√|形如:`test/getUserById`,当为第三方请求时，请填写完整请求路径|
+ |remoteMethodType|String|请求方式|√|请求方式`get``post``delete``post``put``patch``head`|
  |label|String|显示到界面上的数据关键字|√|比如：'createdName'| 
  |id|String|查询数据的字段|√|当前数据中关联其他数据的关联键；比如'id'|
 
