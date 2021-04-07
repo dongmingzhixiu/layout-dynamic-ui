@@ -22,6 +22,7 @@ import ldAddress from '@/lib/ld-address.vue'
 import ldParams from '@/lib/ld-params.vue'
 import ldImages from '@/lib/ld-images.vue'
 import ldTable from '@/lib/ld-table.vue'
+import ldMenuTree from '@/lib/ld-menu-tree.vue'
 
 
 
@@ -77,7 +78,7 @@ const install = (Vue, opts = {}) => {
 		},
 		//`ld-forms`保存数据之后的 , 处理函数
 		saveFormsDataAfter:function(result){
-			
+
 		},
 
 		//工具包
@@ -100,6 +101,9 @@ const install = (Vue, opts = {}) => {
 	Vue.component('ld-images', ldImages);
 
 	Vue.component('ld-table', ldTable);
+  
+	Vue.component('ld-menu-tree', ldMenuTree);
+
 
 
 }

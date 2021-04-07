@@ -8,6 +8,7 @@ import test3 from '@/pages/test3'
 import test4 from '@/pages/test4'
 import saveForms from '@/pages/saveFormTest.vue'
 import table from '@/pages/table.vue'
+import menuTree from '@/pages/menuTree.vue'
 
 Vue.use(Router)
 
@@ -51,6 +52,12 @@ export default new Router({
       name: 'formChange',
       component: formChange
     },
+    {
+      path: '/menuTree',
+      name: 'menuTree',
+      component: menuTree
+    },
+
 
   ]
 })
