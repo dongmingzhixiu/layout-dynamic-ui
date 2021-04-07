@@ -168,6 +168,7 @@ new Vue({
  ### 5. `id-tags` 标签组件，实现一组标签的添加和删除。
  ### 6. `id-forms` 表单组件 [详情点这里](./doc/ld-forms.md)
  ### 7. `ld-table` 表格显示组件 [详情点这里](./doc/ld-table.md)
+ ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
  ### 1. 整体效果图
 
