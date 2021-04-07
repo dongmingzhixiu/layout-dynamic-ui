@@ -77,7 +77,7 @@
        */
       collapseTransition: {
         type: Boolean,
-        default: true
+        default: false
       },
       /**
        * 子菜单打开的触发方式(只在 mode 为 horizontal 时有效)

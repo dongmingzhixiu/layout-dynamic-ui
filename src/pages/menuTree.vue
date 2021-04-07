@@ -9,14 +9,14 @@
           <div class="m-r2 h-40 a-i-c">菜单展开或折叠</div>
           <el-button @click="collapse=!collapse">{{collapse?'展开':'折叠'}}</el-button>
         </div>
-        <ld-menu-tree :tree="tree" class="w-200" @click="menuClick" :collapse="collapse"></ld-menu-tree>
+        <ld-menu-tree :tree="tree" @click="menuClick" :collapse="collapse"></ld-menu-tree>
       </div>
 
       <div class="w-220 box-b m-r10">
         <div class="tip-p b-p1 f-s a-i-c">
           <div class="m-r2 h-40 a-i-c">设置颜色<span class="c8">当前为<span class="c-d">{{!collapse?'折叠':'展开'}}</span>状态</span></div>
         </div>
-        <ld-menu-tree :tree="tree" class="w-200" @click="menuClick" :collapse="!collapse"   background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"></ld-menu-tree>
+        <ld-menu-tree :tree="tree" @click="menuClick" :collapse="!collapse"   background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"></ld-menu-tree>
       </div>
       <div class="p10 m-b10">
         <ld-menu-tree :tree="tree" mode="horizontal" @click="menuClick"></ld-menu-tree>

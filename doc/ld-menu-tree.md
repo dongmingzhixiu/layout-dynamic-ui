@@ -15,7 +15,7 @@
 |background-color|String|菜单的背景色|'#ffffff'||（仅支持 hex 格式）|
 |text-color|String|菜单的文字颜色|'#303133'||（仅支持 hex 格式）|
 |active-text-color|String|激活菜单的文字颜色|'#409EFF'||当前激活菜单的文字颜色（仅支持 hex 格式）|
-|collapse-transition|Boolean|激活菜单的文字颜色|true||当前激活菜单的文字颜色（仅支持 hex 格式）|
+|collapse-transition|Boolean|激活菜单的文字颜色|false|||
 |menu-trigger|String|子菜单打开的触发方式(`click`\|`hover`)|click||(只在 mode 为 horizontal 时有效)|
 |uniqueOpened|Boolean|是否只保持一个子菜单的展开|false|||
 |defaultActive|String|当前激活菜单的 index|'0'|||
@@ -28,7 +28,7 @@
 |label|String|菜单显示的名称|-|√|-|
 |icon|String|菜单显示的图标|-||比如值为：'el-icon-search';建议一级菜单设置icon,在折叠菜单时比较重要|
 |disabled|Boolean|是否禁用|-||`[注]`暂时不起作用|
-|children|Array[Object]|子菜单|-||子菜单是一组菜单子项的集合，形如`{label:'1',children:[{label:'2'},{label:'3'},....]}`|
+|children|Array[Object]|子菜单|-||[理论上可以无限嵌套，但为了性能考虑，请慎重设置]子菜单是一组菜单子项的集合，形如`{label:'1',children:[{label:'2'},{label:'3'},....]}`|
 
 > 其他参数，可以直接组装到对象中，在点击菜单时会获取到点击的数据
 
