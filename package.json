@@ -9,13 +9,15 @@
     "vue",
     "forms",
     "element-ui",
-    "param  layout"
+    "param-layout",
+    "menu-Tree"
   ],
 	"keywords": [
 	  "vue",
 	  "forms",
 	  "element-ui",
-	  "param  layout"
+	  "param  layout",
+    "menu-Tree"
 	],
   "repository": {
     "type": "git",

@@ -9,6 +9,8 @@
 >版本：1.0.8
 >
 > 添加菜单树组件
+>
+> 添加 css 简单说明
 
 # 使用方式
 
@@ -230,3 +232,10 @@ new Vue({
 - 效果图
 
 ![效果图ld-menu-tree](./effect/ld-menu-tree.png);
+
+# CSS 封装
+
+>  [详情点这里](./doc/css.md)
+>
+> 详细代码参考: [base.css](./src/lib/static/css/base.css)  [basic.css](./src/lib/static/css/basic.css)
+>

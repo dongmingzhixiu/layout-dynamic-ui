@@ -1532,62 +1532,62 @@
 
 .width-vw,
 .w-vw {
-	width: 100vw;
+	width: 100vw!important;
 }
 
 .width-vw0,
 .w-vw0 {
-	width: 10vw;
+	width: 10vw!important;
 }
 
 .width-vw1,
 .w-vw1 {
-	width: 10vw;
+	width: 10vw!important;
 }
 
 .width-vw2,
 .w-vw2 {
-	width: 20vw;
+	width: 20vw!important;
 }
 
 .width-vw3,
 .w-vw3 {
-	width: 30vw;
+	width: 30vw!important;
 }
 
 .width-vw4,
 .w-vw4 {
-	width: 40vw;
+	width: 40vw!important;
 }
 
 .width-vw5,
 .w-vw5 {
-	width: 50vw;
+	width: 50vw!important;
 }
 
 .width-vw6,
 .w-vw6 {
-	width: 60vw;
+	width: 60vw!important;
 }
 
 .width-vw7,
 .w-vw7 {
-	width: 70vw;
+	width: 70vw!important;
 }
 
 .width-vw8,
 .w-vw8 {
-	width: 80vw;
+	width: 80vw!important;
 }
 
 .width-vw9,
 .w-vw9 {
-	width: 90vw;
+	width: 90vw!important;
 }
 
 .width-vw10,
 .w-vw10 {
-	width: 100vw;
+	width: 100vw!important;
 }
 
 
@@ -2715,7 +2715,7 @@
 	opacity: 1;
 }
 
-/*字体溢出处理*/
+/*内容溢出处理*/
 .overflow-hidden,
 .over-h {
 	overflow: hidden;
