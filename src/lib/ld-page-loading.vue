@@ -1,5 +1,6 @@
 <template>
-	<div class="w h box-b" style="position: relative;" :style="{'z-index':loading?zIndex:1}">
+	<div class="w h box-b" style="position: relative;"
+		:style="{'z-index':loading?zIndex:1}">
 		<template v-if="!$slots.loading">
 			<div v-if="loadings" class="w h f-c align-items-center b-f" style="position: absolute;"
 				:style="{'z-index':zIndex}">
@@ -38,10 +39,13 @@
 				type: Boolean,
 				default: true
 			},
+			/**
+			 * 加载文字
+			 */
 			loadingText: {
 				type: String,
 				default: '加载中......'
-			},
+			}
 		},
 		watch: {
 			loading(news) {

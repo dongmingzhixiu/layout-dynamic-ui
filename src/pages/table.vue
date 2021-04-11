@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import info from './table.js';
+	import info from '@/pages/table.js';
 	export default {
 		name: 'App',
 		data() {

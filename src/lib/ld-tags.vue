@@ -2,7 +2,7 @@
   <!-- 标签控件 -->
   <div class="m-t4">
     <div v-if="title" class="color8 p2" style="height: 28px;">{{title}}</div>
-    <div class="f-s-w w">
+    <div class="f-s-w w a-i-c">
       <el-tag :disabled="disabled" v-for="(item,i) in tags" :key="i" effect="plain" closable class="m-r4 m-t1 m-b1" @close="closeTags(item)">
         {{item}}
       </el-tag>

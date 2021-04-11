@@ -9,6 +9,7 @@ import test4 from '@/pages/test4'
 import saveForms from '@/pages/saveFormTest.vue'
 import table from '@/pages/table.vue'
 import menuTree from '@/pages/menuTree.vue'
+import pageTabs from '@/pages/pageTabs.vue'
 
 Vue.use(Router)
 
@@ -18,7 +19,7 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },{
-      path: '/',
+      path: '/table',
       name: 'table',
       component: table
     },
@@ -56,6 +57,11 @@ export default new Router({
       path: '/menuTree',
       name: 'menuTree',
       component: menuTree
+    },
+    {
+      path: '/',
+      name: 'pageTabs',
+      component: pageTabs
     },
 
 

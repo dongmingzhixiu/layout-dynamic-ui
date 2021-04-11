@@ -23,6 +23,8 @@ import ldParams from '@/lib/ld-params.vue'
 import ldImages from '@/lib/ld-images.vue'
 import ldTable from '@/lib/ld-table.vue'
 import ldMenuTree from '@/lib/ld-menu-tree.vue'
+import ldPageTabs from '@/lib/ld-page-tabs.vue'
+
 
 
 
@@ -103,6 +105,10 @@ const install = (Vue, opts = {}) => {
 	Vue.component('ld-table', ldTable);
   
 	Vue.component('ld-menu-tree', ldMenuTree);
+	
+	Vue.component('ld-page-tabs', ldPageTabs);
+	
+	
 
 
 

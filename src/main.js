@@ -10,16 +10,17 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 Vue.use(layoutDynamic);
 
-
+import pageImport from './pageImport.js'
+Vue.use(pageImport)
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  components: {
-    App
-  },
-  template: '<App/>'
+	el: '#app',
+	router,
+	components: {
+		App
+	},
+	template: '<App/>'
 })
