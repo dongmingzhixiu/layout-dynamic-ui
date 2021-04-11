@@ -44,106 +44,6 @@ new Vue({
 })
 ```
 
-  在App.vue页面写入如下内容（这里只演示`ld-forms`组件的使用）
-
-```javascript
-<template>
-  <div id="app" class="h-vh">
-    <ld-page-loading :loading="loading" class="box-b b-i1">
-      <div class="w h f-c over-a-y p10  box-b a-i-c">
-        <el-card class="w b-f p10" style="width:350px;height: auto;padding: 80px 40px;">
-          <ld-forms ref="loginForm" :cols="1" :form="forms" :layout="layouts">
-            <template v-slot:buttons="e">
-              <div class="w f-b">
-                <el-button type="primary" style="flex-grow: 2;" :loading="loginLoading" @click="loginData">登陆
-                </el-button>
-                <el-button @click="resetData">重置</el-button>
-              </div>
-            </template>
-          </ld-forms>
-        </el-card>
-      </div>
-    </ld-page-loading>
-  </div>
-</template>
-
-<script>
-  export default {
-    name: 'App',
-    data() {
-      return {
-        loginLoading: false,
-        loading: false,
-        forms: {},
-        layouts: [{
-            prop: 'phone',
-            type: 'text',
-            label: '',
-            placeholder: '请输入电话号码',
-            regex: /^[1][0-9]{10}$/,
-            require:true,
-          },
-          {
-            prop: 'password',
-            type: 'text',
-            label: '',
-            placeholder: '请输入用户密码',
-            regex: /^[1][0-9]{10}$/,
-            require:true,
-          },
-        ]
-      }
-    },
-    methods: {
-      loginData() {
-        console.log('login')
-
-        //验证数据
-        let result=this.$refs.loginForm.checkForm();
-        if(result['error']){
-          this.$message.error(result['msg'])
-          return;
-        }
-
-        this.loginLoading = true;
-        //模拟请求耗时
-        setTimeout(() => {
-          this.loginLoading = false;
-        }, 2000);
-
-
-
-      },
-      resetData() {
-        this.forms = {};
-      }
-    },
-    created() {
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    }
-  }
-</script>
-
-
-  ```
-
-效果如下
-- 非空时
-
-![login效果图](./effect/ld-forms/login1.png)
-
-- 数据校验不合法时
-
-![login效果图](./effect/ld-forms/login2.png)
-
-- 数据校验通过时
-
-![login效果图](./effect/ld-forms/login3.png)
-
-
-
 # 目的
 > 我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。
 
@@ -170,6 +70,108 @@ new Vue({
  ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
  ### 9. `ld-page-tabs` 标签页 [详情点这里](./doc/ld-page-tabs.md)
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
+### 使用示例
+ 
+ > 在HelloWordd.vue页面写入如下内容（这里只演示`ld-forms`组件的使用）
+ 
+ ```javascript
+ <template>
+   <div id="app" class="h-vh">
+     <ld-page-loading :loading="loading" class="box-b b-i1">
+       <div class="w h f-c over-a-y p10  box-b a-i-c">
+         <el-card class="w b-f p10" style="width:350px;height: auto;padding: 80px 40px;">
+           <ld-forms ref="loginForm" :cols="1" :form="forms" :layout="layouts">
+             <template v-slot:buttons="e">
+               <div class="w f-b">
+                 <el-button type="primary" style="flex-grow: 2;" :loading="loginLoading" @click="loginData">登陆
+                 </el-button>
+                 <el-button @click="resetData">重置</el-button>
+               </div>
+             </template>
+           </ld-forms>
+         </el-card>
+       </div>
+     </ld-page-loading>
+   </div>
+ </template>
+ 
+ <script>
+   export default {
+     name: 'App',
+     data() {
+       return {
+         loginLoading: false,
+         loading: false,
+         forms: {},
+         layouts: [{
+             prop: 'phone',
+             type: 'text',
+             label: '',
+             placeholder: '请输入电话号码',
+             regex: /^[1][0-9]{10}$/,
+             require:true,
+           },
+           {
+             prop: 'password',
+             type: 'text',
+             label: '',
+             placeholder: '请输入用户密码',
+             regex: /^[1][0-9]{10}$/,
+             require:true,
+           },
+         ]
+       }
+     },
+     methods: {
+       loginData() {
+         console.log('login')
+ 
+         //验证数据
+         let result=this.$refs.loginForm.checkForm();
+         if(result['error']){
+           this.$message.error(result['msg'])
+           return;
+         }
+ 
+         this.loginLoading = true;
+         //模拟请求耗时
+         setTimeout(() => {
+           this.loginLoading = false;
+         }, 2000);
+ 
+ 
+ 
+       },
+       resetData() {
+         this.forms = {};
+       }
+     },
+     created() {
+       setTimeout(() => {
+         this.loading = false;
+       }, 1000);
+     }
+   }
+ </script>
+ 
+ 
+   ```
+ 
+ 效果如下
+ - 非空时
+ 
+ ![login效果图](./effect/ld-forms/login1.png)
+ 
+ - 数据校验不合法时
+ 
+ ![login效果图](./effect/ld-forms/login2.png)
+ 
+ - 数据校验通过时
+ 
+ ![login效果图](./effect/ld-forms/login3.png)
+ 
+ 
+ 
  ### 1. 整体效果图
 
   ![效果图](./effect/ld-forms.png)
