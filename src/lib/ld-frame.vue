@@ -31,11 +31,9 @@
       <!-- 主体 -->
       <div class="w box-b" style="height: calc(100% - 60px);">
         <ld-page-tabs class="w h" :tabs="pageTabs" :selected="tabSelected" @close="pageTabs=$event.tabs">
-          <template v-if="$scopedSlots.page">
-            <template v-slot:page="{item}">
-              <slot name="page" item="item"></slot>
+            <template  v-if="$scopedSlots.page" v-slot:page="e">
+              <slot name="page" :item="e.item"></slot>
             </template>
-          </template>
         </ld-page-tabs>
       </div>
     </div>
