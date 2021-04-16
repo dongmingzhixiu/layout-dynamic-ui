@@ -1,11 +1,17 @@
+# v1.1.1-beta
+## [添加后台管理页组件](./ld-frame.md)
+## 优化
+- 1.优化[`ld-menu-tree`](./ld-menu-tree.md) 组件
+- 2.优化[`ld-page-tabs`](./ld-page-tabs.md)组件
+
 # v1.0.9
 ## [添加标签页组件](./ld-page-tabs.md)
 
 # v1.0.8
-## [添加菜单树组件](./ld-menu-tree.md) 
+## [添加菜单树组件](./ld-menu-tree.md)
 
 # v1.0.6
-## 修复一系列打包后出现的问题 
+## 修复一系列打包后出现的问题
 - 1.修复[`ld-table`](./ld-table.md) 自动加载数据打包后出现问题
 - 2.修改[`axios`](./axios.md)封装后生产环境和开发环境地址不能使用问题，改为统一一个地址
 - 3.修改[`ld-table`](./ld-table.md) 表格得到数据后装饰数据的出现错误问题

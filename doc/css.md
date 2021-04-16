@@ -23,7 +23,7 @@
 # 基本样式封装说明 (以下样式都为简写模式；[全写参考点这里](../src/lib/static/css/base.css))
 
 |类名称|所属类别|说明|原型|透明度派生样式|
-|-|-|-|-|-|
+|-|-|-|-|-| 
 |b-f|背景色|白色|`background-color: rgba(255, 255, 255, 1) !important;`|透明度1-0.1 ,依次为： `b-f` `b-f9` `b-f8` `b-f7` `b-f6` `b-f5` `b-f4` `b-f3` `b-f2` `b-f1`|
 |b-b|背景色|黑色|`background-color: rgba(0, 0, 0, 1) !important;`|透明度1-0.1 ,依次为： `b-b` `b-b9` `b-b8` `b-b7` `b-b6` `b-b5` `b-b4` `b-b3` `b-b2` `b-b1`|
 |b-p|背景色|基本颜色|`background-color: var(--primarycolor) !important;`|透明度1-0.1 ,依次为： `b-p` `b-p9` `b-p8` `b-p7` `b-p6` `b-p5` `b-p4` `b-p3` `b-p2` `b-p1`|

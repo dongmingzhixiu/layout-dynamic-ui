@@ -24,7 +24,8 @@
 |-|-|-|-|-|-|
 |prop|String|关键字||√||
 |label|String|标签页显示文字||√||
-|page|String|组件代码||√|组件代码具体的使用代码[组件代码](##ld-page-tabs组件代码)|
+|page|String|组件代码\|网页地址(网页地址必须具备http://或https://)||√|组件代码具体的使用代码[组件代码](##ld-page-tabs组件代码)|
+|selected|String\|Number|选中的tab|||为tab下标时必须是Number,不是下标则需要设置为要显示的tab的prop值|
 
 >参数里边可以包含其他属性
 
@@ -85,3 +86,8 @@ data(){
 |click|Function(item)||标签页点击事件|当点击标签页时，触发事件。|
 |close|Function(item)||关闭标签页后发生事件|当关闭标签页后，触发事件。|
 |refresh|Function(item)||更新标签页后击事件|更新标签页后，触发事件。|
+
+## Slot 插槽（作用域插槽）
+|名称|类型|插槽入参|说明|
+|-|-|-|-|
+|page|作用域插槽|item {} 一个tab元素对象值|使用此插槽意味着你需要自己完成页面相关的显示和操作|

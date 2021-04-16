@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from '@/pages/Home'
 import HelloWorld from '@/pages/HelloWorld'
 import formChange from '@/pages/forms-change.vue'
 import test1 from '@/pages/test1'
@@ -18,7 +19,7 @@ export default new Router({
       path: '/HelloWorld',
       name: 'HelloWorld',
       component: HelloWorld
-    },{
+    }, {
       path: '/table',
       name: 'table',
       component: table
@@ -59,10 +60,16 @@ export default new Router({
       component: menuTree
     },
     {
-      path: '/',
+      path: '/pageTabs',
       name: 'pageTabs',
       component: pageTabs
     },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+
 
 
   ]

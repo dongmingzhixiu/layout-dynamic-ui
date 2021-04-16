@@ -6,8 +6,12 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
->版本：1.0.9
-> [添加标签页组件](./ld-page-tabs.md)
+>版本 v1.1.1-beta
+> [添加后台管理页组件](./ld-frame.md)
+>
+> 优化
+> - 1.优化[`ld-menu-tree`](./ld-menu-tree.md) 组件
+> - 2.优化[`ld-page-tabs`](./ld-page-tabs.md)组件
 
 # 使用方式
 
@@ -69,10 +73,11 @@ new Vue({
  ### 7. `ld-table` 表格显示组件 [详情点这里](./doc/ld-table.md)
  ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
  ### 9. `ld-page-tabs` 标签页 [详情点这里](./doc/ld-page-tabs.md)
+ ### 10. `ld-frame` 后台管理框架也 [详情点这里](./doc/ld-frame.md)
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
- 
- 
- 
+
+
+
  ### 1. 整体效果图
 
   ![效果图](./effect/ld-forms.png)
@@ -117,9 +122,9 @@ new Vue({
 - [`param`](./doc/ld-forms.md#param)：参数；
 
  ### 3.使用示例
- 
+
  > 在HelloWordd.vue页面写入如下内容（这里只演示`ld-forms`组件的使用）
- 
+
  ```javascript
  <template>
    <div id="app" class="h-vh">
@@ -140,7 +145,7 @@ new Vue({
      </ld-page-loading>
    </div>
  </template>
- 
+
  <script>
    export default {
      name: 'App',
@@ -171,22 +176,22 @@ new Vue({
      methods: {
        loginData() {
          console.log('login')
- 
+
          //验证数据
          let result=this.$refs.loginForm.checkForm();
          if(result['error']){
            this.$message.error(result['msg'])
            return;
          }
- 
+
          this.loginLoading = true;
          //模拟请求耗时
          setTimeout(() => {
            this.loginLoading = false;
          }, 2000);
- 
- 
- 
+
+
+
        },
        resetData() {
          this.forms = {};
@@ -199,21 +204,21 @@ new Vue({
      }
    }
  </script>
- 
- 
+
+
    ```
- 
+
  效果如下
  - 非空时
- 
+
  ![login效果图](./effect/ld-forms/login1.png)
- 
+
  - 数据校验不合法时
- 
+
  ![login效果图](./effect/ld-forms/login2.png)
- 
+
  - 数据校验通过时
- 
+
  ![login效果图](./effect/ld-forms/login3.png)
 
 详细使用说明请阅读[ld-forms详细使用说明](./doc/ld-forms.md)
@@ -243,9 +248,21 @@ new Vue({
 
 ![效果图ld-menu-tree](./effect/ld-page-tabs.png)
 
+## 六.后台管理框架页
+
+>  [详情点这里](./doc/ld-frame.md)
+>
+>  [详细代码参考](./src/pages/home.vue)
+>
+- 效果图
+
+![效果图ld-menu-tree](./effect/ld-page-tabs.png)
+
 # CSS 封装
 
 >  [详情点这里](./doc/css.md)
 >
 > 详细代码参考: [base.css](./src/lib/static/css/base.css)  [basic.css](./src/lib/static/css/basic.css)
 >
+
+
