@@ -11,6 +11,8 @@
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |tabs|Array[Object]|关键字||√|组件代码具体的使用代码[组件代码](##`ld-page-tabs`tabs的属性)|
+|showClose|Boolean|是否显示关闭按钮|true|√||
+|showRefresh|Boolean|是否显示刷新按钮|true|√||
 |showConfirm|Boolean|标签页关闭时，是否显示提示框|true|||
 |closeBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
 |refreshTabBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
