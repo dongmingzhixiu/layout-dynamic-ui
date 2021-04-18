@@ -118,6 +118,7 @@
 		},
 		methods: {
 			saveData() {
+				this.$emit("events",{eventMethod:'saveBefore',eventParam:{1:1,a:'2111'}})
 				this.loading = true;
 				this.autoSaveApi['remotePath']="test/upd"
 				this.$refs.editorForms.formSave((res) => {

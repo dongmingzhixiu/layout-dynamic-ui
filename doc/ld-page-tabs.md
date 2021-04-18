@@ -16,6 +16,7 @@
 |showConfirm|Boolean|标签页关闭时，是否显示提示框|true|||
 |closeBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
 |refreshTabBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
+|passEventUp|Boolean|是否向上传递事件|true||详细说明见[页面事件向上传递](##页面事件向上传递约定)|
 
 
 ## `ld-page-tabs` tabs 的属性
@@ -93,3 +94,46 @@ data(){
 |名称|类型|插槽入参|说明|
 |-|-|-|-|
 |page|作用域插槽|item {} 一个tab元素对象值|使用此插槽意味着你需要自己完成页面相关的显示和操作|
+
+
+## 页面事件向上传递约定
+
+> 在将页面作为组件进行标签页操作时，有时需要在页面操作后床底到标签页外部以便进行其他关操作，此时便需要使用固定的格式进行参数传递
+
+- 设置 `passEventUp = true` 向上传递数据
+
+-- 在页面中使用如下代码
+```javascript
+	//向上传递事件名称必须是event，参数必须具备eventMethod和eventParam
+	this.$emit('events',{eventMethod:'click',eventParam:{}});
+```
+此时在`ld-page-tabs`页面中处理函数使用如下代码
+```html
+<ld-page-tabs @events="getEvent"></ld-page-tabs>
+```
+```javascript
+//....
+	getEvent(event){
+		//处理 相关事件
+	}
+//...
+```
+
+- 设置 `passEventUp = false` 不向上传递数据，此时事件则会散播
+-- 在页面中使用如下代码
+```javascript
+	//向上传递事件名称必须是event，参数必须具备eventMethod和eventParam
+	this.$emit('events',{eventMethod:'click',eventParam:{}});
+```
+此时在`ld-page-tabs`页面中处理函数使用如下代码
+```html
+<ld-page-tabs @click="getEvent"></ld-page-tabs>
+```
+```javascript
+//....
+	getEvent(event){
+		//这里的 event则为eventParam的值
+		//处理 相关事件
+	}
+//...
+```

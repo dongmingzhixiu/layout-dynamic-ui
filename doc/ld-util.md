@@ -30,6 +30,7 @@
 ## 23.[`insertAndReplaceToStr`](#insertAndReplaceToStr)  指定下标位置插入字符串。insertAndReplaceToStr("12345",2,4,"ab") => 12ab5
 ## 25.[`idCardCheck`](#idCardCheck)  验证身份证号码
 ## 26.[`getIp`](#getIp)  获取ip
+## 27.[`cookie`](#cookie) cookie操作 
 # 二、函数说明
 
 ## changeImagePath
@@ -494,5 +495,10 @@ this.$ld.util.idCardCheck("622222222222222222");//false
 this.$ld.util.getIp();//127.0.0.1
 ```
 
+## cookie
+>cookie 进行操作
+## 示例
+```
 
+```
 

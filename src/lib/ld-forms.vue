@@ -13,7 +13,7 @@
 				<div class="a-i-c w" :class="{'f-b-w':!isRow,'f-s':isRow}">
 					<div v-if="item['visabled']!=false" v-for="(item,i) in layouts"
 						class="el-form-item position-relative w" :key='i'
-						:style="{'max-width':isRow?'250px':'','flex-grow': '2','margin-bottom':isRow?'0!important':'14px'}"
+						:style="{'width':item['width']?item['width']:isRow?'250px':'','max-width':item['width']?item['width']:isRow?'250px':'','flex-grow': '2','margin-bottom':isRow?'0!important':'14px'}"
 						:class="{'w':isRow,'cols_1':fcols==1||!fcols,'cols_2':fcols==2,'cols_3':fcols==3,'cols_4':fcols==4}">
 						<div class="w" :class="{'el-disabled':getDisabled(item),'el-readonly':getDisabled(item)}">
 							<div v-if="layoutType.includes(item['type'].toLocaleLowerCase())" class="a-i-c w"

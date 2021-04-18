@@ -16,7 +16,7 @@
 			<template v-if="!$scopedSlots.page">
 				<template v-if="getType(item.page)=='components'">
 					<keep-alive>
-						<component class="w h" :is="item.page" :query="item"></component>
+						<component class="w h" :is="item.page" :query="item" @events="getEvent"></component>
 					</keep-alive>
 				</template>
 				<template v-else-if="getType(item.page)=='http'">
@@ -96,7 +96,15 @@
 			showRefresh: {
 				type: Boolean,
 				default: true,
-			}
+			},
+			/**
+			 * 是否向上传递事件，true 继续 向上传递，false散播事件
+			 */
+			passEventUp: {
+				type: Boolean,
+				default: true,
+			},
+
 
 
 
@@ -219,7 +227,19 @@
 					let last = t[t.length - 1] || '';
 					return last && ['jpeg', 'jpg', 'png', 'gif'].includes(last.toLocaleLowerCase())
 				})(page) ? 'image' : 'components';
+			},
+			/**
+			 * 处理页面事件
+			 * @param {Object} e
+			 */
+			getEvent(event) {
+				if (this.passEventUp) {
+					this.$emit("events", event);
+					return;
+				}
+				this.$emit(event['eventMethod'], event['eventParam'])
 			}
+
 		},
 		created(e) {
 			this.selectTabs(0);

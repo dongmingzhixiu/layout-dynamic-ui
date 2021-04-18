@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ld-page-tabs :tabs="pageTabs"></ld-page-tabs>
+		<ld-page-tabs :tabs="pageTabs" @saveBefore="saveBefore" :pass-event-up="false"></ld-page-tabs>
 	</div>
 </template>
 
@@ -16,9 +16,15 @@
 						{prop:'5',page:'test3',label:'测试3'},
 						{prop:'6',page:'test4',label:'测试4'},
 						{prop:'7',page:'save-forms',label:'form表单和表格'},
-						{prop:'8',page:'table',label:'表格'},
+						{prop:'8',page:'tables',label:'表格'},
 						{prop:'9',page:'menu-tree',label:'菜单树'},
 				]
+			}
+		},
+		methods:{
+			saveBefore(e){
+				console.log(e);
+				alert("接收到页面的saveBefore事件")
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import test1 from '@/pages/test1'
 import test2 from '@/pages/test2'
 import test3 from '@/pages/test3'
 import test4 from '@/pages/test4'
+import test5 from '@/pages/test5'
 import saveForms from '@/pages/saveFormTest.vue'
 import table from '@/pages/table.vue'
 import menuTree from '@/pages/menuTree.vue'
@@ -43,6 +44,11 @@ export default new Router({
       path: '/test4',
       name: 'test4',
       component: test4
+    },
+    {
+      path: '/test5',
+      name: 'test5',
+      component: test5
     },
     {
       path: '/saveForms',
