@@ -73,7 +73,7 @@ new Vue({
  ### 7. `ld-table` 表格显示组件 [详情点这里](./doc/ld-table.md)
  ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
  ### 9. `ld-page-tabs` 标签页 [详情点这里](./doc/ld-page-tabs.md)
- ### 10. `ld-frame` 后台管理框架也 [详情点这里](./doc/ld-frame.md)
+ ### 10. `ld-frame` 后台管理框架页 [详情点这里](./doc/ld-frame.md)
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
 
 
