@@ -25,7 +25,7 @@ import ldTable from '@/lib/ld-table.vue'
 import ldMenuTree from '@/lib/ld-menu-tree.vue'
 import ldPageTabs from '@/lib/ld-page-tabs.vue'
 import ldFrame from '@/lib/ld-frame.vue'
-import ldDoc from '@/lib/ld-frame.vue'
+import ldDoc from '@/lib/ld-doc.vue'
 
 
 
