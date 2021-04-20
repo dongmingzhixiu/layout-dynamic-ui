@@ -1,8 +1,8 @@
 <template>
   <!-- 安装 -->
-  <div class="box-b p10 h">
-    <el-card class="doc w h  over-a-y">
-      <doc :doc="doc">
+  <div class="box-b p10 ">
+    <el-card class="doc w over-a-y">
+      <ld-doc :doc="doc" class="w h over-a-y">
         <template v-slot:custom="e">
           <div> 这是插槽获取到的数据{{e}}这里可以更具实际情况，结合代码去做示例说明</div>
         </template>
@@ -12,7 +12,7 @@
         <template v-slot:test2="e">
           <div>content2：{{e}}</div>
         </template>
-      </doc>
+      </ld-doc>
     </el-card>
   </div>
 </template>
@@ -37,9 +37,32 @@
           tip_w: '我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。',
           tip_i: '我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。',
           tip_s: '我们期望通过传入简单的数据参数，来控制显示布局，避免同样的重复构建相似的布局。我们甚至可以通过从数据库加载布局信息，来显示不同的表单结构，让开发只需要专注于结构，减少对布局的重复构建。',
-        }, {
-          content: {p: '你好',span: '张三',slot: 'test'},
-          content2: { p: '你好',span: '张三',slot: 'test2'}
+        },
+        {
+          code:{
+            javascript:
+              (`
+  import import Vue from 'vue'
+  import App from './App'
+  import ElementUI from 'element-ui';
+  import 'element-ui/lib/theme-chalk/index.css';
+
+  import layoutDynamicUI from 'layout-dynamic-ui';
+  import 'layout-dynamic-ui/lib/index.css';
+
+  Vue.use(ElementUI);
+
+  Vue.use(layoutDynamicUI);
+
+  Vue.config.productionTip = false
+
+
+  new Vue({
+    el: '#app',
+    components: { App },
+    template: '<App/>'
+  })`).replace(/^              /g, ' ')
+          }
         }]
       }
     }

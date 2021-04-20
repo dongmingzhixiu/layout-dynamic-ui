@@ -12,6 +12,7 @@ import saveForms from '@/pages/saveFormTest.vue'
 import table from '@/pages/table.vue'
 import menuTree from '@/pages/menuTree.vue'
 import pageTabs from '@/pages/pageTabs.vue'
+import doc from '@/pages/doc.vue'
 
 Vue.use(Router)
 
@@ -72,10 +73,15 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'doc',
+      component: doc
     },
 
+    {
+      path: '/home',
+      name: 'home',
+      component: Home
+    },
 
 
   ]

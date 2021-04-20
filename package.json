@@ -1,18 +1,18 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
   "main": "lib/index.umd.min.js",
-	"keywords": [
-	  "vue",
-	  "forms",
-	  "element-ui",
-	  "param layout",
+  "keywords": [
+    "vue",
+    "forms",
+    "element-ui",
+    "param layout",
     "menu tree",
     "page tabs"
-	],
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dongmingzhixiu/layout-dynamic-ui"
@@ -29,7 +29,9 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "babel-plugin-prismjs": "^2.0.1",
     "element-ui": "^2.15.1",
+    "prismjs": "^1.23.0",
     "vue": "^2.6.12",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.6.12"
