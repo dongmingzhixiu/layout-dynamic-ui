@@ -1,10 +1,10 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
-  "main": "lib/index.umd.js",
+  "main": "lib/index.umd.min.js",
 	"keywords": [
 	  "vue",
 	  "forms",

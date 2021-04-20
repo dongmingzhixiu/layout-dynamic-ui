@@ -6,12 +6,11 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
->版本 v1.1.1-beta
-> [添加后台管理页组件](./ld-frame.md)
->
-> 优化
-> - 1.优化[`ld-menu-tree`](./ld-menu-tree.md) 组件
-> - 2.优化[`ld-page-tabs`](./ld-page-tabs.md)组件
+> v1.1.2
+> [添加轻量级结构化Web文档渲染](./ld-doc.md)
+> 支持标签
+> p, h1 , h2 , h3 , slot(具名插槽) , tip(tip|tip_p 主题色，tip_d 危险色，tip_w 警告色 tip_i 信息色 tip_s 成功色) shell(单行代码)，其他的待支持！
+
 
 # 使用方式
 
@@ -74,6 +73,10 @@ new Vue({
  ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
  ### 9. `ld-page-tabs` 标签页 [详情点这里](./doc/ld-page-tabs.md)
  ### 10. `ld-frame` 后台管理框架页 [详情点这里](./doc/ld-frame.md)
+<<<<<<< HEAD
+ ### 11. `ld-doc` 轻量级结构化文档渲染 [详情点这里](./doc/ld-doc.md)
+=======
+>>>>>>> ced3459144a9e16f5eadfabe559d0f8385674de8
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
 
 
@@ -258,11 +261,23 @@ new Vue({
 
 ![效果图ld-menu-tree](./effect/ld-page-tabs.png)
 
+
+## 七.轻量级结构化文档
+
+>  [详情点这里](./doc/ld-doc.md)
+>
+>  [详细代码参考](./src/pages/doc.vue)
+>
+- 效果图
+
+![效果图ld-doc](./effect/ld-doc.png)
+
+ld-doc
+
+
 # CSS 封装
 
 >  [详情点这里](./doc/css.md)
 >
 > 详细代码参考: [base.css](./src/lib/static/css/base.css)  [basic.css](./src/lib/static/css/basic.css)
 >
-
-

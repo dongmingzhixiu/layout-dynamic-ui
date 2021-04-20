@@ -25,6 +25,7 @@ import ldTable from '@/lib/ld-table.vue'
 import ldMenuTree from '@/lib/ld-menu-tree.vue'
 import ldPageTabs from '@/lib/ld-page-tabs.vue'
 import ldFrame from '@/lib/ld-frame.vue'
+import ldDoc from '@/lib/ld-frame.vue'
 
 
 
@@ -104,14 +105,16 @@ const install = (Vue, opts = {}) => {
 	Vue.component('ld-images', ldImages);
 
 	Vue.component('ld-table', ldTable);
-  
+
 	Vue.component('ld-menu-tree', ldMenuTree);
-	
+
 	Vue.component('ld-page-tabs', ldPageTabs);
-  
+
 	Vue.component('ld-frame', ldFrame);
-	
-	
+  
+	Vue.component('ld-doc', ldDoc);
+
+
 
 
 
