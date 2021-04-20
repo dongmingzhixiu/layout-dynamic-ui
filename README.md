@@ -73,10 +73,7 @@ new Vue({
  ### 8. `ld-menu-tree` 菜单树 [详情点这里](./doc/ld-menu-tree.md)
  ### 9. `ld-page-tabs` 标签页 [详情点这里](./doc/ld-page-tabs.md)
  ### 10. `ld-frame` 后台管理框架页 [详情点这里](./doc/ld-frame.md)
-<<<<<<< HEAD
  ### 11. `ld-doc` 轻量级结构化文档渲染 [详情点这里](./doc/ld-doc.md)
-=======
->>>>>>> ced3459144a9e16f5eadfabe559d0f8385674de8
 ## 二.表单（`ld-forms`）组件支持21中组件类型，未来会更多
 
 
@@ -272,7 +269,6 @@ new Vue({
 
 ![效果图ld-doc](./effect/ld-doc.png)
 
-ld-doc
 
 
 # CSS 封装
