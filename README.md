@@ -256,7 +256,7 @@ new Vue({
 >
 - 效果图
 
-![效果图ld-menu-tree](./effect/ld-page-tabs.png)
+![效果图ld-frame](./effect/ld-frame.png)
 
 
 ## 七.轻量级结构化文档
