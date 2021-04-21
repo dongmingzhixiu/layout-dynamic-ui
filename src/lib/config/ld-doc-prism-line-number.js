@@ -1,3 +1,4 @@
+window.lineNumber=
 (function() {
 
   if (typeof Prism === 'undefined' || typeof document === 'undefined') {
@@ -244,4 +245,4 @@
     env.plugins.lineNumbers = true;
   });
 
-}());
+});

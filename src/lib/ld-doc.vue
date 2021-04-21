@@ -23,15 +23,14 @@
           <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
             v-html="doc[key]"></div>
           <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content"
-            style="white-space:pre-wrap"
-            :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
-            <div class="w h b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
+            style="white-space:pre-wrap" :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
+            <div class="w b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
               <div style="color: rgb(225 171 252);font-weight: bold;">{{key.toLocaleLowerCase()}} </div>
               <div @click="copValToClipboard(`${key}_${index}_${i}`)" class="t-r c-f w-60 h-30 cur-p">复制</div>
             </div>
-            <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}" style="margin-top: -20px;">
-              <code :id="`${key}_${index}_${i}`"  :ref="`${key}_${index}_${i}`" :class="`language-${key.toLocaleLowerCase()}`" v-html="doc[key]"></code></pre>
-            <div :ref="`copy_${key}_${index}_${i}`"></div>
+            <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}"
+              style="margin-top: 0;padding-top: 0;">
+              <code  :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)"></code></pre>
           </div>
           <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="doc[key]"></div>
         </template>
@@ -119,42 +118,28 @@
           this.$message.danger("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
         }
       },
-      initCodeShow() {
-        const content = document.querySelector('.v-show-content'),
-          codeNodes = content.getElementsByTagName('code');
-
-        this.observer = new MutationObserver(() => {
-
-          let nodesLength = codeNodes.length,
-            codeNode, language;
-
-          while (nodesLength--) {
-            codeNode = codeNodes[nodesLength];
-            language = codeNode.className.split('-')[1];
-            if (this.languages.includes(language)) {
-              codeNode.innerHTML = Prism.highlight(codeNode.innerText, Prism.languages[language], language);
-            }
-          }
-          this.html = content.innerHTML;
-          this.text = content.innerText;
-        });
-
-        this.observer.observe(content, {
-          childList: true,
-          characterData: true,
-        });
+      getPreCode(doc, key) {
+        key = key == 'shell' ? 'bash' : key;
+        setTimeout(() => {
+          window.lineNumber();
+        }, 250)
+        let comp = Prism.languages[key] || Prism.languages['html'];
+        return Prism.highlight(doc[key], comp, key);
       },
-    },
-    mounted() {
-      this.initCodeShow();
+      setLineNumber() {
+        this.$nextTick(() => {
+          window.lineNumber();
+        })
+      }
     },
     updated() {
-      this.initCodeShow();
+      this.setLineNumber();
+    },
+    mounted() {
+      this.setLineNumber();
     },
     created() {
-      setTimeout(() => {
-        this.initCodeShow();
-      }, 250);
+      this.setLineNumber();
     }
   }
 </script>

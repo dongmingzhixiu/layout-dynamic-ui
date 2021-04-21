@@ -48,14 +48,9 @@
 
                 import layoutDynamicUI from 'layout-dynamic-ui';
                 import 'layout-dynamic-ui/lib/index.css';
-
                 Vue.use(ElementUI);
-
                 Vue.use(layoutDynamicUI);
-
                 Vue.config.productionTip = false
-
-
                 new Vue({
                   el: '#app',
                   components: { App },
