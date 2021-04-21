@@ -6,10 +6,12 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.1.2
-> [添加轻量级结构化Web文档渲染](./ld-doc.md)
-> 支持标签
-> p, h1 , h2 , h3 , slot(具名插槽) , tip(tip|tip_p 主题色，tip_d 危险色，tip_w 警告色 tip_i 信息色 tip_s 成功色) shell(单行代码)，其他的待支持！
+> v1.1.8
+>
+>  [添加轻量级结构化Web文档渲染](./ld-doc.md)
+>
+>  优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
+>
 
 
 # 使用方式

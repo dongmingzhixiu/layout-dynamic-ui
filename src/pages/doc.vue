@@ -26,7 +26,7 @@
           h1: '1.安装',
           h2: 'npm安装',
           p: '推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用。',
-          shell: 'npm i layout-dynamic-ui',
+          bash: 'npm i layout-dynamic-ui',
           //插槽 插槽名称
           slot: 'custom',
         }, {
@@ -40,28 +40,28 @@
         },
         {
           code:{
-            javascript:
-              (`
-  import import Vue from 'vue'
-  import App from './App'
-  import ElementUI from 'element-ui';
-  import 'element-ui/lib/theme-chalk/index.css';
+            javascript:`
+                import Vue from 'vue';
+                import App from './App';
+                import ElementUI from 'element-ui';
+                import 'element-ui/lib/theme-chalk/index.css';
 
-  import layoutDynamicUI from 'layout-dynamic-ui';
-  import 'layout-dynamic-ui/lib/index.css';
+                import layoutDynamicUI from 'layout-dynamic-ui';
+                import 'layout-dynamic-ui/lib/index.css';
 
-  Vue.use(ElementUI);
+                Vue.use(ElementUI);
 
-  Vue.use(layoutDynamicUI);
+                Vue.use(layoutDynamicUI);
 
-  Vue.config.productionTip = false
+                Vue.config.productionTip = false
 
 
-  new Vue({
-    el: '#app',
-    components: { App },
-    template: '<App/>'
-  })`).replace(/^              /g, ' ')
+                new Vue({
+                  el: '#app',
+                  components: { App },
+                  template: '<App/>'
+                })`.replace(/^             /gm, ' ')
+
           }
         }]
       }

@@ -20,9 +20,18 @@
           <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`">
             <slot :name="`${doc[key]}`" :item="doc"></slot>
           </div>
-          <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)" v-html="doc[key]"></div>
-          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content">
-            <pre><code :class="`language-${key.toLocaleLowerCase()}`" v-html="doc[key]"></code></pre>
+          <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
+            v-html="doc[key]"></div>
+          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content"
+            style="white-space:pre-wrap"
+            :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
+            <div class="w h b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
+              <div style="color: rgb(225 171 252);font-weight: bold;">{{key.toLocaleLowerCase()}} </div>
+              <div @click="copValToClipboard(`${key}_${index}_${i}`)" class="t-r c-f w-60 h-30 cur-p">复制</div>
+            </div>
+            <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}" style="margin-top: -20px;">
+              <code :id="`${key}_${index}_${i}`"  :ref="`${key}_${index}_${i}`" :class="`language-${key.toLocaleLowerCase()}`" v-html="doc[key]"></code></pre>
+            <div :ref="`copy_${key}_${index}_${i}`"></div>
           </div>
           <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="doc[key]"></div>
         </template>
@@ -49,6 +58,7 @@
 <script>
   //代码高亮
   import Prism from 'prismjs';
+  import lineNumber from './config/ld-doc-prism-line-number.js';
   export default {
     name: 'doc',
     props: {
@@ -85,6 +95,30 @@
           key
         };
       },
+      isShowLineNumber(val) {
+        return /\n/.test(val);
+      },
+      copValToClipboard(refKey) {
+        let el = document.getElementById(refKey);
+        try {
+          if (document.selection) { // IE8 以下处理
+            var oRange = document.body.createTextRange();
+            oRange.moveToElementText(el);
+            oRange.select();
+          } else {
+            var range = document.createRange();
+            // create new range object
+            range.selectNodeContents(el); // set range to encompass desired element text
+            var selection = window.getSelection(); // get Selection object from currently user selected text
+            selection.removeAllRanges(); // unselect any user selected text (if any)
+            selection.addRange(range); // add range to Selection object to select it
+          }
+          let flg = document.execCommand("copy");
+          this.$message[flg ? 'success' : 'danger'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+        } catch (e) {
+          this.$message.danger("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+        }
+      },
       initCodeShow() {
         const content = document.querySelector('.v-show-content'),
           codeNodes = content.getElementsByTagName('code');
@@ -109,7 +143,7 @@
           childList: true,
           characterData: true,
         });
-      }
+      },
     },
     mounted() {
       this.initCodeShow();
@@ -126,6 +160,12 @@
 </script>
 
 <style>
+  .v-show-content {
+    background: #384548;
+    border-radius: 0.3em;
+    margin-bottom: 10px;
+  }
+
   code[class*="language-"],
   pre {
     color: #f8f8f2;
@@ -247,5 +287,56 @@
 
   .token.entity {
     cursor: help;
+  }
+
+  pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 5.8em;
+    counter-reset: linenumber;
+  }
+
+  pre[class*="language-"].line-numbers>code {
+    position: relative;
+    white-space: inherit;
+  }
+
+  .line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -10.8em;
+    width: 3em;
+    /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+  }
+
+  .line-numbers-rows>span {
+    display: block;
+    counter-increment: linenumber;
+  }
+
+  .line-numbers-rows>span:before {
+    content: counter(linenumber);
+    color: #9e59c1;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+  }
+
+  pre.no-line-numbers {
+    padding-left: 0.8em;
+    margin-left: 0;
+  }
+
+  pre.no-line-numbers code {
+    margin-left: -5.8em;
   }
 </style>
