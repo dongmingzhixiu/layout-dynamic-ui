@@ -84,7 +84,7 @@ return {
 
 ## 效果图
 
-  ![效果图](../effect/ld-doc.png)
+  ![效果图](../effect/ld-doc2.png)
 
 ## `ld-doc` 参数
 

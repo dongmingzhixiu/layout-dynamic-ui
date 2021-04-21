@@ -267,7 +267,7 @@ new Vue({
 >
 - 效果图
 
-![效果图ld-doc](./effect/ld-doc.png)
+![效果图ld-doc](./effect/ld-doc2.png)
 
 
 
