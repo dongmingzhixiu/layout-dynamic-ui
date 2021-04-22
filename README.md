@@ -6,12 +6,14 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.1.8
+> v1.2.0
 >
 >  [添加轻量级结构化Web文档渲染](./ld-doc.md)
 >
 >  优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
 >
+> 添加 简单的 mrkdown 文档支持，使用关键字 `md`或者 `markdown`
+
 
 
 # 使用方式

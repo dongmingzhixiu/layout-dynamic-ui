@@ -1,6 +1,6 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
@@ -33,6 +33,7 @@
     "element-ui": "^2.15.1",
     "prismjs": "^1.23.0",
     "vue": "^2.6.12",
+    "vue-meditor": "^2.1.1",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.6.12"
   },
@@ -65,10 +66,10 @@
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",
-    "vue-template-compiler": "^2.6.12",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",

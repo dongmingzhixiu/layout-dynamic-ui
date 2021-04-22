@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p v-if="typeof doc=='string'" v-html="doc"></p>
+    <template v-if="typeof doc=='string'">
+      <markdown-preview :initial-value="doc"></markdown-preview>
+    </template>
     <template v-else-if="typeof doc=='object'&&!Array.isArray(doc)">
       <template v-for="(key,i) in Object.keys(doc)">
         <template v-if="typeof doc[key]=='object'">
@@ -17,11 +19,14 @@
           <h1 v-else-if="key.toLocaleLowerCase()=='h1'" :key="`${index}_${i}`" v-html="doc[key]"></h1>
           <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="doc[key]"></h2>
           <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="doc[key]"></h3>
-          <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`">
+          <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`" class="m-b5">
             <slot :name="`${doc[key]}`" :item="doc"></slot>
           </div>
           <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
             v-html="doc[key]"></div>
+          <div v-else-if="['md','markdown'].includes( key.toLocaleLowerCase())" :key="`${index}_${i}`">
+            <markdown-preview :initial-value="doc[key]"></markdown-preview>
+          </div>
           <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content"
             style="white-space:pre-wrap" :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
             <div class="w b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
@@ -29,8 +34,8 @@
               <div @click="copValToClipboard(`${key}_${index}_${i}`)" class="t-r c-f w-60 h-30 cur-p">复制</div>
             </div>
             <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}"
-              style="margin-top: 0;padding-top: 0;">
-              <code  :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)"></code></pre>
+              style="margin-top: 0;padding-top: 0;padding-left: 5.8em;">
+              <code :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)" style="position:relative;"></code></pre>
           </div>
           <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="doc[key]"></div>
         </template>
@@ -57,9 +62,16 @@
 <script>
   //代码高亮
   import Prism from 'prismjs';
-  import lineNumber from './config/ld-doc-prism-line-number.js';
+  //markdown 文件展示
+  import {
+    MarkdownPreview
+  } from 'vue-meditor'
+
   export default {
     name: 'doc',
+    components: {
+      MarkdownPreview
+    },
     props: {
       doc: {
         type: [Array, Object, String],
@@ -72,7 +84,7 @@
       codeLanguages: {
         type: Array,
         default: () => {
-          return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql"];
+          return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql",'vue'];
         }
       }
     },
@@ -119,17 +131,51 @@
         }
       },
       getPreCode(doc, key) {
-        key = key == 'shell' ? 'bash' : key;
-        setTimeout(() => {
-          window.lineNumber();
-        }, 250)
+        let val=doc[key];
+        const keyVal = {
+          'shell': 'bash',
+          'vue':'javascript'
+        };
+        key = keyVal[key] ? keyVal[key] :key;
         let comp = Prism.languages[key] || Prism.languages['html'];
-        return Prism.highlight(doc[key], comp, key);
+        this.setLineNumber();
+        return Prism.highlight(val, comp, key);
       },
       setLineNumber() {
-        this.$nextTick(() => {
-          window.lineNumber();
-        })
+        setTimeout(() => {
+          let NEW_LINE_EXP = /\n(?!$)/g;
+          let PLUGIN_NAME = 'line-numbers';
+          let elements = Array.prototype.slice.call(document.querySelectorAll('pre.' + PLUGIN_NAME));
+          elements.forEach(per => {
+            let element = per.querySelector('code');
+            if (element.querySelector(".line-numbers-rows")) {
+              return;
+            }
+            let lineNumberRows = 1;
+            var lineNumberStart = parseInt(element.getAttribute('data-start'), 10) || 1;
+            var lineNumberEnd = lineNumberStart + (element.children.length);
+
+            let lineNumberSizer = element.querySelector('.line-numbers-sizer')
+
+            if (!lineNumberSizer) {
+              lineNumberSizer = document.createElement('span');
+              lineNumberSizer.className = 'line-numbers-sizer';
+            }
+
+            lineNumberSizer.innerHTML = '0';
+            lineNumberSizer.style.display = 'block';
+            var oneLinerHeight = lineNumberSizer.getBoundingClientRect().height;
+            lineNumberSizer.innerHTML = '';
+            let infoLines = element.textContent.split(NEW_LINE_EXP);
+            var lines = new Array(infoLines.length + 1).join('<span></span>');
+            var lineNumbersWrapper;
+            lineNumbersWrapper = document.createElement('span');
+            lineNumbersWrapper.setAttribute('aria-hidden', 'true');
+            lineNumbersWrapper.className = 'line-numbers-rows';
+            lineNumbersWrapper.innerHTML = lines;
+            element.appendChild(lineNumbersWrapper);
+          })
+        }, 250);
       }
     },
     updated() {
@@ -276,7 +322,7 @@
 
   pre[class*="language-"].line-numbers {
     position: relative;
-    padding-left: 5.8em;
+    /* padding-left: 5.8em; */
     counter-reset: linenumber;
   }
 

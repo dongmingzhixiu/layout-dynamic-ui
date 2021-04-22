@@ -1,6 +1,5 @@
-window.lineNumber=
+// window.lineNumber = function(Prism) {
 (function() {
-
   if (typeof Prism === 'undefined' || typeof document === 'undefined') {
     return;
   }
@@ -33,7 +32,7 @@ window.lineNumber=
         return;
       }
 
-      var lineNumberRows = element.querySelector('.line-numbers-rows')+1;
+      var lineNumberRows = element.querySelector('.line-numbers-rows') + 1;
       if (!lineNumberRows) {
         return;
       }
@@ -168,6 +167,7 @@ window.lineNumber=
     });
   }
 
+
   /**
    * Returns style declarations for the element
    * @param {Element} element
@@ -182,6 +182,14 @@ window.lineNumber=
 
   var lastWidth = undefined;
   window.addEventListener('resize', function() {
+    if (config.assumeViewportIndependence && lastWidth === window.innerWidth) {
+      return;
+    }
+    lastWidth = window.innerWidth;
+
+    resizeElements(Array.prototype.slice.call(document.querySelectorAll('pre.' + PLUGIN_NAME)));
+  });
+  window.addEventListener('load', function() {
     if (config.assumeViewportIndependence && lastWidth === window.innerWidth) {
       return;
     }
@@ -244,5 +252,5 @@ window.lineNumber=
     env.plugins = env.plugins || {};
     env.plugins.lineNumbers = true;
   });
-
-});
+  // }
+})();

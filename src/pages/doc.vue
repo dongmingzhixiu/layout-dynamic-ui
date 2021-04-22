@@ -40,7 +40,7 @@
         },
         {
           code:{
-            javascript:`
+            vue:`
                 import Vue from 'vue';
                 import App from './App';
                 import ElementUI from 'element-ui';
@@ -57,7 +57,12 @@
                   template: '<App/>'
                 })`.replace(/^             /gm, ' ')
 
-          }
+          },
+          md:`|姓名|年龄|
+            |-|-|
+            |张三|18|
+            |李四|19|
+            `
         }]
       }
     }

@@ -17,8 +17,8 @@
 |javascript||
 |dart||
 |bash||
-|shell||
 |sql||
+|md\|markdown|markdown简单文档支持|
 ## 示例
 ```html
   <doc :doc="doc">
