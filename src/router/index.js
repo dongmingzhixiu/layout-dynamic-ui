@@ -13,6 +13,7 @@ import table from '@/pages/table.vue'
 import menuTree from '@/pages/menuTree.vue'
 import pageTabs from '@/pages/pageTabs.vue'
 import doc from '@/pages/doc.vue'
+import pageLoading from '@/pages/pageLoading.vue'
 
 Vue.use(Router)
 
@@ -76,7 +77,11 @@ export default new Router({
       name: 'doc',
       component: doc
     },
-
+    {
+      path: '/pageLoading',
+      name: 'pageLoading',
+      component: pageLoading
+    },
     {
       path: '/home',
       name: 'home',

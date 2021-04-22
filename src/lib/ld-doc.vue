@@ -15,10 +15,10 @@
           </doc>
         </template>
         <template v-else>
-          <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="doc[key]"></p>
-          <h1 v-else-if="key.toLocaleLowerCase()=='h1'" :key="`${index}_${i}`" v-html="doc[key]"></h1>
-          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="doc[key]"></h2>
-          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="doc[key]"></h3>
+          <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></p>
+          <h1 v-else-if="key.toLocaleLowerCase()=='h1'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h1>
+          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h2>
+          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h3>
           <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`" class="m-b5">
             <slot :name="`${doc[key]}`" :item="doc"></slot>
           </div>
@@ -37,7 +37,7 @@
               style="margin-top: 0;padding-top: 0;padding-left: 5.8em;">
               <code :id="`${key}_${index}_${i}`" :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)" style="position:relative;"></code></pre>
           </div>
-          <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="doc[key]"></div>
+          <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="getHtml(doc[key])"></div>
         </template>
       </template>
     </template>
@@ -129,6 +129,13 @@
         } catch (e) {
           this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
         }
+      },
+      getHtml(doc) {
+        let i = -1;
+        return doc.replace(/`/g, re => {
+          i++;
+          return i % 2 == 0 ? '<span class="markdown-theme-light"><code>' : '</code></span>';
+        });
       },
       getPreCode(doc, key) {
         let val = doc[key];
@@ -363,7 +370,7 @@
   }
 
   pre.no-line-numbers {
-    padding-left: 0.8em;
+    padding-left: 0.8em !important;
     margin-left: 0;
   }
 
@@ -380,5 +387,16 @@
     padding-top: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+
+  .ld-doc .markdown-theme-light code {
+    display: inline-block;
+    background: #f7f7f7;
+    font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+    margin: 0 3px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    color: #e91e98fc !important;
   }
 </style>

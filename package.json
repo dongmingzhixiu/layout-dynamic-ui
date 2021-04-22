@@ -1,6 +1,6 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",
@@ -30,12 +30,13 @@
   "dependencies": {
     "axios": "^0.21.1",
     "element-ui": "^2.15.1",
+    "loaders.css": "^0.1.2",
     "prismjs": "^1.23.0",
     "vue": "^2.6.12",
     "vue-meditor": "^2.1.1",
     "vue-template-compiler": "^2.6.12"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "vue-router": "^3.0.1",
     "@vue/compiler-sfc": "^3.0.2",
     "autoprefixer": "^7.1.2",

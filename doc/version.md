@@ -1,3 +1,6 @@
+# v1.2.5
+# 优化 `ld-page-loading` 使用`Loaders.css`支持更加丰富的加载动画
+
 # v1.1.8
 ## [添加轻量级结构化Web文档渲染](./ld-doc.md)
 ### 优化 `ld-doc`
