@@ -6,7 +6,7 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.2.5
+> v1.2.7
 >
 >  优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
 >

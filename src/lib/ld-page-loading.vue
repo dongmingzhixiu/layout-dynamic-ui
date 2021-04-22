@@ -2,25 +2,26 @@
   <div class="w h box-b" style="position: relative;" :style="{'z-index':loading?zIndex:1}">
     <template v-if="!$slots.loading">
       <div v-if="loadings" class="w h f-c align-items-center" style="position: absolute;"
-        :style="{'z-index':zIndex,'background':background?background:skins=='dark'?'rgba(0, 0 ,0, 0.5)':'#fff'}">
+        :style="{'z-index':zIndex,'background':backgrounds?backgrounds:skins=='dark'?'rgba(0, 0 ,0, 0.5)':'#fff'}">
         <div class="t-c">
           <div class="w f-c fs26 c-p">
             <div :class="loadingType">
               <template v-for="i in (loadingTypes[loadingType]||3)">
-                <div v-if="!isBorder.includes(loadingType)" :key="i" :style="{'background-color':color?color:skins=='dark'?'':'rgb(64, 158, 255)'}"></div>
+                <div v-if="!isBorder.includes(loadingType)" :key="i"
+                  :style="{'background-color':colors?colors:skins=='dark'?'':'rgb(64, 158, 255)'}"></div>
                 <div v-else :key="i" :style="getStyle(i)"></div>
               </template>
             </div>
           </div>
           <div class="w f-c p-t10 c-f m-t10 a-i-c o6"
-            :style="{'color':color?color:skins=='dark'?'#fff':'rgb(64, 158, 255)'}">{{loadingTexts}}
+            :style="{'color':colors?colors:skins=='dark'?'#fff':'rgb(64, 158, 255)'}">{{loadingTexts}}
             <div class="ball-grid-pulse" style="width: 25px;">
               <div style="width: 4px;height: 4px;"
-                :style="{'background-color':color?color:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
+                :style="{'background-color':colors?colors:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
               <div style="width: 4px;height: 4px;"
-                :style="{'background-color':color?color:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
+                :style="{'background-color':colors?colors:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
               <div style="width: 4px;height: 4px;"
-                :style="{'background-color':color?color:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
+                :style="{'background-color':colors?colors:skins=='dark'?'#fff':'rgb(64, 158, 255)'}"></div>
             </div>
           </div>
         </div>
@@ -51,7 +52,7 @@
         default: 1002
       },
       /**
-       * 背景色
+       * 主题
        */
       skin: {
         type: String,
@@ -136,11 +137,24 @@
       loadingText(news) {
         this.loadingTexts = news;
         this.createTextAnimal();
+      },
+      loadingType(news) {
+        this.types = news;
+      },
+      color(news) {
+        this.colors = news;
+      },
+      background(news) {
+        this.backgrounds = news;
+      },
+      skin(news) {
+        this.skins = news;
       }
+
     },
     data() {
       return {
-        skins:this.skin,
+        skins: this.skin,
         isBorder: res.isBorder,
         onlyDark: res.isDark,
         loadingTypes: res.loadingTypes,
@@ -148,38 +162,50 @@
         loadings: this.loading,
         textAnimal: null,
         opacity: 1,
+        types: this.loadingType,
+        colors: this.color,
+        backgrounds: this.background,
       };
     },
     methods: {
       getStyle(i) {
         if (this.loadingType == 'ball-clip-rotate-pulse' && i == 1) {
           return {
-            'background': this.color ? `${this.color}` : this.skins == 'dark' ? '' : 'rgb(64, 158, 255)'
+            'background': this.colors ? `${this.colors}` : this.skins == 'dark' ? '' : 'rgb(64, 158, 255)'
           }
         }
         if (this.loadingType == 'pacman') {
           return i < 3 ? {
-            'border': `25px solid ${this.color ? this.color: this.skins == 'dark' ? '' :'rgb(64, 158, 255)'}`,
-            'border-right': '25px solid transparent',
+            'border': `25px solid ${this.colors ? this.colors: this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`,
+            'border-right': `25px solid ${this.backgrounds?this.backgrounds:this.skins=='dark'?'transparent':'#fff'}`,
             'background': ''
           } : {
-            'background': this.color ? `${this.color}` : this.skins == 'dark' ? '' : 'rgb(64, 158, 255)'
+            'background': this.colors ? `${this.colors}` : this.skins == 'dark' ? '#fff' : 'rgb(64, 158, 255)'
           }
         }
         if (this.loadingType == 'semi-circle-spin') {
           return {
-            'background': `-webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), color-stop(30%, #00bcd400), to(${ this.color ? this.color : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}))`
+            'background': `-webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), color-stop(30%, #00bcd400), to(${ this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}))`
           }
         }
         if (this.loadingType == 'ball-scale-ripple-multiple' || this.loadingType == 'ball-clip-rotate') {
           return {
-            'border': `2px solid ${this.color ? this.color : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`,
+            'border': `2px solid ${this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`,
             'border-bottom-color': this.loadingType == 'ball-clip-rotate' ? 'transparent' :
-              `${this.color ? this.color : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`
+              `${this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`
           }
         }
+
+        // if (this.loadingType == 'triangle-skew-spin') {
+        //   return {
+        //     'border': `25px solid ${this.colors ? this.colors: this.skins == 'dark' ? '' :'rgb(64, 158, 255)'}`,
+        //     'border-right': '25px solid transparent',
+        //     'background': ''
+        //   }
+        // }
+
         return {
-          'border-color': this.color ? `${this.color} transparent ${this.color} transparent` : this.skins == 'dark' ?
+          'border-color': this.colors ? `${this.colors} transparent ${this.colors} transparent` : this.skins == 'dark' ?
             '' : 'rgb(64, 158, 255) transparent rgb(64, 158, 255) transparent'
         }
       }

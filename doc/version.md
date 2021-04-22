@@ -1,4 +1,4 @@
-# v1.2.5
+# v1.2.6
 # 优化 `ld-page-loading` 使用`Loaders.css`支持更加丰富的加载动画
 
 # v1.1.8

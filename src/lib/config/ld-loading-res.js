@@ -31,7 +31,7 @@ export default {
     "ball-scale-random": 3
   },
   isBorder: [
-    'ball-clip-rotate-multiple','ball-clip-rotate-pulse','pacman','semi-circle-spin','semi-circle-spin','ball-scale-ripple-multiple','ball-clip-rotate'
+    'ball-clip-rotate-multiple','ball-clip-rotate-pulse','pacman','semi-circle-spin','semi-circle-spin','ball-scale-ripple-multiple','ball-clip-rotate','triangle-skew-spin',
   ],
   isDark:[
     'ball-rotate'
