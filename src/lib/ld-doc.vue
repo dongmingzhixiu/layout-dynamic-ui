@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ld-doc">
     <template v-if="typeof doc=='string'">
       <markdown-preview :initial-value="doc"></markdown-preview>
     </template>
@@ -35,7 +35,7 @@
             </div>
             <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}"
               style="margin-top: 0;padding-top: 0;padding-left: 5.8em;">
-              <code :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)" style="position:relative;"></code></pre>
+              <code :id="`${key}_${index}_${i}`" :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)" style="position:relative;"></code></pre>
           </div>
           <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="doc[key]"></div>
         </template>
@@ -84,7 +84,7 @@
       codeLanguages: {
         type: Array,
         default: () => {
-          return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql",'vue'];
+          return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql", 'vue'];
         }
       }
     },
@@ -125,18 +125,18 @@
             selection.addRange(range); // add range to Selection object to select it
           }
           let flg = document.execCommand("copy");
-          this.$message[flg ? 'success' : 'danger'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+          this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
         } catch (e) {
-          this.$message.danger("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+          this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
         }
       },
       getPreCode(doc, key) {
-        let val=doc[key];
+        let val = doc[key];
         const keyVal = {
           'shell': 'bash',
-          'vue':'javascript'
+          'vue': 'javascript'
         };
-        key = keyVal[key] ? keyVal[key] :key;
+        key = keyVal[key] ? keyVal[key] : key;
         let comp = Prism.languages[key] || Prism.languages['html'];
         this.setLineNumber();
         return Prism.highlight(val, comp, key);
@@ -369,5 +369,16 @@
 
   pre.no-line-numbers code {
     margin-left: -5.8em;
+  }
+
+  .ld-doc .markdown-preview table,
+    {
+    margin-top: 0 !important;
+  }
+
+  .ld-doc .markdown-preview.markdown-theme-light {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 </style>
