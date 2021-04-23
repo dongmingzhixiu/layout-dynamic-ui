@@ -35,25 +35,14 @@
     },
     methods: {
       copy(key) {
-        let el = document.getElementById(key);
-        try {
-          if (document.selection) { // IE8 以下处理
-            var oRange = document.body.createTextRange();
-            oRange.moveToElementText(el);
-            oRange.select();
-          } else {
-            var range = document.createRange();
-            // create new range object
-            range.selectNodeContents(el); // set range to encompass desired element text
-            var selection = window.getSelection(); // get Selection object from currently user selected text
-            selection.removeAllRanges(); // unselect any user selected text (if any)
-            selection.addRange(range); // add range to Selection object to select it
-          }
-          let flg = document.execCommand("copy");
-          this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
-        } catch (e) {
-          this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
-        }
+        let flg = this.$ld.util.copyToClipboard(key);
+        this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+      }
+    },
+    beforeCreate() {
+      //配置全局参数
+      this.$ld.component.ldLoadingPage = {
+        loadingType: 'line-scale'
       }
     },
 

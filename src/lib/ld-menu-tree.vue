@@ -7,13 +7,13 @@
         @click="menuClick">
         <template #title="e">
           <i v-if="e['item']['icon']" :class="e['item']['icon']"></i>
-          <span>{{e['item']['label']}}</span>
+          <div class="ellipsis">{{e['item']['label']}}</div>
         </template>
       </ld-menu-tree-item>
       <template v-else>
         <el-menu-item :index="`${i}`" :key="i" @click="menuClick(item)">
-            <i v-if="item['icon']" :class="item['icon']"></i>
-            <span>{{item['label']}}</span>
+          <i v-if="item['icon']" :class="item['icon']"></i>
+          <div class="ellipsis">{{item['label']}}</div>
         </el-menu-item>
       </template>
     </template>
@@ -118,4 +118,9 @@
 </script>
 
 <style>
+  .el-submenu__title{
+    display: flex!important;
+    justify-content: flex-start!important;
+    align-items: center!important;
+  }
 </style>

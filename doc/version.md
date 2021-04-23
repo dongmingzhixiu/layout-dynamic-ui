@@ -1,3 +1,7 @@
+v1.2.8
+# 添加复制到剪贴板方法[`copyToClipboard`](./ld-util.md#copyToClipboard)
+# 优化 `ld-doc` 添加大纲，大纲（目前点击大纲不能定位到文件内容
+
 # v1.2.6
 # 优化 `ld-page-loading` 使用`Loaders.css`支持更加丰富的加载动画
 

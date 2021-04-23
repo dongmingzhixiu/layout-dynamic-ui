@@ -5,9 +5,9 @@
         :style="{'z-index':zIndex,'background':backgrounds?backgrounds:skins=='dark'?'rgba(0, 0 ,0, 0.5)':'#fff'}">
         <div class="t-c">
           <div class="w f-c fs26 c-p">
-            <div :class="loadingType">
-              <template v-for="i in (loadingTypes[loadingType]||3)">
-                <div v-if="!isBorder.includes(loadingType)" :key="i"
+            <div :class="types">
+              <template v-for="i in (loadingTypes[types]||3)">
+                <div v-if="!isBorder.includes(types)" :key="i"
                   :style="{'background-color':colors?colors:skins=='dark'?'':'rgb(64, 158, 255)'}"></div>
                 <div v-else :key="i" :style="getStyle(i)"></div>
               </template>
@@ -56,7 +56,7 @@
        */
       skin: {
         type: String,
-        default: 'light', //dark
+        default: '', //dark
       },
       /**
        *背景色
@@ -77,7 +77,7 @@
        */
       loadingType: {
         type: String,
-        default: 'ball-grid-pulse',
+        default: '',
         // ball-pulse
         // ball-grid-pulse
         // ball-clip-rotate
@@ -127,7 +127,7 @@
        */
       loadingText: {
         type: String,
-        default: '加载中'
+        default: ''
       }
     },
     watch: {
@@ -136,7 +136,6 @@
       },
       loadingText(news) {
         this.loadingTexts = news;
-        this.createTextAnimal();
       },
       loadingType(news) {
         this.types = news;
@@ -153,8 +152,8 @@
 
     },
     data() {
+      let ld = this.$ld.component.setting.ldLoadingPage;
       return {
-        skins: this.skin,
         isBorder: res.isBorder,
         onlyDark: res.isDark,
         loadingTypes: res.loadingTypes,
@@ -162,6 +161,8 @@
         loadings: this.loading,
         textAnimal: null,
         opacity: 1,
+
+        skins: this.skin,
         types: this.loadingType,
         colors: this.color,
         backgrounds: this.background,
@@ -169,51 +170,60 @@
     },
     methods: {
       getStyle(i) {
+        let c = this.colors ? this.colors : this.skins == 'dark' ? '#fff' : 'rgb(64, 158, 255)';
         if (this.loadingType == 'ball-clip-rotate-pulse' && i == 1) {
           return {
-            'background': this.colors ? `${this.colors}` : this.skins == 'dark' ? '' : 'rgb(64, 158, 255)'
+            'background': c
           }
         }
         if (this.loadingType == 'pacman') {
           return i < 3 ? {
-            'border': `25px solid ${this.colors ? this.colors: this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`,
-            'border-right': `25px solid ${this.backgrounds?this.backgrounds:this.skins=='dark'?'transparent':'#fff'}`,
+            'border': `25px solid ${c}`,
+            'border-color': `${c} transparent ${c} ${c} !important`,
             'background': ''
           } : {
-            'background': this.colors ? `${this.colors}` : this.skins == 'dark' ? '#fff' : 'rgb(64, 158, 255)'
+            'background': c
           }
         }
         if (this.loadingType == 'semi-circle-spin') {
           return {
-            'background': `-webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), color-stop(30%, #00bcd400), to(${ this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}))`
+            'background': `-webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), color-stop(30%, #00bcd400), to(${c}))`
           }
         }
         if (this.loadingType == 'ball-scale-ripple-multiple' || this.loadingType == 'ball-clip-rotate') {
           return {
-            'border': `2px solid ${this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`,
-            'border-bottom-color': this.loadingType == 'ball-clip-rotate' ? 'transparent' :
-              `${this.colors ? this.colors : this.skins == 'dark' ? '#fff' :'rgb(64, 158, 255)'}`
+            'border': `2px solid ${c}`,
+            'border-bottom-color': this.loadingType == 'ball-clip-rotate' ? 'transparent' : c
           }
         }
-
-        // if (this.loadingType == 'triangle-skew-spin') {
-        //   return {
-        //     'border': `25px solid ${this.colors ? this.colors: this.skins == 'dark' ? '' :'rgb(64, 158, 255)'}`,
-        //     'border-right': '25px solid transparent',
-        //     'background': ''
-        //   }
-        // }
-
         return {
           'border-color': this.colors ? `${this.colors} transparent ${this.colors} transparent` : this.skins == 'dark' ?
             '' : 'rgb(64, 158, 255) transparent rgb(64, 158, 255) transparent'
         }
+      },
+      /**
+       * 加载全局参数
+       */
+      initConfigPageLoading() {
+        if (!this.$ld.component.setting.loadingPage) {
+          return;
+        }
+        let ld = this.$ld.component.setting.loadingPage;
+        this.skins = this.skin || ld['skin'] || 'light';
+        this.types = this.loadingType || (Object.keys(this.loadingTypes).includes(ld['loadingType']) ? ld[
+          'loadingType'] : 'ball-grid-pulse');
+        this.backgrounds = this.background || ld['background'] || '';
+        this.colors = this.color || ld['color'] || '';
+        this.loadingTexts = this.loadingText || ld['loadingText'] || '加载中';
+        if (this.onlyDark.includes(this.loadingType)) {
+          this.skins = "dark";
+        }
       }
+
     },
     created() {
-      if (this.onlyDark.includes(this.loadingType)) {
-        this.skins = "dark";
-      }
+
+      this.initConfigPageLoading();
     }
   }
 </script>

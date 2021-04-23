@@ -26,7 +26,14 @@
 				console.log(e);
 				alert("接收到页面的saveBefore事件")
 			}
-		}
+		},
+    beforeCreate() {
+      
+      //配置全局参数
+      this.$ld.component.ldLoadingPage={
+        loadingType:'line-scale'
+      }
+    }
 	}
 </script>
 

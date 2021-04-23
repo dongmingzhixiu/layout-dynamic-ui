@@ -15,9 +15,14 @@
 			</span>
 			<template v-if="!$scopedSlots.page">
 				<template v-if="getType(item.page)=='components'">
-					<keep-alive>
-						<component class="w h" :is="item.page" :query="item" @events="getEvent"></component>
-					</keep-alive>
+          <template v-if="isKeepAlive">
+            <!-- <keep-alive> -->
+              <component class="w h" :is="item.page" :query="item" @events="getEvent"></component>
+            <!-- </keep-alive> -->
+          </template>
+          <template v-else>
+              <component class="w h" :is="item.page" :query="item" @events="getEvent"></component>
+          </template>
 				</template>
 				<template v-else-if="getType(item.page)=='http'">
 					<iframe class="w h bor-0 box-b" :src="item.page"></iframe>
@@ -91,7 +96,7 @@
 				default: true,
 			},
 			/**
-			 * 是否显示刷新按钮  
+			 * 是否显示刷新按钮
 			 */
 			showRefresh: {
 				type: Boolean,
@@ -104,7 +109,13 @@
 				type: Boolean,
 				default: true,
 			},
-
+      /**
+       * 是否开启keepAlive缓存，当开启后，刷新会使用原有缓存
+       */
+      isKeepAlive:{
+				type: Boolean,
+				default: false,
+      }
 
 
 
@@ -238,8 +249,8 @@
 					return;
 				}
 				this.$emit(event['eventMethod'], event['eventParam'])
-			}
-
+			},
+      
 		},
 		created(e) {
 			this.selectTabs(0);

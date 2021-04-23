@@ -362,6 +362,7 @@
       },
     },
     created() {
+				alert("你好");
       setTimeout(() => {
         this.loading = false;
       }, 200);

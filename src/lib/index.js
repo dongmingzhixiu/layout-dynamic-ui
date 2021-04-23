@@ -37,6 +37,21 @@ const install = (Vue, opts = {}) => {
 		return apiRequest.axiosInit(axios);
 	};
 	Vue.prototype.$ld = {
+    /**
+     * 全局组件配置
+     */
+    component:{
+      setting:{
+        //加载组件
+        loadingPage:{
+          loadingType:'line-scale',
+          background:'',
+          color:'',
+          skin:'',
+          loadingText:'',
+        }
+      }
+    },
 		//请求
 		requestSetting: {
 			//设置请求服务地址
@@ -111,7 +126,7 @@ const install = (Vue, opts = {}) => {
 	Vue.component('ld-page-tabs', ldPageTabs);
 
 	Vue.component('ld-frame', ldFrame);
-  
+
 	Vue.component('ld-doc', ldDoc);
 
 

@@ -2,7 +2,7 @@
   <el-submenu :index="index" :disabled="item['disabled']||false">
     <template slot="title">
       <i v-if="item['icon']" :class="item['icon']" @click="menuClick(item)"></i>
-      <span @click="menuClick(item)">{{item['label']}}</span>
+      <div @click="menuClick(item)" class="ellipsis m-r5">{{item['label']}}</div>
     </template>
     <template v-if="item&&item['children']&&item['children'].length>0" v-for="(ch,c) in item['children']">
       <ld-menu-tree-item v-if="ch&&ch['children']&&ch['children'].length>0" :item="ch" :key="c" :index="`${index}_${c}`"

@@ -1,76 +1,58 @@
 <template>
-  <div class="ld-doc">
-    <template v-if="typeof doc=='string'">
-      <markdown-preview :initial-value="doc"></markdown-preview>
-    </template>
-    <template v-else-if="typeof doc=='object'&&!Array.isArray(doc)">
-      <template v-for="(key,i) in Object.keys(doc)">
-        <template v-if="typeof doc[key]=='object'">
-          <doc :doc="doc[key]" :key="`${index}_${i}`" :index="i">
+  <div class="ld-doc h w position-relative over-h" :style="{'background':background}">
+    <div v-if="align=='center'&&outline.length>0">
+      <ld-menu-tree mode="horizontal" :tree="outline" :background-color="menuTree['background-color']"
+        :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+    </div>
+    <div class="f-s h" :style="{'height':`calc(100% - ${align=='center'?'80px':'20px'})`}">
+      <template v-if="align=='left'&&outline.length>0">
+        <div v-if="expansion" class="m-r10 box-shadow over-a-y h p10 box-b"
+          style="border-right: 1px solid #efefef;width: 420px;" :style="{'background':menuTree['background-color']}">
+          <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
+            <div class="ellipsis">{{title}}</div>
+            <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
+          </div>
+          <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
+            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+        </div>
+        <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
+      </template>
+      <div style="flex-grow: 2;" class="h over-a-y p10 box-b f-c">
+        <div class="p-b10" :class="{'box-shadow':docWidths!='100%'}" :style="{'width':docWidths}">
+          <ld-doc-item class="b-f p10 r4" :doc="doc" :is-first="true" :codeLanguages="codeLanguages">
+            <!-- 向上传递插槽： -->
             <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
-              <div :key="`slot_${index}_${j}`">
-                <slot :name="keys" :item="doc[key]"></slot>
+              <div :key="`${j}`">
+                <slot :name="keys" :item="e['item']"></slot>
               </div>
             </template>
-          </doc>
-        </template>
-        <template v-else>
-          <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></p>
-          <h1 v-else-if="key.toLocaleLowerCase()=='h1'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h1>
-          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h2>
-          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></h3>
-          <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`" class="m-b5">
-            <slot :name="`${doc[key]}`" :item="doc"></slot>
+          </ld-doc-item>
+          <div class="h-20 w"></div>
+        </div>
+      </div>
+      <template v-if="align=='right'&&outline.length>0">
+        <div v-if="expansion" class="over-a-y h p10 box-b" style="border-left: 1px solid #efefef;width: 420px;"
+          :style="{'background':menuTree['background-color']}">
+          <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
+            <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
+            <div class="ellipsis">{{title}}</div>
           </div>
-          <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
-            v-html="doc[key]"></div>
-          <div v-else-if="['md','markdown'].includes( key.toLocaleLowerCase())" :key="`${index}_${i}`">
-            <markdown-preview :initial-value="doc[key]"></markdown-preview>
-          </div>
-          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content"
-            style="white-space:pre-wrap" :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
-            <div class="w b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
-              <div style="color: rgb(225 171 252);font-weight: bold;">{{key.toLocaleLowerCase()}} </div>
-              <div @click="copValToClipboard(`${key}_${index}_${i}`)" class="t-r c-f w-60 h-30 cur-p">复制</div>
-            </div>
-            <pre :class="{'line-numbers':isShowLineNumber(doc[key]),'no-line-numbers':!isShowLineNumber(doc[key])}"
-              style="margin-top: 0;padding-top: 0;padding-left: 5.8em;">
-              <code :id="`${key}_${index}_${i}`" :class="`language-${key.toLocaleLowerCase()}`" v-html="getPreCode(doc,key)" style="position:relative;"></code></pre>
-          </div>
-          <div class="p10 p-l5 bor-ef c6" v-else :key="`${index}_${i}`" v-html="getHtml(doc[key])"></div>
-        </template>
+          <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
+            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+        </div>
+        <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
       </template>
-    </template>
-    <template v-else>
-      <template v-for="(item ,i) in (Array.isArray(doc)?doc:[doc])">
-        <doc :doc="item" :key="`${index}_${i}`" :index="i">
-
-          <!-- 向上传递插槽： -->
-          <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
-            <div :key="`slot_${index}_${j}`">
-              <slot :name="keys" :item="item"></slot>
-            </div>
-          </template>
-
-        </doc>
-      </template>
-    </template>
-    <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
-  //代码高亮
-  import Prism from 'prismjs';
-  //markdown 文件展示
-  import {
-    MarkdownPreview
-  } from 'vue-meditor'
-
+  const drakBack = '#fff'; //'#00000080';
+  import ldDocItem from './ld-doc-item.vue';
   export default {
     name: 'doc',
     components: {
-      MarkdownPreview
+      ldDocItem
     },
     props: {
       doc: {
@@ -86,113 +68,126 @@
         default: () => {
           return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql", 'vue'];
         }
+      },
+      skin: {
+        type: String,
+        default: 'light',
+      },
+      aligns: {
+        type: String,
+        default: 'left',
+      },
+      docWidth: {
+        type: String,
+        default: '100%',
+      }
+    },
+    watch: {
+      skin(news) {
+        this.skins = news;
+        this.background = this.skin == 'light' ? '#fff' : drakBack;
+        this.menuTree = this.skin == 'light' ? {
+          'background-color': "",
+          'text-color': "",
+          'active-text-color': ""
+        } : {
+          'background-color': "#545c64",
+          'text-color': "#fff",
+          'active-text-color': "#ffd04b"
+        }
+      },
+      aligns(news) {
+        this.align=news;
+      },
+      docWidth(news){
+        this.docWidths=news;
       }
     },
     data() {
       return {
+        docWidths:this.docWidth,
+        align:this.aligns,
         languages: this.codeLanguages,
+        outline: [],
+        title: '',
+        expansion: true,
+        skins: this.skin,
+        background: this.skin == 'light' ? '#fff' : drakBack,
+        menuTree: this.skin == 'light' ? {
+          'background-color': "",
+          'text-color': "",
+          'active-text-color': ""
+        } : {
+          'background-color': "#545c64",
+          'text-color': "#fff",
+          'active-text-color': "#ffd04b"
+        }
       }
     },
     methods: {
-      getTipClass(key) {
-        if (key.length <= 0) {
-          return ''
+      getOutLine() {
+        //根据doc获取到大纲
+        let info = [];
+        this.getDocInfo(this.doc, info);
+        this.outline = info;
+        this.title = this.title || info[0]['label'] || '';
+      },
+      getDocInfo(doc, info) {
+        debugger
+        info = info || [];
+        if (typeof doc == 'string' && doc.length <= 40) {
+          return info[info.length] = doc;
         }
-        return `tip-${key.substr(-1)} b-${key.substr(-1)}1 m-b5`;
-      },
-      isCode(key) {
-        return {
-          isCode: this.languages.includes(key.toLowerCase().trim()),
-          key
-        };
-      },
-      isShowLineNumber(val) {
-        return /\n/.test(val);
-      },
-      copValToClipboard(refKey) {
-        let el = document.getElementById(refKey);
-        try {
-          if (document.selection) { // IE8 以下处理
-            var oRange = document.body.createTextRange();
-            oRange.moveToElementText(el);
-            oRange.select();
-          } else {
-            var range = document.createRange();
-            // create new range object
-            range.selectNodeContents(el); // set range to encompass desired element text
-            var selection = window.getSelection(); // get Selection object from currently user selected text
-            selection.removeAllRanges(); // unselect any user selected text (if any)
-            selection.addRange(range); // add range to Selection object to select it
-          }
-          let flg = document.execCommand("copy");
-          this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
-        } catch (e) {
-          this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+        if (!Array.isArray(doc) && typeof doc == 'object') {
+          Object.keys(doc).map(keys => {
+            let _val = {
+              label: doc[keys]
+            };
+            if (['h1', 'h2', 'h3', 'title'].includes(keys.toLocaleLowerCase())) {
+              if (keys.toLocaleLowerCase() == 'title') {
+                this.title = doc[keys];
+              }
+              if (keys.toLocaleLowerCase() == 'h1') {
+                info.push(_val);
+                return info;
+              }
+              if (keys.toLocaleLowerCase() == 'h2') {
+                info[info.length - 1] = info[info.length - 1] || {
+                  label: '未设置'
+                };
+                info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
+                info[info.length - 1]['children'].push(_val);
+                return info;
+              }
+              if (keys.toLocaleLowerCase() == 'h3') {
+                info[info.length - 1] = info[info.length - 1] || {
+                  label: '未设置'
+                };
+                info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
+                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1] = info[info.length -
+                  1]['children'][info[info.length - 1]['children'].length - 1] || {
+                  label: '未设置'
+                };
+                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] = info[
+                  info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] || [];
+                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'].push(
+                  _val);
+                return info;
+              }
+            }
+          });
         }
-      },
-      getHtml(doc) {
-        let i = -1;
-        return doc.replace(/`/g, re => {
-          i++;
-          return i % 2 == 0 ? '<span class="markdown-theme-light"><code>' : '</code></span>';
-        });
-      },
-      getPreCode(doc, key) {
-        let val = doc[key];
-        const keyVal = {
-          'shell': 'bash',
-          'vue': 'javascript'
-        };
-        key = keyVal[key] ? keyVal[key] : key;
-        let comp = Prism.languages[key] || Prism.languages['html'];
-        this.setLineNumber();
-        return Prism.highlight(val, comp, key);
-      },
-      setLineNumber() {
-        setTimeout(() => {
-          let NEW_LINE_EXP = /\n(?!$)/g;
-          let PLUGIN_NAME = 'line-numbers';
-          let elements = Array.prototype.slice.call(document.querySelectorAll('pre.' + PLUGIN_NAME));
-          elements.forEach(per => {
-            let element = per.querySelector('code');
-            if (element.querySelector(".line-numbers-rows")) {
-              return;
-            }
-            let lineNumberRows = 1;
-            var lineNumberStart = parseInt(element.getAttribute('data-start'), 10) || 1;
-            var lineNumberEnd = lineNumberStart + (element.children.length);
-
-            let lineNumberSizer = element.querySelector('.line-numbers-sizer')
-
-            if (!lineNumberSizer) {
-              lineNumberSizer = document.createElement('span');
-              lineNumberSizer.className = 'line-numbers-sizer';
-            }
-
-            lineNumberSizer.innerHTML = '0';
-            lineNumberSizer.style.display = 'block';
-            var oneLinerHeight = lineNumberSizer.getBoundingClientRect().height;
-            lineNumberSizer.innerHTML = '';
-            let infoLines = element.textContent.split(NEW_LINE_EXP);
-            var lines = new Array(infoLines.length + 1).join('<span></span>');
-            var lineNumbersWrapper;
-            lineNumbersWrapper = document.createElement('span');
-            lineNumbersWrapper.setAttribute('aria-hidden', 'true');
-            lineNumbersWrapper.className = 'line-numbers-rows';
-            lineNumbersWrapper.innerHTML = lines;
-            element.appendChild(lineNumbersWrapper);
-          })
-        }, 250);
+        if (Array.isArray(doc)) {
+          doc.map(item => {
+            this.getDocInfo(item, info);
+          });
+        }
+        return info;
       }
     },
-    updated() {
-      this.setLineNumber();
-    },
-    mounted() {
-      this.setLineNumber();
-    },
     created() {
-      this.setLineNumber();
+
+      this.getOutLine();
     }
   }
 </script>
@@ -398,5 +393,9 @@
     border-radius: 3px;
     border: 1px solid #eee;
     color: #e91e98fc !important;
+  }
+
+  .el-menu {
+    border-right: 0px !important;
   }
 </style>
