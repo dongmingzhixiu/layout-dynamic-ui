@@ -118,7 +118,7 @@
 </script>
 
 <style>
-  .el-submenu__title{
+  .el-submenu__title,.el-menu-item {
     display: flex!important;
     justify-content: flex-start!important;
     align-items: center!important;

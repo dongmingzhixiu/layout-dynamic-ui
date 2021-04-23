@@ -6,17 +6,19 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.2.8
+> v1.2.9
 >
 > 优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
 >
-> 优化 `ld-doc` 添加大纲，大纲（目前点击大纲不能定位到文件内容）
+> 优化 `ld-doc` 添加大纲，大纲
 >
 > 添加 简单的 mrkdown 文档支持，使用关键字 `md`或者 `markdown`
 >
 > 优化 `ld-page-loading` 使用`Loaders.css`支持更加丰富的加载动画
 >
 > 添加复制到剪贴板方法[`copyToClipboard`](./doc/ld-util.md#copyToClipboard)
+>
+> 修复`ld-frame`组件，关闭页面后，再次打开不选中问题！
 
 # 使用方式
 

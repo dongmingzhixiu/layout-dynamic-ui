@@ -30,10 +30,10 @@
       </div>
       <!-- 主体 -->
       <div class="w box-b" style="height: calc(100% - 60px);">
-        <ld-page-tabs class="w h" :tabs="pageTabs" :selected="tabSelected" @close="pageTabs=$event.tabs" @events="getEvents">
-            <template  v-if="$scopedSlots.page" v-slot:page="e">
-              <slot name="page" :item="e.item"></slot>
-            </template>
+        <ld-page-tabs class="w h" :tabs="pageTabs" :selected="tabSelected" @close="closeTabPage" @events="getEvents">
+          <template v-if="$scopedSlots.page" v-slot:page="e">
+            <slot name="page" :item="e.item"></slot>
+          </template>
         </ld-page-tabs>
       </div>
     </div>
@@ -73,15 +73,15 @@
           };
         }
       },
-			/**
-			 * 是否向上传递事件，true 继续 向上传递，false散播事件
-			 */
-			passEventUp:{
-				type:Boolean,
-				default:true,
-			},
-			
-			
+      /**
+       * 是否向上传递事件，true 继续 向上传递，false散播事件
+       */
+      passEventUp: {
+        type: Boolean,
+        default: true,
+      },
+
+
     },
     watch: {
       menuTree(news) {
@@ -130,17 +130,24 @@
           this.tabSelected = this.tabSelected < 0 ? 0 : this.tabSelected;
         })
       },
-			/**
-			 * 处理页面事件
-			 * @param {Object} e
-			 */
-			getEvents(event) {
-				if (this.passEventUp) {
-					this.$emit("events", event);
-					return;
-				}
-				this.$emit(event['eventMethod'], event['eventParam'])
-			}
+      /**
+       * 处理页面事件
+       * @param {Object} e
+       */
+      getEvents(event) {
+        if (this.passEventUp) {
+          this.$emit("events", event);
+          return;
+        }
+        this.$emit(event['eventMethod'], event['eventParam'])
+      },
+      /**
+       * 关闭时间
+       */
+      closeTabPage($event) {
+        this.pageTabs = $event.tabs;
+        this.tabSelected = $event.selected;
+      }
     },
     created() {
       this.selectFirstPage();

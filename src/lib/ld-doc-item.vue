@@ -16,10 +16,25 @@
         </template>
         <template v-else>
           <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></p>
-          <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`"
-            v-html="getHtml(doc[key])" :id="`${key}_${doc[key]}`"></h1>
-          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key]}`"></h2>
-          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key]}`"></h3>
+          <!-- <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`"
+            v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h1>
+          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h2>
+          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h3>
+          -->
+          <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`">
+            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+              v-html="getHtml(doc[key])">
+              </a>
+          </h1>
+          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`">
+            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+              v-html="getHtml(doc[key])"></a>
+          </h2>
+          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" >
+            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+              v-html="getHtml(doc[key])"></a>
+          </h3>
+
           <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`" class="m-b5">
             <slot :name="`${doc[key]}`" :item="doc"></slot>
           </div>
@@ -88,9 +103,9 @@
           return ["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql", 'vue'];
         }
       },
-      isFirst:{
-        type:Boolean,
-        default:true,
+      isFirst: {
+        type: Boolean,
+        default: true,
       }
     },
     data() {

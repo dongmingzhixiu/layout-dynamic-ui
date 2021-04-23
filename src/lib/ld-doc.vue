@@ -2,7 +2,8 @@
   <div class="ld-doc h w position-relative over-h" :style="{'background':background}">
     <div v-if="align=='center'&&outline.length>0">
       <ld-menu-tree mode="horizontal" :tree="outline" :background-color="menuTree['background-color']"
-        :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+        :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" @click="outLineClick">
+      </ld-menu-tree>
     </div>
     <div class="f-s h" :style="{'height':`calc(100% - ${align=='center'?'80px':'20px'})`}">
       <template v-if="align=='left'&&outline.length>0">
@@ -13,7 +14,8 @@
             <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
           </div>
           <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+            @click="outLineClick"></ld-menu-tree>
         </div>
         <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
       </template>
@@ -38,7 +40,8 @@
             <div class="ellipsis">{{title}}</div>
           </div>
           <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"></ld-menu-tree>
+            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+            @click="outLineClick"></ld-menu-tree>
         </div>
         <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
       </template>
@@ -97,16 +100,16 @@
         }
       },
       aligns(news) {
-        this.align=news;
+        this.align = news;
       },
-      docWidth(news){
-        this.docWidths=news;
+      docWidth(news) {
+        this.docWidths = news;
       }
     },
     data() {
       return {
-        docWidths:this.docWidth,
-        align:this.aligns,
+        docWidths: this.docWidth,
+        align: this.aligns,
         languages: this.codeLanguages,
         outline: [],
         title: '',
@@ -125,6 +128,16 @@
       }
     },
     methods: {
+      outLineClick(e) {
+        if (!e || !e['label']) {
+          return;
+        }
+        let _v = e['label'].replace(".", "_");
+        let el = document.querySelector(`[name$="${_v}"]`)
+        el = el[0] || el;
+        let maodian = `#${el.getAttribute("name")}`;
+        window.location.hash = maodian;
+      },
       getOutLine() {
         //根据doc获取到大纲
         let info = [];
