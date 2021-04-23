@@ -1,0 +1,1 @@
+![ld-page-loading](../effect/ld-loading-page.png)

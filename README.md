@@ -74,7 +74,7 @@ new Vue({
  ### 1. `id-address` 地址组件，目前支持国内常见地区使用。
  ### 2. `id-icon` 图标组件，当前支持`Element-ui`内置的icon，可以通过`Vue.prototype.$ld.iconList`进行扩展。
  ### 3. `id-image` 图片组件，使用`Element-ui`的文件上传组件，当前只能获取图片相关上传数据，不支持上传到指定服务器（待完善！）。
- ### 4. `id-page-loading` 加载组件,在页面出现之前使用可以获得更高的体验效果。
+ ### 4. `id-page-loading` 加载组件,在页面出现之前使用可以获得更高的体验效果。[详情点这里](./doc/ld-page-loading.md)
  ### 5. `id-tags` 标签组件，实现一组标签的添加和删除。
  ### 6. `id-forms` 表单组件 [详情点这里](./doc/ld-forms.md)
  ### 7. `ld-table` 表格显示组件 [详情点这里](./doc/ld-table.md)
