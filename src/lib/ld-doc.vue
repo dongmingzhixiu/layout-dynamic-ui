@@ -62,10 +62,6 @@
         type: [Array, Object, String],
         default: ''
       },
-      index: {
-        type: Number,
-        default: 0
-      },
       codeLanguages: {
         type: Array,
         default: () => {
