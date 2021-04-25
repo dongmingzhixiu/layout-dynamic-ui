@@ -6,11 +6,13 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.2.9
+> v1.3.0
 >
 > 优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
 >
-> 优化 `ld-doc` 添加大纲，大纲
+> 优化 `ld-doc` 添加大纲
+> 
+> 为`ld-doc` 添加是否显示大纲参数
 >
 > 添加 简单的 mrkdown 文档支持，使用关键字 `md`或者 `markdown`
 >

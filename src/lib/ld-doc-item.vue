@@ -16,11 +16,6 @@
         </template>
         <template v-else>
           <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></p>
-          <!-- <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`"
-            v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h1>
-          <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h2>
-          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" v-html="getHtml(doc[key])" :id="`${key}_${doc[key].replace('.','_')}`"></h3>
-          -->
           <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`">
             <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
               v-html="getHtml(doc[key])">
@@ -39,11 +34,11 @@
             <slot :name="`${doc[key]}`" :item="doc"></slot>
           </div>
           <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
-            v-html="doc[key]"></div>
+            v-html="getHtml(doc[key])"></div>
           <div v-else-if="['md','markdown'].includes( key.toLocaleLowerCase())" :key="`${index}_${i}`">
             <markdown-preview :initial-value="doc[key]"></markdown-preview>
           </div>
-          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" :class="getTipClass(key)" class="v-show-content"
+          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`"  class="v-show-content m-b5"
             style="white-space:pre-wrap" :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
             <div class="w b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
               <div style="color: rgb(225 171 252);font-weight: bold;">{{key.toLocaleLowerCase()}} </div>
@@ -78,6 +73,7 @@
 <script>
   //代码高亮
   import Prism from 'prismjs';
+  // import 'prismjs/themes/prism-dark.css';
   //markdown 文件展示
   import {
     MarkdownPreview

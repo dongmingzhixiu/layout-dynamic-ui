@@ -1,3 +1,6 @@
+v1.2.9
+# 为`ld-doc` 添加是否显示大纲参数 `show-outline`
+
 v1.2.8
 # 添加复制到剪贴板方法[`copyToClipboard`](./ld-util.md#copyToClipboard)
 # 优化 `ld-doc` 添加大纲，大纲

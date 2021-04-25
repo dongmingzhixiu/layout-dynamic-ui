@@ -93,6 +93,7 @@ return {
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
 |doc|[String,Array,Object]|要解析的文档类型||√||
+|show-outline|Boolean|是否显示大纲|true|||
 |codeLanguages|Array|prismjs支持的类型|||["csharp", "html", "css", "javascript", "php", "dart", "bash", "shell", "sql"]|
 |skin|String|皮肤|||light:浅色；dark:深色|
 |aligns|String|文档大纲位置|||left:居左；right:居右；center:居中|

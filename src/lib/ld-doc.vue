@@ -1,12 +1,12 @@
 <template>
   <div class="ld-doc h w position-relative over-h" :style="{'background':background}">
-    <div v-if="align=='center'&&outline.length>0">
+    <div v-if="align=='center'&&outline.length>0&&showOutlines">
       <ld-menu-tree mode="horizontal" :tree="outline" :background-color="menuTree['background-color']"
         :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" @click="outLineClick">
       </ld-menu-tree>
     </div>
     <div class="f-s h" :style="{'height':`calc(100% - ${align=='center'?'80px':'20px'})`}">
-      <template v-if="align=='left'&&outline.length>0">
+      <template v-if="align=='left'&&outline.length>0&&showOutlines">
         <div v-if="expansion" class="m-r10 box-shadow over-a-y h p10 box-b"
           style="border-right: 1px solid #efefef;width: 420px;" :style="{'background':menuTree['background-color']}">
           <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
@@ -21,7 +21,7 @@
       </template>
       <div style="flex-grow: 2;" class="h over-a-y p10 box-b f-c">
         <div class="p-b10" :class="{'box-shadow':docWidths!='100%'}" :style="{'width':docWidths}">
-          <ld-doc-item class="b-f p10 r4" :doc="doc" :is-first="true" :codeLanguages="codeLanguages">
+          <ld-doc-item class="b-f p10 r4" :doc="docs" :is-first="true" :codeLanguages="codeLanguages">
             <!-- 向上传递插槽： -->
             <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
               <div :key="`${j}`">
@@ -32,7 +32,7 @@
           <div class="h-20 w"></div>
         </div>
       </div>
-      <template v-if="align=='right'&&outline.length>0">
+      <template v-if="align=='right'&&outline.length>0&&showOutlines">
         <div v-if="expansion" class="over-a-y h p10 box-b" style="border-left: 1px solid #efefef;width: 420px;"
           :style="{'background':menuTree['background-color']}">
           <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
@@ -79,6 +79,10 @@
       docWidth: {
         type: String,
         default: '100%',
+      },
+      showOutline:{
+        type:Boolean,
+        default:true,
       }
     },
     watch: {
@@ -100,14 +104,22 @@
       },
       docWidth(news) {
         this.docWidths = news;
+      },
+      showOutline(news){
+        this.showOutlines=news;
+      },
+      doc(news){
+        this.docs=news;
       }
     },
     data() {
       return {
+        docs:this.doc,
         docWidths: this.docWidth,
         align: this.aligns,
         languages: this.codeLanguages,
         outline: [],
+        showOutlines:this.showOutline,
         title: '',
         expansion: true,
         skins: this.skin,
@@ -137,7 +149,7 @@
       getOutLine() {
         //根据doc获取到大纲
         let info = [];
-        this.getDocInfo(this.doc, info);
+        this.getDocInfo(this.docs, info);
         this.outline = info;
         this.title = this.title || info[0]['label'] || '';
       },
