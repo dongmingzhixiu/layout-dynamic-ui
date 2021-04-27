@@ -80,9 +80,9 @@
         type: String,
         default: '100%',
       },
-      showOutline:{
-        type:Boolean,
-        default:true,
+      showOutline: {
+        type: Boolean,
+        default: true,
       }
     },
     watch: {
@@ -105,21 +105,21 @@
       docWidth(news) {
         this.docWidths = news;
       },
-      showOutline(news){
-        this.showOutlines=news;
+      showOutline(news) {
+        this.showOutlines = news;
       },
-      doc(news){
-        this.docs=news;
+      doc(news) {
+        this.docs = news;
       }
     },
     data() {
       return {
-        docs:this.doc,
+        docs: this.doc,
         docWidths: this.docWidth,
         align: this.aligns,
         languages: this.codeLanguages,
         outline: [],
-        showOutlines:this.showOutline,
+        showOutlines: this.showOutline,
         title: '',
         expansion: true,
         skins: this.skin,
@@ -151,10 +151,9 @@
         let info = [];
         this.getDocInfo(this.docs, info);
         this.outline = info;
-        this.title = this.title || info[0]['label'] || '';
+        this.title = this.title || (info && info.length > 0 ? info[0]['label'] : '') || '';
       },
       getDocInfo(doc, info) {
-        debugger
         info = info || [];
         if (typeof doc == 'string' && doc.length <= 40) {
           return info[info.length] = doc;

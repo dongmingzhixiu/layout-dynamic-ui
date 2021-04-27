@@ -8,13 +8,22 @@
 				<div class="el-icon-question fs38 c-w b-t" style="z-index: 2;"
 					@click="showDefaultTips=!showDefaultTips"></div>
 			</div>
-			<div v-if="forms&&Object.keys(forms).length>0" class="el-form w h"
+
+      <div v-if="forms&&Object.keys(forms).length>0" class="el-form w h"
+      	:class="{'over-a-y':isOverflowY,'p-b10':!isRow}">
+      	<div class="a-i-c w" :class="{'f-b-w':!isRow,'f-s-w':isRow}">
+      		<div v-if="item['visabled']!=false" v-for="(item,i) in layouts"
+      			class="el-form-item position-relative" :key='i'
+      			:style="{'width':item['width']?item['width']:isRow?'auto':'','max-width':item['width']?item['width']:isRow?'250px':'','flex-grow': isRow?'1':'2','margin-bottom':isRow?'0!important':'14px'}"
+      			:class="{'w':isRow,'cols_1':(fcols==1||!fcols)&&!isRow,'cols_2':fcols==2,'cols_3':fcols==3,'cols_4':fcols==4,'m-b2':isRow}">
+
+			<!-- <div v-if="forms&&Object.keys(forms).length>0" class="el-form w h"
 				:class="{'over-a-y':isOverflowY,'p-b10':!isRow}">
 				<div class="a-i-c w" :class="{'f-b-w':!isRow,'f-s':isRow}">
 					<div v-if="item['visabled']!=false" v-for="(item,i) in layouts"
 						class="el-form-item position-relative w" :key='i'
 						:style="{'width':item['width']?item['width']:isRow?'250px':'','max-width':item['width']?item['width']:isRow?'250px':'','flex-grow': '2','margin-bottom':isRow?'0!important':'14px'}"
-						:class="{'w':isRow,'cols_1':fcols==1||!fcols,'cols_2':fcols==2,'cols_3':fcols==3,'cols_4':fcols==4}">
+						:class="{'w':isRow,'cols_1':fcols==1||!fcols,'cols_2':fcols==2,'cols_3':fcols==3,'cols_4':fcols==4}"> -->
 						<div class="w" :class="{'el-disabled':getDisabled(item),'el-readonly':getDisabled(item)}">
 							<div v-if="layoutType.includes(item['type'].toLocaleLowerCase())" class="a-i-c w"
 								style="position: relative;"
@@ -40,7 +49,7 @@
 									</div>
 								</template>
 								<div v-else class="el-input--suffix box-b over-h" style="flex-grow: 2;"
-									:style="{'cursor':getDisabled(item)?'no-drop':'default'}">
+									:style="{'cursor':getDisabled(item)?'no-drop':'default','flex-grow':isRow?'1':'2'}">
 									<!-- ================ 组件开始 start ================ -->
 
 									<!-- 解释说明文字 -->
@@ -319,7 +328,7 @@
 							<slot name="buttons" :form="forms" :layout="layouts"></slot>
 						</div> -->
 					</div>
-					<div class="w">
+					<div :class="{'w':!isRow}">
 						<slot name="buttons" :form="forms" :layout="layouts"></slot>
 					</div>
 				</div>
@@ -432,7 +441,7 @@
 			},
 
 			/**
-			 * 保存表单之前的装饰函数 
+			 * 保存表单之前的装饰函数
 			 */
 			saveFormsDataBefore: {
 				type: Function,

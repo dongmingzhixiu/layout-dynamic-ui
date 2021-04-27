@@ -700,8 +700,13 @@ const getCookie = function(c_name) {
  * @param {Object} innerHTML 是否复制innerHTML,true：复制innerHTML,false:复制innerText
  */
 const copyToClipboard = function(selector, innerHTML) {
-  let _el = document.querySelector(selector);
-  let info = _el ? (innerHTML ? _el.innerHTML : _el.innerText) : (selector);
+  let info = "";
+  try {
+    let _el = document.querySelector(selector);
+    info = _el ? (innerHTML ? _el.innerHTML : _el.innerText) : (selector);
+  } catch (e) {
+    info = selector;
+  }
   let p = document.createElement("p");
   p.style.opacity = "0";
   p.innerText = info;
