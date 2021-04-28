@@ -161,7 +161,7 @@
 			list: {
 				type: Array,
 				default: () => {
-					return {};
+					return [];
 				}
 			},
 
@@ -221,7 +221,7 @@
 				this.layouts = news;
 			},
 			list(news) {
-				this.lists = news;
+				this.lists = news||[];
 			},
 			pageSize(news) {
 				this.pageSizes = news;
@@ -240,7 +240,7 @@
 				pageSizes: this.pageSize,
 				tableConfig: config.tableConfig,
 				layouts: this.layout,
-				lists: this.list,
+				lists: this.list||[],
 			}
 		},
 		methods: {
@@ -391,6 +391,9 @@
 			 * 获取后台数据
 			 */
 			getPageData() {
+        if(!this.isAutoLoadData){
+          return;
+        }
 				this.loading = true;
 				try {
 					//查询数据
@@ -467,7 +470,7 @@
 							setTimeout(()=>{
 								this.$set(this.lists[index], `${prop}_reqplace_val`, false);
 							},1000);
-							
+
 							item['_table_layout_repplace_val'] = item['_table_layout_repplace_val'] || {};
 							item['_table_layout_repplace_val'][`${mapKey}_${prop}`] = mapKey;
 

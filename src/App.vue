@@ -43,7 +43,10 @@
           after: (event) => {
             return Promise.resolve(event.data)
             // return event.data;
-          }
+          },
+					timeout:(err)=>{
+						return err;
+					}
         }
 
 

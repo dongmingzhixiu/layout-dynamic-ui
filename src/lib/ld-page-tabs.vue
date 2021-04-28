@@ -10,8 +10,10 @@
           </template>
           <span>{{item['label']}}</span>
         </span>
-        <i v-if="showRefresh" class="el-icon-refresh-right m-l2" @click="refreshTab(item)"></i>
-        <i v-if="showClose" class="el-icon-close" @click.stop="removeTab(item)"></i>
+        <i v-if="typeof item['showRefresh']=='boolean'?item['showRefresh']:showRefresh"
+          class="el-icon-refresh-right m-l2" @click="refreshTab(item)"></i>
+        <i v-if="typeof item['showClose']=='boolean'?item['showClose']:showClose" class="el-icon-close"
+          @click.stop="removeTab(item)"></i>
       </span>
       <template v-if="!$scopedSlots.page">
         <template v-if="getType(item.page)=='components'">
@@ -195,8 +197,8 @@
           } else {
             this.tabsValue = tempValue;
           }
-          let _items= this.pageTabs.filter(item=>item.prop==this.tabsValue);
-          let index=_items.length>0?this.pageTabs.indexOf(_items[0]):this.pageTabs.length-1;
+          let _items = this.pageTabs.filter(item => item.prop == this.tabsValue);
+          let index = _items.length > 0 ? this.pageTabs.indexOf(_items[0]) : this.pageTabs.length - 1;
           this.$emit("close", {
             tabs: this.pageTabs,
             item: item,

@@ -63,8 +63,8 @@ layout:[
 |-|-|-|-|-|-|
 |remotePath|String|请求方法地址，如`test/getPage`;当使用第三方请求时，`remotePath`为完整的请求路径,如：`http://localhost:8081/test4/getPage||√||
 |remoteParam|Object|是否为斑马纹 table||√|{}|
-|remoteMethodType|String|请求方式`get``post``delete``post``put``patch``head`|√||get|
-|remoteTimeout|Number|请求超时时间|dark/light|√|-|
+|remoteMethodType|String|请求方式`get``post``delete``post``put``patch``head`||√|get|
+|remoteTimeout|Number|请求超时时间|2000ms|√|-|
 
 
 

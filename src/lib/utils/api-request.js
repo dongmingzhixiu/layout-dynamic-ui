@@ -33,7 +33,13 @@ const request = {
 		 */
 		after: (event) => {
 			return event;
-		}
+		},
+    /**
+     * 请求超时处理
+     */
+    timeout:(result)=>{
+      return result;
+    }
 	},
 
 
@@ -137,6 +143,10 @@ const request = {
 					return Promise.resolve(res);
 				}, res);
 			}).catch((err) => {
+        //判断是否是请求超时，如果请求超时，使用请求超时的拦截器
+        if(err.message.indexOf(`timeout of ${axios.defaults.timeout}ms exceeded`)==0){
+          err=interceptor.timeout(err)||err;
+        }
 				return Promise.reject(err)
 			});
 		}, option);

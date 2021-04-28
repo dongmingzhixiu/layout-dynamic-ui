@@ -147,6 +147,19 @@
       closeTabPage($event) {
         this.pageTabs = $event.tabs;
         this.tabSelected = $event.selected;
+      },
+      /**
+       * 通过prop关闭tab
+       * @param {Object} prop
+       */
+      closeTabPageByProp(prop) {
+        if (!prop) {
+          return;
+        }
+        this.pageTabs = this.pageTabs.filter(item => item['prop'] != prop);
+        if (this.pageTabs.length - 1 < this.tabSelected) {
+          this.tabSelected = this.pageTabs.length - 1;
+        }
       }
     },
     created() {

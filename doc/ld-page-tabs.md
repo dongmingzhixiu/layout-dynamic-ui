@@ -29,6 +29,8 @@
 |label|String|标签页显示文字||√||
 |page|String|组件代码\|网页地址(网页地址必须具备http://或https://)||√|组件代码具体的使用代码[组件代码](##ld-page-tabs组件代码)|
 |selected|String\|Number|选中的tab|||为tab下标时必须是Number,不是下标则需要设置为要显示的tab的prop值|
+|showRefresh|Boolean|是否显示刷新按钮|||通过参数控制，实现特殊需求|
+|showClose|Boolean|是否显示关闭按钮|||通过参数控制，实现特殊需求|
 
 >参数里边可以包含其他属性
 

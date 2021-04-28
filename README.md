@@ -6,21 +6,11 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.3.0
->
-> 优化 `ld-doc` 添加行号，添加复制按钮，点击添加到剪贴板。
->
-> 优化 `ld-doc` 添加大纲
-> 
-> 为`ld-doc` 添加是否显示大纲参数
->
-> 添加 简单的 mrkdown 文档支持，使用关键字 `md`或者 `markdown`
->
-> 优化 `ld-page-loading` 使用`Loaders.css`支持更加丰富的加载动画
->
-> 添加复制到剪贴板方法[`copyToClipboard`](./doc/ld-util.md#copyToClipboard)
->
-> 修复`ld-frame`组件，关闭页面后，再次打开不选中问题！
+> v1.3.4
+## 修复打包后 this.$ld.util.cookie.get()方法出错问题！
+## 为`ld-page-tabs`的tabs参数中的子项设置 是否显示关闭和刷新按钮 参数，满足特殊需求,同样适用于`ld-frame`!
+## 修复`ld-table`自动加载数据时，list参数异常问题
+## 修复已知其他错误
 
 # 使用方式
 

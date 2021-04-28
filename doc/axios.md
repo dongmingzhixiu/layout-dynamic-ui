@@ -84,6 +84,12 @@ this.$ld.requestSetting.interceptor = {
      * 如： Promise.resolve(event);  //为程序返回最终装饰后的数据
      */
     return Promise.resolve(event);
+  },
+  /**
+   * 请求超时时处理函数
+   */
+  timeout:(err)=>{
+  	return err;
   }
 }
 
@@ -146,3 +152,13 @@ this.$ld.requestSetting.interceptor = {
 |1|router|String|√|-|请求路径|'test/getUserInfo'|
 |2|data|Object`\|`Array||{}|请求参数|`{userName:'188888888',password:'1111111'}`|
 |3|timeout|Number||60000|超时时间(毫秒);如需全局设置需要调用`this.$ld.requestSetting.config.timeout = 2000;`|1000*2|
+
+## 5.补充说明
+> 如果在实际使用过程中，后端配置了跨域请求，但前端请求每次的sessionId不同，此时，需要使用，如下函数进行设置保证sessionId一直
+
+```javascript
+ this.$ld.requestSetting.init= (axios) => {
+    axios.defaults.withCredentials = true;
+    return axios;
+  }
+```
