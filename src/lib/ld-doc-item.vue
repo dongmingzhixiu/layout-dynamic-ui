@@ -17,16 +17,16 @@
         <template v-else>
           <p v-if="key.toLocaleLowerCase()=='p'" :key="`${index}_${i}`" v-html="getHtml(doc[key])"></p>
           <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`">
-            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+            <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])">
               </a>
           </h1>
           <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`">
-            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+            <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])"></a>
           </h2>
           <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" >
-            <a :id="`${key}_${doc[key].replace('.','_')}`" :name="`${key}_${doc[key].replace('.','_')}`"
+            <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])"></a>
           </h3>
 
@@ -111,6 +111,9 @@
       }
     },
     methods: {
+      getHrefKey(str){
+        return str.replace(/[\^\$"`']/g,"").replace(/[.=*#\^\$"'`]/g, "_")
+      },
       getTipClass(key) {
         if (key.length <= 0) {
           return ''

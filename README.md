@@ -6,10 +6,8 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.3.4
-## 修复打包后 this.$ld.util.cookie.get()方法出错问题！
-## 为`ld-page-tabs`的tabs参数中的子项设置 是否显示关闭和刷新按钮 参数，满足特殊需求,同样适用于`ld-frame`!
-## 修复`ld-table`自动加载数据时，list参数异常问题
+> v1.3.5
+## 修复`ld-doc`组件点击左侧菜单跳转到文件内容异常
 ## 修复已知其他错误
 
 # 使用方式

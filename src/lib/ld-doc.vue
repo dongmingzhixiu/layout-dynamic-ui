@@ -140,7 +140,7 @@
         if (!e || !e['label']) {
           return;
         }
-        let _v = e['label'].replace(".", "_");
+        let _v = e['label'].replace(/[.=*#\^\$"'`]/g, "_");
         let el = document.querySelector(`[name$="${_v}"]`)
         el = el[0] || el;
         let maodian = `#${el.getAttribute("name")}`;
@@ -161,7 +161,7 @@
         if (!Array.isArray(doc) && typeof doc == 'object') {
           Object.keys(doc).map(keys => {
             let _val = {
-              label: doc[keys]
+              label: doc[keys].replace(/[\^\$"`']/g,"")
             };
             if (['h1', 'h2', 'h3', 'title'].includes(keys.toLocaleLowerCase())) {
               if (keys.toLocaleLowerCase() == 'title') {

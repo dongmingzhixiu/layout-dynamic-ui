@@ -6,7 +6,7 @@
 
 ## `ld-page-tabs` 参数
 
-> `ld-page-tabs` 只有简单的两个参数
+> `ld-page-tabs` 只有简单的几个参数
 
 |关键字|类型|解释|默认值|是否必须|说明|
 |-|-|-|-|-|-|
@@ -17,6 +17,7 @@
 |closeBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
 |refreshTabBefore|Function(item)|标签关闭之前事件，true,false控制是否继续执行！||||
 |passEventUp|Boolean|是否向上传递事件|true||详细说明见[页面事件向上传递](##页面事件向上传递约定)|
+|selected|String\|Number|选中的tab|||为tab下标时必须是Number,不是下标则需要设置为要显示的tab的prop值|
 
 
 ## `ld-page-tabs` tabs 的属性
@@ -28,7 +29,6 @@
 |prop|String|关键字||√||
 |label|String|标签页显示文字||√||
 |page|String|组件代码\|网页地址(网页地址必须具备http://或https://)||√|组件代码具体的使用代码[组件代码](##ld-page-tabs组件代码)|
-|selected|String\|Number|选中的tab|||为tab下标时必须是Number,不是下标则需要设置为要显示的tab的prop值|
 |showRefresh|Boolean|是否显示刷新按钮|||通过参数控制，实现特殊需求|
 |showClose|Boolean|是否显示关闭按钮|||通过参数控制，实现特殊需求|
 
@@ -100,9 +100,9 @@ data(){
 
 ## 页面事件向上传递约定
 
-> 在将页面作为组件进行标签页操作时，有时需要在页面操作后床底到标签页外部以便进行其他关操作，此时便需要使用固定的格式进行参数传递
+> 在将页面作为组件进行标签页操作时，有时需要在将页面内部操作传递到标签页外部以便进行其他关操作，此时便需要使用固定的格式进行事件传递
 
-- 设置 `passEventUp = true` 向上传递数据
+- 设置 `passEventUp = true` 向上传递
 
 -- 在页面中使用如下代码
 ```javascript
