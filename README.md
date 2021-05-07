@@ -6,9 +6,11 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.3.5
-## 修复`ld-doc`组件点击左侧菜单跳转到文件内容异常
+> v1.3.6
+## 修复`ld-menu-tree`组件样式异常问题
 ## 修复已知其他错误
+## 新增使用mockjs时axios支持
+## 修复`ld-forms`中的日期样式问题，添加日期范围提示文字支持
 
 # 使用方式
 

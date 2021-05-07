@@ -15,7 +15,7 @@
 |background-color|String|菜单的背景色|'#ffffff'||（仅支持 hex 格式）|
 |text-color|String|菜单的文字颜色|'#303133'||（仅支持 hex 格式）|
 |active-text-color|String|激活菜单的文字颜色|'#409EFF'||当前激活菜单的文字颜色（仅支持 hex 格式）|
-|collapse-transition|Boolean|激活菜单的文字颜色|false|||
+|collapse-transition|Boolean|水平折叠时，使用过度动画|false|||
 |menu-trigger|String|子菜单打开的触发方式(`click`\|`hover`)|click||(只在 mode 为 horizontal 时有效)|
 |uniqueOpened|Boolean|是否只保持一个子菜单的展开|false|||
 |defaultActive|String|当前激活菜单的 index|'0'|||

@@ -1,11 +1,11 @@
 <template>
-  <el-submenu :index="index" :disabled="item['disabled']||false">
+  <el-submenu :popper-append-to-body="popperAppendToBody" :index="index" :disabled="item['disabled']||false">
     <template slot="title">
       <i v-if="item['icon']" :class="item['icon']" @click="menuClick(item)"></i>
-      <div @click="menuClick(item)" class="ellipsis m-r5">{{item['label']}}</div>
+      <div @click="menuClick(item)" class="el-menu-text-info ellipsis">{{item['label']}}</div>
     </template>
     <template v-if="item&&item['children']&&item['children'].length>0" v-for="(ch,c) in item['children']">
-      <ld-menu-tree-item v-if="ch&&ch['children']&&ch['children'].length>0" :item="ch" :key="c" :index="`${index}_${c}`"
+      <ld-menu-tree-item :popper-append-to-body="false" v-if="ch&&ch['children']&&ch['children'].length>0" :item="ch" :key="c" :index="`${index}_${c}`"
         @click="menuClick($event)">
         <template #title="e">
           <slot name="title" :item="e['item']"></slot>
@@ -25,6 +25,10 @@
   export default {
     name: 'ld-menu-tree-item',
     props: {
+      popperAppendToBody: {
+      	type: Boolean,
+      	default: false,
+      },
       index: {
         type: String,
         default: "1"
@@ -48,4 +52,7 @@
 </script>
 
 <style>
+  .el-menu-text-info{
+    flex-grow: 2;
+  }
 </style>

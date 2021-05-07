@@ -162,3 +162,8 @@ this.$ld.requestSetting.interceptor = {
     return axios;
   }
 ```
+> 如果在实际使用中，需要使用mockjs作为测试数据源，那么请设置，如下配置
+```javascript
+this.$ld.requestSetting.config.isMock=true;
+```
+

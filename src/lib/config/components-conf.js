@@ -72,6 +72,11 @@ const config = {
 		daterange: '',
 		monthrange: '',
 	},
+  rangePlaceholder:{
+    datetimerange:'时间',
+    daterange:'日期',
+    monthrange:'月份',
+  },
 	/**
 	 * ColorPicker 预定义颜色
 	 */

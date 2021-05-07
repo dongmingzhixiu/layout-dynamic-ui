@@ -1,18 +1,23 @@
-#v1.3.5
+
+# v1.3.6
+## 修复`ld-menu-tree`组件样式异常问题
+## 新增使用mockjs时axios支持,使用代码进行设置`this.$ld.requestSetting.config.isMock = true;`
+
+# v1.3.5
 ## 修复`ld-doc`组件点击左侧菜单跳转到文件内容异常
 ## 修复已知其他错误
 
-#v1.3.4
+# v1.3.4
 ## 修复打包后 this.$ld.util.cookie.get()方法出错问题！
 ## 为`ld-page-tabs`的tabs参数中的子项设置 是否显示关闭和刷新按钮 参数，满足特殊需求,同样适用于`ld-frame`!
 ## 修复`ld-table`自动加载数据时，list参数异常问题
 ## 修复已知其他错误
 
-#v1.2.9
+# v1.2.9
 ## 为`ld-doc` 添加是否显示大纲参数 `show-outline`
 ## 添加全局请求超时处理函数
 
-#v1.2.8
+# v1.2.8
 ## 添加复制到剪贴板方法[`copyToClipboard`](./ld-util.md#copyToClipboard)
 ## 优化 `ld-doc` 添加大纲，大纲
 ## 修复`ld-frame`组件，关闭页面后，再次打开不选中问题！

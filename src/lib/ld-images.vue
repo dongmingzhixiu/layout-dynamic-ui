@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-upload :file-list="fileList" :limit="limit" multiple action="#" list-type="picture-card"
+    <el-upload :file-list="fileList" :limit="limits" multiple action="#" list-type="picture-card"
       :on-change="fileListChange" :before-remove="beforeRemove" :auto-upload="false" :on-exceed="selectImages">
       <i slot="default" class="el-icon-plus" @click="selectImages"></i>
       <div slot="file" slot-scope="{file}" class="w h position-relative">
@@ -35,8 +35,14 @@
         }
       },
     },
+    watch:{
+      limit(news){
+        this.limits=news;
+      }
+    },
     data() {
       return {
+        limits:this.limit,
         isPreview: false,
         dialogImageUrl: '',
         dialogVisible: false,
@@ -47,20 +53,30 @@
       fileListChange(file, fileList) {
         this.fileList = fileList;
         this.$emit("image", this.fileList);
+        this.showAddButton();
       },
       selectImages(files, fileList) {
-        if (this.limit <= 1) {
+        this.showAddButton();
+        if (this.limits <= 1) {
           return;
         }
-        this.$message.warning(`当前限制选择${this.limit}个文件，共选择了 ${this.fileList.length} 个文件`);
+        //this.$message.warning(`当前限制选择${this.limit}个文件，共选择了 ${this.fileList.length} 个文件`);
+        // 得到已选文件个数
       },
       removeImage(file) {
         this.fileList = this.fileList.filter(item => item.uid != file.uid);
         this.$emit("image", this.fileList);
+        this.showAddButton();
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      showAddButton(){
+        try{
+          document.querySelector('.el-upload.el-upload--picture-card').style.display=this.fileList.length<this.limits?'inline-block':'none'
+        }catch(e){}
       }
+
 
 
     }
