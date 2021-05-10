@@ -406,7 +406,7 @@ this.$ld.util.hashCode({a:1,b:2,c:3});//object
 
 ### 参数
 |参数名称|类型|说明|
-|:---|:---|:---|:---|
+|:---|:---|:---|
 |obj|Object|要转换的对象|
 |isStartChart|Boolean|是否是开始字符，是则会追加?|
 
