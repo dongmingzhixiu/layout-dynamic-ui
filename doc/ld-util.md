@@ -7,7 +7,9 @@
 ## 1.[`changeImagePath` ]("#changeImagePath")修改图片路径，通常在加载服务器图片时使用。
 ## 2.[`uuid`](#uuid) 获取到唯一编码
 ## 3.[`getDateByNumber`](#getDateByNumber) 根据数字获取日期。当日期为时间戳时调用。
-## 4.[`getDayDiff`](#getDayDiff) 获取日期之间的时间差。
+## 4.[`getYearDiff`](#getYearDiff) 获取日期之间的年份差。
+## 4.[`getMonthDiff`](#getMonthDiff) 获取日期之间的月份差。
+## 4.[`getDayDiff`](#getDayDiff) 获取日期之间的天数差。
 ## 5.[`getDate`](#getDate) 获取日期。
 ## 6.[`getTime`](#getTime) 获取时间。
 ## 7.[`getDateTime`](#getDateTime) 获取日期时间。
@@ -98,9 +100,53 @@ this.$ld.util.uuid(32,34);//segpemtu-jk11-49r2-atkd-ui0v87pf
 this.$ld.util.getDateByNumber ('1593317580211');//"2020-06-28 12:13:00"
 ```
 
+## getYearDiff
+
+ > 获取日期之间的年份差
+
+### 参数
+
+|参数名称|类型|为空|说明|
+|:---|:---|:---|:---|
+|endDate|String\Date|不为空|结束日期|
+|startDate|String\Date|不为空|开始日期|
+
+### 示例
+```javascript
+
+//1.普通使用
+this.$ld.util.getYearDiff('2020-6-28 11:43:08','2020-5-28 11:43:20'); //0
+
+//2.结束日期小于开始日期 ，返回负值
+this.$ld.util.getYearDiff('2021-6-28 11:43:08','2020-7-28 11:43:20');//1
+
+```
+
+## getMonthDiff
+
+ > 获取日期之间的月份差
+
+### 参数
+
+|参数名称|类型|为空|说明|
+|:---|:---|:---|:---|
+|endDate|String\Date|不为空|结束日期|
+|startDate|String\Date|不为空|开始日期|
+
+### 示例
+```javascript
+
+//1.普通使用
+this.$ld.util.getMonthDiff('2020-6-28 11:43:08','2020-5-28 11:43:20'); //1
+
+//2.结束日期小于开始日期 ，返回负值
+this.$ld.util.getMonthDiff('2021-6-28 11:43:08','2020-7-28 11:43:20');//11
+
+```
+
 ## getDayDiff
 
- > 获取日期之间的时间差
+ > 获取日期之间的天数差
 
 ### 参数
 
@@ -119,6 +165,7 @@ this.$ld.util.getDayDiff('2020-6-28 11:43:08','2020-5-28 11:43:20'); //30
 this.$ld.util.getDayDiff('2020-6-28 11:43:08','2020-7-28 11:43:20');//-30
 
 ```
+
 
 ## getDate
 

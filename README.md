@@ -6,10 +6,13 @@
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
 # [升级日志](./doc/version.md)
-> v1.3.9
-## 修复`ld-doc`文档点击锚链接新开窗口问题
-## 修复`ld-table`多级表头顺序错乱问题
+> v1.4.0
+## 添加 `getMonthDiff` 和 `getYearDiff`方法
+## 优化`ld-menu-tree`折叠后文字显示问题
 ## 修复已知其他问题
+
+
+## 添加 `getMonthDiff` 和 `getYearDiff`方法
 
 
 # 使用方式

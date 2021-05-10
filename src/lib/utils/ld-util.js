@@ -63,6 +63,28 @@ const getDayDiff = function(endDate, startDate) {
   var day = parseInt(total); //计算整数天数
   return day;
 }
+
+//获取两个日期之间的年差
+const getYearDiff = function(endDate, startDate) {
+  startDate = startDate || getNowD();
+  startDate = typeof startDate == "string" ? new Date(startDate) : startDate;
+  endDate = typeof endDate == "string" ? new Date(endDate) : endDate;
+  var s1 = startDate.getFullYear(),
+    s2 = endDate.getFullYear();
+  var year = s2 - s1
+  return year;
+}
+
+//获取两个日期之间的时间差
+const getMonthDiff = function(endDate, startDate) {
+  startDate = startDate || getNowD();
+  startDate = typeof startDate == "string" ? new Date(startDate) : startDate;
+  endDate = typeof endDate == "string" ? new Date(endDate) : endDate;
+  var s1 = startDate.getMonth(),
+    s2 = endDate.getMonth();
+  var month = s2 - s1+(getYearDiff(endDate,startDate)*12)
+  return month;
+}
 /**
  * 得到当前日期  年月日
  */
@@ -741,8 +763,10 @@ const copyToClipboard = function(selector, innerHTML) {
 export default {
   changeImagePath,
   uuid,
-  getDateByNumber,
+  getYearDiff,
+  getMonthDiff,
   getDayDiff,
+  getDateByNumber,
   getDate: getNowD,
   getDateTime: getNowDT,
   getTime: getNowT,
