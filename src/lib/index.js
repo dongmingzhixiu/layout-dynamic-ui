@@ -142,6 +142,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 export default {
+  util:ldUtil,
   install,
   ldPageLoading,
   ldForms,

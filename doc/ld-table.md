@@ -1,5 +1,5 @@
 # `ld-table` 表格显示组件
-> 通过简单的参数配置，加载数据到界面 
+> 通过简单的参数配置，加载数据到界面
 
 # 效果图
 
@@ -13,7 +13,7 @@
 |is-auto-load-data|true|是否自动加载数据|true|√|当true时，必须配置`auto-load-data-api`有效[如下详情](###auto-load-data-api)|
 |auto-load-data-api|{}|自动加载数据，请求参数信息|{}|√|`auto-load-data-api`详情查看[如下详情](###auto-load-data-api)|
 |list|Array|布局数据值|||通常情况下，推荐使用自动装载数据;|
-|is-enabled-check-box|Boolean|是否显示单选框|false|-|当时用单选框时。如需获取选择状态，需要实现`checkbox(e)`方法|
+|is-enabled-check-box|Boolean|是否显示复选框|false|-|当使用复选框时。如需获取选择状态，需要实现`checkbox(e)`方法|
 |row-key|String|行数据的key|id||行数据的 Key，用来优化 Table 的渲染；在使用树形数据时，该属性是必填的。|
 |el-tabl-property|Object|Element-ui表格参数|||Element-ui表格参数,详情查看[如下详情](###el-tabl-property)|
 |get-table-remote-data-after|Function(data)|获取表单数据之后，装载数据之前，调用的装饰函数|||获取表单数据之后，装载数据之前，调用的装饰函数|
@@ -53,7 +53,7 @@ layout:[
 ]
 ```
 
- 
+
 
 
 ## auto-load-data-api
@@ -152,13 +152,13 @@ layout:[
  > 比如在数据中，只包含创建人编号，而创建人信息在另一张表，此时即可使用该参数，动态替换创建人编号
  >
  >该方式加载数据目前已使用局部缓存(只在当前组件内部缓存，当组件整体刷新时，会重新获取！后期根据使用反馈进行调整全局缓存等方式)
- 
+
 |关键字|类型|解释|是否必须|补充|
- |-|-|-|-|-|
- |remotePath|String|请求路径|√|形如:`test/getUserById`,当为第三方请求时，请填写完整请求路径|
- |remoteMethodType|String|请求方式|√|请求方式`get``post``delete``post``put``patch``head`|
- |label|String|显示到界面上的数据关键字|√|比如：'createdName'| 
- |id|String|查询数据的字段|√|当前数据中关联其他数据的关联键；比如'id'|
+|-|-|-|-|-|
+|remotePath|String|请求路径|√|形如:`test/getUserById`,当为第三方请求时，请填写完整请求路径|
+|remoteMethodType|String|请求方式|√|请求方式`get``post``delete``post``put``patch``head`|
+|label|String|显示到界面上的数据关键字|√|比如：'createdName'|
+|id|String|查询数据的字段|√|当前数据中关联其他数据的关联键；比如'id'|
 
 
 # 插槽
@@ -170,7 +170,7 @@ layout:[
 |toolsHeader|作用域插槽|显示在表格头的内容|-|
 |append|具名插槽|插入至表格最后一行之后的内容，如果需要对表格的内容进行无限滚动操作，可能需要用到这个 slot。若表格有合计行，该 slot 会位于合计行之上。||
 
- 
+
 # 多级表头的使用
 >多级表头使用非常简单，只需要对布局参数的`label`进行深层嵌套即可；只需遵从`label:{label:'表头名称',children:[{...}...]}`即可实现多层表格嵌套,参数格式如下
 
@@ -237,7 +237,7 @@ list:[
  >重写 `this.$ld.getTableRemoteDataAfter`(全局作用)，也可通过`ld-table`的`get-table-remote-data-after`的参数设置装饰函数。
  >
  >通过全局设置，在多处使用`ld-table`组件时，会自动调用处理数据
- > 
+ >
  >获取表格数据之后，装载数据到表格之前，处理数据的函数
 ```javascript
 this.$ld.getTableRemoteDataAfter=function(data, isPagination) {
@@ -260,8 +260,6 @@ this.$ld.getTableRemoteDataAfter=function(data, isPagination) {
 |-|-|-|-|-|
 |list|Array|分页获取当前页的数据|√|形如:[{a:1,b:2,c:3},{a:1,b:2,c:3},{a:1,b:2,c:3}]|
 |currentPage|Number|当前页|√|当前分页数据所查询的所在页|
-|pageSize|Number|每页显示条数|√|| 
+|pageSize|Number|每页显示条数|√||
 |total|Number|总条数|√|通过总条数会计算总页数等相关信息|
 ## 不分页所需的返回值说明，返回类型为`Array`=>[{a:1,b:2,c:3},{a:1,b:2,c:3},{a:1,b:2,c:3}]
-
-

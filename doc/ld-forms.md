@@ -24,8 +24,8 @@
 |save-forms-data-before|Function(data)|保存数据之前的修饰方法|||也可以通过全局配置。优先使用参数，如果该参数为空，则会使用全局配置函数|
 |save-forms-data-after|Function(data)|保存数据之后的处理方法|||也可以通过全局配置。优先使用参数，如果该参数为空，则会使用全局配置函数|
 |editor-forms-init-api|Object|编辑数据时配置参数|||详情见如下[editor-forms-init-api](##editor-forms-init-api)|
-|auto-save|Boolean|【待定】是否自动保存|true||【待定】该参数暂时无效，相关功能，正在开发中.|
-|is-more-level-update-el-date|Boolean|【待定】是否强制刷新Date组件|false||【待定】当前组件封装层数过多时，element-date日期控件会出现不能及时刷新的问题，此时需要设置该属性为 true|
+|auto-save|Boolean|是否自动保存|true|||
+|is-more-level-update-el-date|Boolean|是否强制刷新Date组件|false||【待定】当前组件封装层数过多时，element-date日期控件会出现不能及时刷新的问题，此时需要设置该属性为 true|
 
 ## editor-forms-init-api
  > 在编辑数据时，通过该参数 ，可以自动加载表单初始值。比如通过di=3查询test/getById中的一条数据作为表单的初始值，配置如下
@@ -259,7 +259,7 @@ data(){
             prop:'select', //[String]
             label:'下拉框',//[String]
             type:'select',
-						//方式一 
+						//方式一
             options:[
               {label:'文本一',value:'1'},
               {label:'文本二',value:'2'},
@@ -541,6 +541,7 @@ data(){
 
 - 联动控制整个表单的数据
 
+
 ```javascript
 data(){
   return {
@@ -591,7 +592,9 @@ data(){
 }
 ```
 
+
 - 联动控制整个表单的布局
+
 
 ```javascript
 data(){

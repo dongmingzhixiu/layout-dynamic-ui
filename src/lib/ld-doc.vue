@@ -1,23 +1,34 @@
 <template>
   <div class="ld-doc h w position-relative over-h" :style="{'background':background}">
     <div v-if="align=='center'&&outline.length>0&&showOutlines">
-      <ld-menu-tree mode="horizontal" :tree="outline" :background-color="menuTree['background-color']"
-        :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" @click="outLineClick">
-      </ld-menu-tree>
+      <template v-if="$scopedSlots.outline">
+        <slot name="outline" :item="outline"></slot>
+      </template>
+      <template v-else>
+        <ld-menu-tree mode="horizontal" :tree="outline" :background-color="menuTree['background-color']"
+          :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" @click="outLineClick">
+        </ld-menu-tree>
+      </template>
     </div>
     <div class="f-s h" :style="{'height':`calc(100% - ${align=='center'?'80px':'20px'})`}">
       <template v-if="align=='left'&&outline.length>0&&showOutlines">
-        <div v-if="expansion" class="m-r10 box-shadow over-a-y h p10 box-b"
-          style="border-right: 1px solid #efefef;width: 420px;" :style="{'background':menuTree['background-color']}">
-          <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
-            <div class="ellipsis">{{title}}</div>
-            <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
+        <template v-if="$scopedSlots.outline">
+          <slot name="outline" :item="outline"></slot>
+        </template>
+        <template v-else>
+          <div v-if="expansion" class="m-r10 over-a-y h p10 box-b f-n-c-w"
+            style="border-right: 1px solid #efefef;width: 420px;box-shadow: 1px -6px 11px 0px rgb(0 0 0 / 15%);"
+            :style="{'background':menuTree['background-color']}">
+            <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
+              <div class="ellipsis">{{title}}</div>
+              <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
+            </div>
+            <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              @click="outLineClick"></ld-menu-tree>
           </div>
-          <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
-            @click="outLineClick"></ld-menu-tree>
-        </div>
-        <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
+          <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
+        </template>
       </template>
       <div style="flex-grow: 2;" class="h over-a-y p10 box-b f-c">
         <div class="p-b10" :class="{'box-shadow':docWidths!='100%'}" :style="{'width':docWidths}">
@@ -33,17 +44,23 @@
         </div>
       </div>
       <template v-if="align=='right'&&outline.length>0&&showOutlines">
-        <div v-if="expansion" class="over-a-y h p10 box-b" style="border-left: 1px solid #efefef;width: 420px;"
-          :style="{'background':menuTree['background-color']}">
-          <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
-            <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
-            <div class="ellipsis">{{title}}</div>
+        <template v-if="$scopedSlots.outline">
+          <slot name="outline" :item="outline"></slot>
+        </template>
+        <template v-else>
+          <div v-if="expansion" class="over-a-y h p10 box-b  f-n-c-w"
+            style="border-left: 1px solid #efefef;width: 420px;-6px -3px 11px 0 rgb(0 0 0 / 15%)"
+            :style="{'background':menuTree['background-color']}">
+            <div v-if="title" class="fs26 c8 p-b10 p-t10 f-b a-i-c">
+              <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
+              <div class="ellipsis">{{title}}</div>
+            </div>
+            <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              @click="outLineClick"></ld-menu-tree>
           </div>
-          <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-            :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
-            @click="outLineClick"></ld-menu-tree>
-        </div>
-        <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
+          <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
+        </template>
       </template>
     </div>
   </div>
@@ -83,6 +100,13 @@
       showOutline: {
         type: Boolean,
         default: true,
+      },
+      /**
+       * 锚链接时，点击打开方式
+       */
+      MdAnchorLinkTarget: {
+        type: String,
+        default: '_self'
       }
     },
     watch: {
@@ -161,7 +185,7 @@
         if (!Array.isArray(doc) && typeof doc == 'object') {
           Object.keys(doc).map(keys => {
             let _val = {
-              label: doc[keys].replace(/[\^\$"`']/g,"")
+              label: doc[keys].replace(/[\^\$"`']/g, "")
             };
             if (['h1', 'h2', 'h3', 'title'].includes(keys.toLocaleLowerCase())) {
               if (keys.toLocaleLowerCase() == 'title') {
@@ -203,10 +227,19 @@
           });
         }
         return info;
+      },
+      createMdAnchorLinkTarget() {
+        setInterval(()=>{
+          let a=document.querySelectorAll('.ld-doc-markdown-preview a[href^="#"]');
+          for(let i=0;i<a.length;i++){
+            let _a=a[i];
+            _a.setAttribute("target",this.MdAnchorLinkTarget);
+          }
+        },1000);
       }
     },
     created() {
-
+      this.createMdAnchorLinkTarget();
       this.getOutLine();
     }
   }

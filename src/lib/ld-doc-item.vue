@@ -19,13 +19,13 @@
           <h1 v-else-if="key.toLocaleLowerCase()=='h1'||key.toLocaleLowerCase()=='title'" :key="`${index}_${i}`">
             <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])">
-              </a>
+            </a>
           </h1>
           <h2 v-else-if="key.toLocaleLowerCase()=='h2'" :key="`${index}_${i}`">
             <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])"></a>
           </h2>
-          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`" >
+          <h3 v-else-if="key.toLocaleLowerCase()=='h3'" :key="`${index}_${i}`">
             <a :id="getHrefKey(`${key}_${doc[key]}`)" :name="getHrefKey(`${key}_${doc[key]}`)"
               v-html="getHtml(doc[key])"></a>
           </h3>
@@ -36,9 +36,9 @@
           <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
             v-html="getHtml(doc[key])"></div>
           <div v-else-if="['md','markdown'].includes( key.toLocaleLowerCase())" :key="`${index}_${i}`">
-            <markdown-preview :initial-value="doc[key]"></markdown-preview>
+            <markdown-preview class="ld-doc-markdown-preview" :initial-value="doc[key]"></markdown-preview>
           </div>
-          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`"  class="v-show-content m-b5"
+          <div v-else-if="isCode(key).isCode" :key="`${index}_${i}`" class="v-show-content m-b5"
             style="white-space:pre-wrap" :style="{'height':isShowLineNumber(doc[key])?'':'90px'}">
             <div class="w b-i5 f-b a-i-c p10 box-b" style="left: 0;height: 38px;min-height: 38px;line-height: 38px;">
               <div style="color: rgb(225 171 252);font-weight: bold;">{{key.toLocaleLowerCase()}} </div>
@@ -102,7 +102,7 @@
       isFirst: {
         type: Boolean,
         default: true,
-      }
+      },
     },
     data() {
       return {
@@ -111,8 +111,8 @@
       }
     },
     methods: {
-      getHrefKey(str){
-        return str.replace(/[\^\$"`']/g,"").replace(/[.=*#\^\$"'`]/g, "_")
+      getHrefKey(str) {
+        return str.replace(/[\^\$"`']/g, "").replace(/[.=*#\^\$"'`]/g, "_")
       },
       getTipClass(key) {
         if (key.length <= 0) {
@@ -130,25 +130,27 @@
         return /\n/.test(val);
       },
       copValToClipboard(refKey) {
-        let el = document.getElementById(refKey);
-        try {
-          if (document.selection) { // IE8 以下处理
-            var oRange = document.body.createTextRange();
-            oRange.moveToElementText(el);
-            oRange.select();
-          } else {
-            var range = document.createRange();
-            // create new range object
-            range.selectNodeContents(el); // set range to encompass desired element text
-            var selection = window.getSelection(); // get Selection object from currently user selected text
-            selection.removeAllRanges(); // unselect any user selected text (if any)
-            selection.addRange(range); // add range to Selection object to select it
-          }
-          let flg = document.execCommand("copy");
-          this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
-        } catch (e) {
-          this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
-        }
+        // let el = document.getElementById(refKey);
+        // try {
+        //   if (document.selection) { // IE8 以下处理
+        //     var oRange = document.body.createTextRange();
+        //     oRange.moveToElementText(el);
+        //     oRange.select();
+        //   } else {
+        //     var range = document.createRange();
+        //     // create new range object
+        //     range.selectNodeContents(el); // set range to encompass desired element text
+        //     var selection = window.getSelection(); // get Selection object from currently user selected text
+        //     selection.removeAllRanges(); // unselect any user selected text (if any)
+        //     selection.addRange(range); // add range to Selection object to select it
+        //   }
+        //   let flg = document.execCommand("copy");
+        //   this.$message[flg ? 'success' : 'error'](flg ? "复制成功！" : "复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+        // } catch (e) {
+        //   this.$message.error("复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！");
+        // }
+        const flg = this.$ld.util.copyToClipboard(JSON.stringify(this.forms));
+        this.$message[flg ? 'success' : 'error'](flg ? '复制成功！' : '复制失败，请选中代码使用Ctrl+C进行复制,Ctrl+V进行黏贴！');
       },
       getHtml(doc) {
         let i = -1;
@@ -204,6 +206,7 @@
           })
         }, 250);
       },
+
     },
     updated() {
       this.setLineNumber();

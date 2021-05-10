@@ -98,6 +98,7 @@ return {
 |skin|String|皮肤|||light:浅色；dark:深色|
 |aligns|String|文档大纲位置|||left:居左；right:居右；center:居中|
 |docWidth|String|文档内容的宽度|100%||可以为 100px等这种格式|
+|MdAnchorLinkTarget|String|md文档中锚链接点击时打开方式|_self||_blank,_self,_parent,_top,framename|
 
 
 ## Slot 插槽（作用域插槽）

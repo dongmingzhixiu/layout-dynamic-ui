@@ -35,8 +35,7 @@
                     {{item['label']||''}}
                   </div>
                 </div>
-                <div v-if="item['prepend']&&!isControlsType(item,'text')" class="f-n-c-w c7 p-l2 p-r2 c8">
-                  {{item['prepend']}}
+                <div v-if="item['prepend']&&!isControlsType(item,'text')" v-html="item['prepend']" class="f-n-c-w c7 p-l2 p-r2 c8">
                 </div>
                 <template v-if="$scopedSlots.rowCustom">
                   <div class="w el-input--suffix box-b" :style="{'cursor':getDisabled(item)?'no-drop':'default'}">
@@ -80,8 +79,8 @@
                       clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
                       :disabled="getDisabled(item)" @change="regexFormVal(item,i,true)" @input="regexFormVal(item,i)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
-                      <template v-if="item['prepend']" slot="prepend">{{item['prepend']}}</template>
-                      <template v-if="item['append']" slot="suffix">{{item['append']}}</template>
+                      <template v-if="item['prepend']" slot="prepend"><span v-html="item['prepend']"></span></template>
+                      <template v-if="item['append']" slot="suffix"><span v-html="item['append']"></span></template>
                     </el-input>
                   </template>
 
@@ -112,7 +111,7 @@
 
                   <!-- 单选框   -->
                   <template v-if="isControlsType(item,'radio')">
-                    <div class="box-b f-s a-i-c bor-ff box-b"
+                    <div class="box-b f-s a-i-c box-b"
                       :class="getStyleOrCss({'el-input el-input__inner':typeof item['isButton']!='boolean'||!item['isButton'],'bor-d':item['error']==true},item,'css')"
                       :style="item['style']" style="height: auto;">
                       <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i,true)"
@@ -124,8 +123,7 @@
                           </el-radio-button>
                         </template>
                         <template v-else>
-                          <el-radio v-for="(opt,j) in item['options']" class="p-b2 p-t2"
-                            :label="opt.value" :key="j">
+                          <el-radio v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value" :key="j">
                             {{opt.label}}
                           </el-radio>
                         </template>
@@ -288,8 +286,7 @@
                   <!-- ================ 组件开始 end ================ -->
 
                 </div>
-                <div v-if="item['append']&&!isControlsType(item,'text')" class="f-n-c-w c7 p-l2 p-r2 c8">
-                  {{item['append']}}
+                <div v-if="item['append']&&!isControlsType(item,'text')" v-html="item['append']" class="f-n-c-w c7 p-l2 p-r2 c8">
                 </div>
                 <div class="a-i-c over-h-y box-b f-e" style="position: absolute;right: 10px; z-index: 3;"
                   :style="{'right':getErrorMsgPosition(item),'bottom':item['tip']?'12px':'auto'}">
@@ -660,12 +657,14 @@
        * 重置
        */
       formReset() {
+        const valNumber = ['rate','slider','number'];
         this.forms = this.forms || {};
         this.layouts.map(item => {
-          let val = "";
+          let val = valNumber.includes(item['type']) ? 0 : "";
           try {
             val = this.forms && this.forms[item['prop']] ? this.forms[item['prop']] : '';
             val = val ? val : item['value'] ? item['value'] : '';
+            val = valNumber.includes(item['type']) ? parseInt(val) : val;
             //转换数据类型 Array
             if (this.layoutTypeEmitParser.isParse && this.layoutTypeArray && this.layoutTypeArray
               .length > 0 &&
@@ -797,6 +796,14 @@
         let msg = item['msg'] || `${(item['label']||item['placeholder'] ||'').replace(/^请输入/,'')}不符合验证规则！`;
         let _regex = item['regex'];
         try {
+          //字符串类型的正则表单是转换成正则对象
+          if (typeof _regex == 'string' && /^[/].*[/][igms]*$/.test(_regex)) {
+            //获取修饰符
+            let s = _regex.replace(/^[/]/, "").split("/");
+
+            _regex = s.length <= 1 ? new RegExp(_regex.replace(/(^[/])|([/][igms]*$)/g, "")) :
+              new RegExp(_regex.replace(/(^[/])|([/][igms]*$)/g, ""), s[s.length - 1]);
+          }
           if (_regex instanceof RegExp && _val) {
             let flg = _regex && !_regex.test(_val)
             this.$set(this.layouts[i], "error", flg)
@@ -808,6 +815,12 @@
         }
         if (typeof _regex == 'function') {
           let flg = !_regex(_val)
+          this.$set(this.layouts[i], "error", flg)
+          this.$set(this.layouts[i], "errorMsg", !flg ? '验证通过' : msg)
+          return !flg;
+        }
+        if (typeof _regex == 'string') {
+          let flg = _regex != _val;
           this.$set(this.layouts[i], "error", flg)
           this.$set(this.layouts[i], "errorMsg", !flg ? '验证通过' : msg)
           return !flg;
@@ -873,7 +886,6 @@
           return;
         }
         let remoteParam = this.editorFormsInitApis['remoteParam'];
-        debugger
         if (Object.keys(remoteParam).length <= 0 || Object.values(remoteParam).length <= 0 || Object.values(
             remoteParam).filter(item => !item).length <= 0) {
           this.formReset();
@@ -1051,5 +1063,8 @@
   .el-date-editor.el-range-editor.el-input__inner.w.el-date-editor--daterange>.el-range-input,
   .el-date-editor.el-range-editor.el-input__inner.w.el-date-editor--datetimerange>.el-range-input {
     flex-grow: 2;
+  }
+  .el-radio{
+    line-height: 30px;
   }
 </style>
