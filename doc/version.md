@@ -1,3 +1,8 @@
+# v1.4.1
+## 修复`ld-frame`点击触发已打开窗口不能再次选中问题
+## 添加`ld-frame`刷新方法
+## 修复已知其他问题
+
 # v1.4.0
 ## 添加 `getMonthDiff` 和 `getYearDiff`方法
 ## 优化`ld-menu-tree`折叠后文字显示问题

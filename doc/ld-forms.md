@@ -25,6 +25,7 @@
 |save-forms-data-after|Function(data)|保存数据之后的处理方法|||也可以通过全局配置。优先使用参数，如果该参数为空，则会使用全局配置函数|
 |editor-forms-init-api|Object|编辑数据时配置参数|||详情见如下[editor-forms-init-api](##editor-forms-init-api)|
 |auto-save|Boolean|是否自动保存|true|||
+|auto-save-api|Object|自动保存时配置参数|||详情见如下[auto-save-api](##auto-save-api)|
 |is-more-level-update-el-date|Boolean|是否强制刷新Date组件|false||【待定】当前组件封装层数过多时，element-date日期控件会出现不能及时刷新的问题，此时需要设置该属性为 true|
 
 ## editor-forms-init-api
@@ -33,6 +34,24 @@
 {
 	//请求路径
 	remotePath: 'test/getUserById',
+	//请求参数
+	remoteParam: {id:3},
+	//请求方法
+	remoteMethodType: "get",
+	//得到数据后对数据的预处理
+	getDataAfter: (data) => {
+		return data.data;
+	}
+}
+ ```
+ 
+ 
+## auto-save-api
+ > 在编辑数据时，通过该参数 ，可以使用内置方法调用保存
+ ```javascript
+{
+	//请求路径
+	remotePath: 'test/save',
 	//请求参数
 	remoteParam: {id:3},
 	//请求方法

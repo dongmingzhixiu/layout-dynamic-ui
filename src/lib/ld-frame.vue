@@ -30,7 +30,7 @@
       </div>
       <!-- 主体 -->
       <div class="w box-b" style="height: calc(100% - 60px);">
-        <ld-page-tabs class="w h" :tabs="pageTabs" :selected="tabSelected" @close="closeTabPage" @events="getEvents">
+        <ld-page-tabs ref="pageTabs" class="w h" :tabs="pageTabs" :selected="tabSelected" @click="pageTabsClick" @close="closeTabPage" @events="getEvents">
           <template v-if="$scopedSlots.page" v-slot:page="e">
             <slot name="page" :item="e.item"></slot>
           </template>
@@ -100,6 +100,11 @@
       }
     },
     methods: {
+      pageTabsClick(e){
+        let _index=this.pageTabs.indexOf(e);
+        _index=_index<0?this.pageTabs.indexOf(this.pageTabs.filter(item=>item['prop']==e['prop'])[0]):_index;
+        this.tabSelected = _index;
+      },
       menuClick(e) {
         if (!e['prop']) {
           return;
@@ -110,7 +115,9 @@
         }
         //选中
         this.$nextTick(() => {
-          this.tabSelected = this.pageTabs.indexOf(e);
+					let _index=this.pageTabs.indexOf(e);
+					_index=_index<0?this.pageTabs.indexOf(this.pageTabs.filter(item=>item['prop']==e['prop'])[0]):_index;
+          this.tabSelected = _index;
         })
       },
       /**
@@ -160,6 +167,17 @@
         if (this.pageTabs.length - 1 < this.tabSelected) {
           this.tabSelected = this.pageTabs.length - 1;
         }
+      },
+      /**
+       * 刷新页面
+       * @param {Object} prop
+       */
+      refreshTabByProp(prop){
+        let _item=this.pageTabs.filter(item=>item['prop']==prop);
+        if(_item.length<=0){
+          return;
+        }
+        this.$refs.pageTabs.refreshTab(_item[0]);
       }
     },
     created() {

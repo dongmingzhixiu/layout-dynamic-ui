@@ -104,7 +104,7 @@
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                       <el-option v-for="opt in item['options']" :key="opt.value" :label="opt.label" :value="opt.value"
                         :disabled="opt.disabled||false">
-                        <slot :name="`options_${item['prop']}`" :option="opt"></slot>
+                        <slot v-if="$scopedSlots[`options_${item['prop']}`]" :name="`options_${item['prop']}`" :option="opt"></slot>
                       </el-option>
                     </el-select>
                   </template>
@@ -515,7 +515,6 @@
         this.showDefaultTips = news;
       },
       editorFormsInitApi(news) {
-        debugger
         this.editorFormsInitApis = news;
         this.initFormsData();
       },
@@ -886,8 +885,8 @@
           return;
         }
         let remoteParam = this.editorFormsInitApis['remoteParam'];
-        if (Object.keys(remoteParam).length <= 0 || Object.values(remoteParam).length <= 0 || Object.values(
-            remoteParam).filter(item => !item).length <= 0) {
+        if (Object.keys(remoteParam).length <= 0 || Object.values(remoteParam).length <= 0 || +
+          Object.values(remoteParam).filter(item => !item).length > 0) {
           this.formReset();
           return;
         }

@@ -125,14 +125,17 @@
     data() {
       return {
         loading: false,
+        selecteds: this.selected,
         pageTabs: this.tabs,
-        tabsValue: typeof this.selected == 'number' && this.pageTabs && this.pageTabs.length > 0 ? this.pageTabs[
-          this
-          .selected]['prop'] : this.selected || this.selected,
+        tabsValue: typeof this.selecteds == 'number' && this.pageTabs && this.pageTabs.length > 0 ?
+          this.pageTabs[this.selecteds]['prop'] : this.selecteds || this.selecteds,
       };
     },
     watch: {
       selected(news) {
+        this.selecteds = this.selected;
+      },
+      selecteds(news) {
         if (typeof news == 'number') {
           this.tabsValue = this.pageTabs[news]['prop'] || news;
           return;
@@ -153,6 +156,7 @@
        */
       itemClick(item) {
         this.tabsValue = item.prop;
+        this.selecteds = this.pageTabs.indexOf(this.pageTabs.filter(_item => _item['prop'] == item['prop'])[0]) || 0;
         this.$emit("click", item);
       },
       /**
@@ -204,6 +208,9 @@
             item: item,
             selected: index
           });
+          if (this.pageTabs.length <= 1) {
+            this.selecteds = 0;
+          }
         }
 
         if (this.showConfirm) {
