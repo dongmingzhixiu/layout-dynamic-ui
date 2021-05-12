@@ -30,7 +30,7 @@
       </div>
       <!-- 主体 -->
       <div class="w box-b" style="height: calc(100% - 60px);">
-        <ld-page-tabs ref="pageTabs" class="w h" :tabs="pageTabs" :selected="tabSelected" @click="pageTabsClick" @close="closeTabPage" @events="getEvents">
+        <ld-page-tabs ref="pageTabs" class="w h" :tabs="pageTabs" :selected="tabSelected" :show-confirm="showConfirm" @click="pageTabsClick" @close="closeTabPage" @events="getEvents">
           <template v-if="$scopedSlots.page" v-slot:page="e">
             <slot name="page" :item="e.item"></slot>
           </template>
@@ -48,6 +48,10 @@
        * 菜单树是否只打开一个
        */
       menuTreeUniqueOpened: {
+        type: Boolean,
+        default: true
+      },
+      showConfirm: {
         type: Boolean,
         default: true
       },

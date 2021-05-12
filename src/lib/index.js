@@ -143,6 +143,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 export default {
   util:ldUtil,
+  request:apiRequest,
   install,
   ldPageLoading,
   ldForms,

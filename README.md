@@ -5,6 +5,8 @@
 # 注意
 > 因目前还处于开发版本，请及时使用`npm update layout-dynamic-ui` 更新到最新版本
 
+# [文档地址](https://st.orange-info.cn/layout-dynamic-ui/index.html)
+
 # [升级日志](./doc/version.md)
 >  v1.4.1
 ## 修复`ld-frame`点击触发已打开窗口不能再次选中问题

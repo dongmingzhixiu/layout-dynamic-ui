@@ -15,7 +15,7 @@
 |list|Array|布局数据值|||通常情况下，推荐使用自动装载数据;|
 |is-enabled-check-box|Boolean|是否显示复选框|false|-|当使用复选框时。如需获取选择状态，需要实现`checkbox(e)`方法|
 |row-key|String|行数据的key|id||行数据的 Key，用来优化 Table 的渲染；在使用树形数据时，该属性是必填的。|
-|el-tabl-property|Object|Element-ui表格参数|||Element-ui表格参数,详情查看[如下详情](###el-tabl-property)|
+|el-table-property|Object|Element-ui表格参数|||Element-ui表格参数,详情查看[如下详情](###el-table-property)|
 |get-table-remote-data-after|Function(data)|获取表单数据之后，装载数据之前，调用的装饰函数|||获取表单数据之后，装载数据之前，调用的装饰函数|
 |show-page-helper|Boolean|是否使用分页显示数据|true|-|当使用分页时，每页的数据会通过，分页的方式，发送请求加载数据|
 |page-size|Number|每页条数|30||当`showPageHelper`为true时有效，且该参数会受分页组件中的条数进行更改|
@@ -68,7 +68,7 @@ layout:[
 
 
 
-### el-tabl-property
+### el-table-property
  > Element-ui表格参数；以下参数只能是大驼峰；当时用小驼峰时，参数值无效。
 
 |关键字|类型|解释|可选值|是否必须|默认值|

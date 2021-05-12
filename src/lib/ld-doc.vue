@@ -164,10 +164,12 @@
         if (!e || !e['label']) {
           return;
         }
+        let maodian = `#`;
+        window.location.hash = maodian;
         let _v = e['label'].replace(/[.=*#\^\$"'`]/g, "_");
         let el = document.querySelector(`[name$="${_v}"]`)
         el = el[0] || el;
-        let maodian = `#${el.getAttribute("name")}`;
+        maodian = `#${el.getAttribute("name")}`;
         window.location.hash = maodian;
       },
       getOutLine() {

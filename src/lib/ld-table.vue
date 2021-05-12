@@ -2,14 +2,15 @@
   <div class="ld-table w h box-b">
     <!-- 普通table -->
     <el-table ref="elTable" :row-key="rowKey" :data="lists "
-      :default-expand-all="elTablProperty.defaultExpandAll||false" @selection-change="changeCheckBoxValue"
-      @select="rowSelect" @select-all="selectAll" empty-text="没有找到相关数据" :fit="elTablProperty.fit||true"
-      :border="elTablProperty.border||true" :stripe="elTablProperty.stripe"
-      :highlight-current-row="elTablProperty.highlightCurrentRow||false" :default-sort="elTablProperty.defaultSort"
-      :tooltip-effect="elTablProperty.tooltipEffect||'light'" :show-summary="elTablProperty.showSummary||false"
-      :sum-text="elTablProperty.sumText||'合计'" :summary-method="getSummaries" :indent="elTablProperty.indent||16"
-      :span-method="elTabSpanMethod" :height="`calc(100% - ${showPageHelpers?'100px':'20px'})`"
-      :style="{'min-height':`calc(100% - ${showPageHelpers?'60px':'20px'})`}">
+      :default-expand-all="elTableProperty.defaultExpandAll||false" @selection-change="changeCheckBoxValue"
+      @select="rowSelect" @select-all="selectAll" empty-text="没有找到相关数据" :fit="elTableProperty.fit||true"
+      :border="elTableProperty.border||true" :stripe="elTableProperty.stripe"
+      :highlight-current-row="elTableProperty.highlightCurrentRow||false" :default-sort="elTableProperty.defaultSort"
+      :tooltip-effect="elTableProperty.tooltipEffect||'light'" :show-summary="elTableProperty.showSummary||false"
+      :sum-text="elTableProperty.sumText||'合计'" :summary-method="getSummaries" :indent="elTableProperty.indent||16"
+      :span-method="elTableProperty.spanMethod" :height="`calc(100% - ${showPageHelpers?'100px':'20px'})`"
+      :style="{'min-height':`calc(100% - ${showPageHelpers?'60px':'20px'} - ${elTableProperty&&elTableProperty['showSummary']==true?'48px':'0px'})`}"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}" :lazy="false" :class="{'show-summary':elTableProperty&&elTableProperty['showSummary']==true}">
 
       <!-- 选择框 -->
       <el-table-column v-if="isEnabledCheckBox" width="55" type="selection">
@@ -95,7 +96,7 @@
       /**
        * el-table 常用属性
        */
-      elTablProperty: {
+      elTableProperty: {
         type: Object,
         default: () => {
           return {
@@ -227,6 +228,15 @@
       list(news) {
         this.lists = news || [];
       },
+      lists(news){
+        if(this.elTableProperty&&this.elTableProperty['showSummary']==true){
+          let height=document.querySelector('.show-summary').style.height;
+          document.querySelector('.show-summary').style.height="100%";
+          setTimeout(()=>{
+            document.querySelector('.show-summary').style.height=height;
+          },2000);
+        }
+      },
       pageSize(news) {
         this.pageSizes = news;
       },
@@ -356,8 +366,8 @@
        * 合并列或行
        */
       elTabSpanMethod(e) {
-        if (typeof this.elTablProperty['spanMethod'] == "function") {
-          return this.elTablProperty['spanMethod'](e);
+        if (typeof this.elTableProperty['spanMethod'] == "function") {
+          return this.elTableProperty['spanMethod'](e);
         }
       },
       /**
@@ -365,16 +375,16 @@
        */
       getSummaries(e) {
         let sum = [];
-        if (typeof this.elTablProperty['summaryMethod'] == 'function') {
-          sum = this.elTablProperty['summaryMethod'](e);
+        if (typeof this.elTableProperty['summaryMethod'] == 'function') {
+          sum = this.elTableProperty['summaryMethod'](e);
         }
         e.columns.forEach((column, index) => {
-          sum[index] = index == 0 ? this.elTablProperty.sumText : "-";
+          sum[index] = index == 0 ? this.elTableProperty.sumText : "-";
         })
         sum[sum.length - 1] = this.$scopedSlots.tools ? "" : "-";
         if (this.isEnabledCheckBox) {
           sum[0] = "";
-          sum[1] = this.elTablProperty.sumText;
+          sum[1] = this.elTableProperty.sumText;
         }
         return sum;
       },
@@ -426,7 +436,7 @@
               } else {
                 d = this.$ld.getTableRemoteDataAfter(res.data, this.showPageHelpers);
               }
-              let data = d || res.data.data;
+              let data = Object.keys(d).includes('data') ? d.data : d || res.data.data;
 
               //判断是否是分页
               if (this.showPageHelpers) {
@@ -558,7 +568,12 @@
   }
 </script>
 
-<style scoped>
+<style>
+
+  .el-table tr.el-table__row[class*="el-table__row--level"] td:first-child .cell {
+    display: flex !important;
+  }
+
   /*  .ld-table tr.el-table__row.el-table__row--level-1 td:first-child div.cell div {
     padding-left: 12px;
   }

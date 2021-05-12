@@ -14,6 +14,7 @@
 |menuTree|Array|菜单树参数|||详情参考[菜单树参数](./ld-menu-tree.md##`ld-menu-tree`属性)|
 |leftHeadInfo|Object||头部左侧信息||{image:'logo图片',label:'右侧第一行文字',text:'右侧第二行文字'}||
 |passEventUp|Boolean|是否向上传递事件|true||详细说明见[页面事件向上传递](##页面事件向上传递约定)|
+|showConfirm|Boolean|关闭窗口时，是否弹框提示|true|||
 
 
 ## Event 事件

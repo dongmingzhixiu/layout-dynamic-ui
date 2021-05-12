@@ -217,7 +217,7 @@
           this.$confirm(`确定关闭【${item['label']}】窗口吗？`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
-            type: 'danger'
+            type: 'warning'
           }).then(() => {
             fn();
           }).catch(() => {});
