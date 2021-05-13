@@ -181,6 +181,7 @@
         if(_item.length<=0){
           return;
         }
+				this.menuClick(_item[0]);
         this.$refs.pageTabs.refreshTab(_item[0]);
       }
     },

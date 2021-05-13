@@ -2,7 +2,11 @@
 ## 修复`ld-table`树形菜单第一列样式问题
 ## 修改`ld-table`参数`elTablProperty`为`elTableProperty`
 ## 修改`ld-table`参数`el-tabl-property`为`el-table-property`
+## 修复`ld-forms`组件联动后仍然被验证问题
+## 修复`ld-forms`初始组件时没有被联动
 ## 修复已知其他问题
+
+
 ##
 # v1.4.1
 ## 修复`ld-frame`点击触发已打开窗口不能再次选中问题

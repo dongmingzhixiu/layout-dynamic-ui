@@ -594,6 +594,12 @@
         return item['disabled'] == true || item['readonly'] == true;
       },
       /**
+       * @param {Object} item
+       */
+      getHidden(item){
+        return item['visabled'] == false;
+      },
+      /**
        * 获取提示文字
        */
       getPlaceholder(item) {
@@ -758,8 +764,9 @@
        */
       regexFormVal(item, i, change) {
 
-        let value = this.forms[item['prop']] ? this.forms[item['prop']] : this.layoutTypeArray.includes(item[
-          'type']) ? [] : this.layoutTypeObject.includes(item['type']) ? {} : '';
+        let value = this.forms[item['prop']] ? this.forms[item['prop']] :
+          this.layoutTypeArray.includes(item['type']) ? [] :
+          this.layoutTypeObject.includes(item['type']) ? {} : '';
         if (change) {
           this.setChange(item, value)
         }
@@ -771,7 +778,7 @@
         this.$set(this.layouts[i], "error", false)
         this.$set(this.layouts[i], "errorMsg", `验证通！`)
         let readonly = this.getDisabled(item);
-        if (readonly == true) {
+        if (readonly == true||this.getHidden(item)) {
           return true;
         }
         let _requir = item['require'] || false;
@@ -956,10 +963,20 @@
             this.$set(this.layouts, index, item);
           });
         });
+      },
+      /**
+       * 初始化联动
+       */
+      initSetChange(){
+        this.layouts.map(item=>{
+          this.setChange(item,this.forms[item['prop']]||item['value']||'');
+        });
       }
+
     },
     created() {
       this.initFormsData();
+      this.initSetChange();
       this.initRemotesOptions();
     }
   }
