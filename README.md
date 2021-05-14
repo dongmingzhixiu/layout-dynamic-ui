@@ -9,12 +9,8 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
->  v1.4.2
-## 修复`ld-table`树形菜单第一列样式问题
-## 修改`ld-table`参数`elTablProperty`为`elTableProperty`
-## 修改`ld-table`参数`el-tabl-property`为`el-table-property`
-## 修复`ld-forms`组件联动后仍然被验证问题
-## 修复`ld-forms`初始组件时没有被联动
+> v1.4.3
+## 添加`ld-forms`添加联动时，动态获取数据条件和当前表单数据关联的功能[联动参数注入](./doc/ld-forms.md##联动参数动态注入)
 ## 修复已知其他问题
 
 

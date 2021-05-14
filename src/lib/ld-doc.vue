@@ -24,7 +24,7 @@
               <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
             </div>
             <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" :default-expand-all="defaultExpandAlls||true"
               @click="outLineClick"></ld-menu-tree>
           </div>
           <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
@@ -56,7 +56,7 @@
               <div class="ellipsis">{{title}}</div>
             </div>
             <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"  :default-expand-all="defaultExpandAlls||true"
               @click="outLineClick"></ld-menu-tree>
           </div>
           <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
@@ -107,7 +107,14 @@
       MdAnchorLinkTarget: {
         type: String,
         default: '_self'
-      }
+      },
+      /**
+       * 是否展开大纲的所有子节点
+       */
+      defaultExpandAll:{
+        type: Boolean,
+        default: true,
+      },
     },
     watch: {
       skin(news) {
@@ -122,6 +129,9 @@
           'text-color': "#fff",
           'active-text-color': "#ffd04b"
         }
+      },
+      defaultExpandAll(news){
+        this.defaultExpandAlls=news;
       },
       aligns(news) {
         this.align = news;
@@ -138,6 +148,7 @@
     },
     data() {
       return {
+        defaultExpandAlls:this.defaultExpandAll,
         docs: this.doc,
         docWidths: this.docWidth,
         align: this.aligns,

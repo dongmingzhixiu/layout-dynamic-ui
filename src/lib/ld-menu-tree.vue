@@ -1,7 +1,7 @@
 <template>
   <el-menu :mode="mode" :collapse="collapse" :background-color="backgroundColor" :text-color="textColor"
     :active-text-color="activeTextColor" :default-active="defaultActive" :unique-opened="uniqueOpened"
-    :menu-trigger="menuTrigger" :collapse-transition="collapseTransition">
+    :menu-trigger="menuTrigger" :collapse-transition="collapseTransition"  :default-expand-all="defaultExpandAlls">
     <template v-for="(item,i) in tree">
       <ld-menu-tree-item v-if="item['children']&&item['children'].length>0" :item="item" :key='i' :index="`${i}`"
         @click="menuClick">
@@ -101,9 +101,22 @@
         default: '0'
       },
 
+      /**
+       * 是否只展开所有子节点
+       */
+      defaultExpandAll:{
+        type: Boolean,
+        default: false
+      },
+    },
+    watch:{
+      defaultExpandAll(news){
+        this.defaultExpandAlls=news;
+      }
     },
     data() {
       return {
+        defaultExpandAlls:this.defaultExpandAll,
         activeIndex: '0',
       }
     },

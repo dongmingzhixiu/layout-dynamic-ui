@@ -44,8 +44,8 @@
 	}
 }
  ```
- 
- 
+
+
 ## auto-save-api
  > 在编辑数据时，通过该参数 ，可以使用内置方法调用保存
  ```javascript
@@ -880,6 +880,52 @@ this.$ld.saveFormsDataAfter=function(result){
 	return;
 }
 ```
+
+## 联动参数动态注入
+
+> 当有一个远程加载数据和当前联动值相关时。需要改方法。
+
+> 比如有如下场景。动态加载学生信息，且学生信息和用户选择的班级息息相关，即：只动态加载用户选择班级的学生信息。此时可以通过如下配置进行
+```javasript
+layout:[
+  //班级下拉框
+  {
+    prop:'classId',label:'班级',type:'select',
+     //班级数据动态获取
+    getOptions:{
+      remotePath: '/clzss/get', //请求方法
+      remoteMethodType: "get",//请求类型
+      remoteParam:{},//参数
+      label:'${names}(${id})',//下拉框显示文字；比如有数据[{id:1,nickName:'张三',phone:'18888888888'}] => '张三(18888888888)'
+      value:'${id}', //此处的'${id}'<=>'id' 下拉框选项值；比如有数据[{id:1,nickName:'张三',phone:'18888888888'}] => '1'
+    },
+    //联动事件
+    change:(val)=>{
+      return {
+        //当班级改变时，联动调用远程加载数据，加载 studentId的数据
+        changeOptions:{
+          prop:'studentId'
+        }
+      }
+    }
+  },
+  //学生下拉框
+  {
+    prop:'studentId',label:'学生名称',type:'select',
+    //学生数据动态获取
+    getOptions:{
+    	remotePath: '/clzss/get',
+    	remoteMethodType: "get",
+      //此时需要在这里指定需要注入的参数名称'${classId}',使用${xxx}来让系统识别是需要注入的内容，而注入的值则会从this.forms对象中获取
+    	remoteParam:{'${classId}':''},//参数
+    	label:'${names}',
+    	value:'${id}',
+    },
+  }
+]
+```
+
+
 
 # 附录1
 ```html

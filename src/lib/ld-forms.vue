@@ -850,7 +850,7 @@
         if (typeof change == 'function') {
           let changeResult = change(value, event);
           Object.keys(changeResult).map(key => {
-            if (['form', 'layout'].includes(key)) {
+            if (['form', 'layout','changeOptions'].includes(key)) {
               let _v = changeResult[key];
               if (typeof _v == "function") {
                 _v = _v(value, Object.assign({}, event, {
@@ -862,6 +862,12 @@
               } else if (key == 'layout') {
                 this.$set(this, 'layouts', _v || this.layouts)
                 this.$forceUpdate();
+              } else if (key=='changeOptions'){ //通过联动动态改变数据
+                let _prop=_v['prop'];
+                let _item=this.layouts.filter(la=>la['prop']==_prop);
+                if(_item.length>0){
+                  this.getRemoteOptions(_item[0]);
+                }
               }
               return;
             }
@@ -911,57 +917,136 @@
 
       },
       /**
+       * 将参数值注入到对象中,通过判断key中是否存在'${xxx}'格式，如果存在，则将forms中对于的值注入其中
+       */
+      getParambyForms(param){
+        let _p={};
+        if(!param){
+          return _p;
+        }
+        Object.keys(param).map(key=>{
+          if(/^[$][{][a-zA-Z0-9_-]*[}]$/.test(key.trim())){
+            let _key=key.replace(/(^[$][{])|([}]$)/g,'');
+            _p[_key]=this.forms[_key]||'';
+            return;
+          }
+          _p[key]=param[key];
+        });
+        return _p;
+      },
+      /**
+       * 加载动态options值
+       */
+      getRemoteOptions(item){
+        if(!item){
+          return;
+        }
+
+        let _options = [];
+        let index = this.layouts.indexOf(item);
+        let options = item['getOptions'];
+        let remotePath = options['remotePath'] || {};
+        let remoteMethodType = options['remoteMethodType'];
+        let remoteParam = options['remoteParam'];
+        remoteParam = this.getParambyForms(remoteParam);
+        let remoteTimeout = options['remoteTimeout'];
+        this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
+          let d = res.data;
+          if (typeof options['getDataAfter'] == 'function') {
+            d = options['getDataAfter'](d);
+          }
+          if (!d) {
+            return
+          }
+          d = d.data || d;
+          if (typeof d == 'Object') {
+            d = [d];
+          }
+          d.map(obj => {
+            let _opt = {};
+            let _noKey = ['remotePath', 'remoteMethodType', 'remoteParam',
+              'remoteTimeout', 'getDataAfter'
+            ];
+            let _optKeyList = Object.keys(options);
+            for (let i = 0; i < _optKeyList.length; i++) {
+              let oldOptKey = _optKeyList[i];
+              if (_noKey.indexOf(oldOptKey) >= 0) {
+                continue;
+              }
+              let _oldOptVal = options[oldOptKey];
+              let _val = _oldOptVal.indexOf("${") < 0 ?
+                obj[_oldOptVal] : _oldOptVal.replace(
+                  /[$][{][a-z0-9A-Z_-]*[}]/g, res => {
+                    return obj[res.replace(/^[$][{]/, '').replace(
+                      /[}]$/, '')];
+                  });
+              _opt[oldOptKey] = _val;
+            }
+            _options[_options.length] = _opt;
+          })
+          item['options'] = _options;
+          if(!options['remoteParam']||Object.keys(options['remoteParam']).length<=0||!/[$][{][^,]*[}]/.test(Object.keys(options['remoteParam']).join(','))){
+            item['getOptions'] = null;
+          }
+          this.$set(this.layouts, index, item);
+        });
+      },
+      /**
        * 加载动态options值
        */
       initRemotesOptions() {
         let lay = this.layouts.filter(lay => (!lay['options'] || lay['options'].length <= 0) &&
-          lay['getOptions'] && typeof lay['getOptions'] == 'object');
+          lay['getOptions'] && typeof lay['getOptions'] == 'object'&&
+          //当有注入参数时，不初始化远程数据，只有在相应的联动之后才初始化参数
+           (!lay['getOptions']['remoteParam']||Object.keys(lay['getOptions']['remoteParam']).length==0||(Object.keys(lay['getOptions']['remoteParam']).length>0&&!/[$][{][^,]*[}]/.test(Object.keys(lay['getOptions']['remoteParam']).join(','))))
+          );
         lay.map(item => {
-          let _options = [];
-          let index = this.layouts.indexOf(item);
-          let options = item['getOptions'];
-          let remotePath = options['remotePath'] || {};
-          let remoteMethodType = options['remoteMethodType'];
-          let remoteParam = options['remoteParam'];
-          let remoteTimeout = options['remoteTimeout'];
-          this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
-            let d = res.data;
-            if (typeof options['getDataAfter'] == 'function') {
-              d = options['getDataAfter'](d);
-            }
-            if (!d) {
-              return
-            }
-            d = d.data || d;
-            if (typeof d == 'Object') {
-              d = [d];
-            }
-            d.map(obj => {
-              let _opt = {};
-              let _noKey = ['remotePath', 'remoteMethodType', 'remoteParam',
-                'remoteTimeout', 'getDataAfter'
-              ];
-              let _optKeyList = Object.keys(options);
-              for (let i = 0; i < _optKeyList.length; i++) {
-                let oldOptKey = _optKeyList[i];
-                if (_noKey.indexOf(oldOptKey) >= 0) {
-                  continue;
-                }
-                let _oldOptVal = options[oldOptKey];
-                let _val = _oldOptVal.indexOf("${") < 0 ?
-                  obj[_oldOptVal] : _oldOptVal.replace(
-                    /[$][{][a-z0-9A-Z_-]*[}]/g, res => {
-                      return obj[res.replace(/^[$][{]/, '').replace(
-                        /[}]$/, '')];
-                    });
-                _opt[oldOptKey] = _val;
-              }
-              _options[_options.length] = _opt;
-            })
-            item['options'] = _options;
-            item['getOptions'] = null;
-            this.$set(this.layouts, index, item);
-          });
+          this.getRemoteOptions(item);
+          // let _options = [];
+          // let index = this.layouts.indexOf(item);
+          // let options = item['getOptions'];
+          // let remotePath = options['remotePath'] || {};
+          // let remoteMethodType = options['remoteMethodType'];
+          // let remoteParam = options['remoteParam'];
+          // let remoteTimeout = options['remoteTimeout'];
+          // this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
+          //   let d = res.data;
+          //   if (typeof options['getDataAfter'] == 'function') {
+          //     d = options['getDataAfter'](d);
+          //   }
+          //   if (!d) {
+          //     return
+          //   }
+          //   d = d.data || d;
+          //   if (typeof d == 'Object') {
+          //     d = [d];
+          //   }
+          //   d.map(obj => {
+          //     let _opt = {};
+          //     let _noKey = ['remotePath', 'remoteMethodType', 'remoteParam',
+          //       'remoteTimeout', 'getDataAfter'
+          //     ];
+          //     let _optKeyList = Object.keys(options);
+          //     for (let i = 0; i < _optKeyList.length; i++) {
+          //       let oldOptKey = _optKeyList[i];
+          //       if (_noKey.indexOf(oldOptKey) >= 0) {
+          //         continue;
+          //       }
+          //       let _oldOptVal = options[oldOptKey];
+          //       let _val = _oldOptVal.indexOf("${") < 0 ?
+          //         obj[_oldOptVal] : _oldOptVal.replace(
+          //           /[$][{][a-z0-9A-Z_-]*[}]/g, res => {
+          //             return obj[res.replace(/^[$][{]/, '').replace(
+          //               /[}]$/, '')];
+          //           });
+          //       _opt[oldOptKey] = _val;
+          //     }
+          //     _options[_options.length] = _opt;
+          //   })
+          //   item['options'] = _options;
+          //   item['getOptions'] = null;
+          //   this.$set(this.layouts, index, item);
+          // });
         });
       },
       /**

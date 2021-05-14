@@ -19,6 +19,8 @@
 |menu-trigger|String|子菜单打开的触发方式(`click`\|`hover`)|click||(只在 mode 为 horizontal 时有效)|
 |uniqueOpened|Boolean|是否只保持一个子菜单的展开|false|||
 |defaultActive|String|当前激活菜单的 index|'0'|||
+|default-Expand-All|Boolean|是否展开所有子节点|false|||
+
 
 ### tree
 > tree 属性是菜单子项的一组集合 ，子项配置如下。

@@ -13,7 +13,7 @@
       </div>
       <slot name="logo" :item="{collapse:collapse}"></slot>
       <div class="w box-b" style="height: calc(100% - 60px); overflow: auto;">
-        <ld-menu-tree :uniqueOpened="menuTreeUniqueOpened" class="w h" :default-active="menuTreeDefaultActive"
+        <ld-menu-tree :uniqueOpened="menuTreeUniqueOpened" class="w h" :default-active="menuTreeDefaultActive" :default-expand-all="defaultExpandAlls"
           :tree="menuTrees" @click="menuClick" :collapse="!collapse" background-color="#545c64" text-color="#fff"
           :collapse-transition="false" active-text-color="#ffd04b"></ld-menu-tree>
       </div>
@@ -85,16 +85,28 @@
         default: true,
       },
 
+      /**
+       *是否展开菜单树的子节点
+       */
+      defaultExpandAll:{
+        type: Boolean,
+        default: true,
+      },
+
 
     },
     watch: {
       menuTree(news) {
         this.menuTrees = news;
         this.selectFirstPage();
+      },
+      defaultExpandAll(news){
+        this.defaultExpandAlls=news;
       }
     },
     data() {
       return {
+        defaultExpandAlls:this.defaultExpandAll,
         collapse: true,
         menuTreeDefaultActive: '',
         menuTrees: this.menuTree || [],
