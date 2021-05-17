@@ -1,6 +1,6 @@
 {
   "name": "layout-dynamic-ui",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Automatically generate form layout based on Element-ui",
   "private": false,
   "author": "dongmingzhixiu <1427953302@qq.com>",

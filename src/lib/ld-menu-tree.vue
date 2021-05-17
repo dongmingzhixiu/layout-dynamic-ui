@@ -1,9 +1,12 @@
 <template>
-  <el-menu :mode="mode" :collapse="collapse" :background-color="backgroundColor" :text-color="textColor"
+  <!-- <div>
+    {{trees}}
+  </div> -->
+ <el-menu :mode="mode" :collapse="collapse" :background-color="backgroundColor" :text-color="textColor"
     :active-text-color="activeTextColor" :default-active="defaultActive" :unique-opened="uniqueOpened"
-    :menu-trigger="menuTrigger" :collapse-transition="collapseTransition"  :default-expand-all="defaultExpandAlls">
-    <template v-for="(item,i) in tree">
-      <ld-menu-tree-item v-if="item['children']&&item['children'].length>0" :item="item" :key='i' :index="`${i}`"
+    :menu-trigger="menuTrigger" :collapse-transition="collapseTransition" :default-openeds="opens">
+    <template v-for="(item,i) in trees">
+      <ld-menu-tree-item v-if="Object.keys(item).includes('children') &&item['children']&&item['children'].length>0" :item="item" :key='i' :index="`${i}`"
         @click="menuClick">
         <template #title="e">
           <i v-if="e['item']['icon']" :class="e['item']['icon']"></i>
@@ -104,20 +107,28 @@
       /**
        * 是否只展开所有子节点
        */
-      defaultExpandAll:{
+      defaultExpandAll: {
         type: Boolean,
         default: false
       },
     },
-    watch:{
-      defaultExpandAll(news){
-        this.defaultExpandAlls=news;
+    watch: {
+      defaultExpandAll(news) {
+        this.defaultExpandAlls = news;
+        this.initExportAll();
+      },
+      tree(news) {
+        this.trees = news;
+        this.initExportAll();
       }
+
     },
     data() {
       return {
-        defaultExpandAlls:this.defaultExpandAll,
+        defaultExpandAlls: this.defaultExpandAll,
         activeIndex: '0',
+        opens: [],
+        trees: [],
       }
     },
     methods: {
@@ -125,15 +136,46 @@
         this.$nextTick(() => {
           this.$emit("click", e);
         });
+      },
+      getOpens(item, opens, index) {
+        if (this.defaultExpandAlls) {
+          opens[opens.length] = index+'';
+        }
+        if (Object.keys(item).includes('children') && item['children'] && item['children'].length > 0) {
+          let _index = 0;
+          item['children']=item['children'].map(citem => {
+            let _i = index + '_' + _index;
+            citem = this.getOpens(citem, opens, _i);
+            citem['index'] = _i;
+            _index++;
+            return citem;
+          });
+        }
+        item['index'] = index + '';
+        return item;
+      },
+      initExportAll() {
+        let index = 1;
+        this.tree.map(item => {
+          item = this.getOpens(item, this.opens, index);
+          this.$set(this.trees,index-1,item);
+          index++;
+        });
       }
+
+
+    },
+    created() {
+      this.initExportAll();
     }
   }
 </script>
 
 <style>
-  .el-submenu__title,.el-menu-item {
-    display: flex!important;
-    justify-content: flex-start!important;
-    align-items: center!important;
+  .el-submenu__title,
+  .el-menu-item {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
   }
 </style>

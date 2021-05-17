@@ -9,10 +9,10 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
-> v1.4.3
-## 添加`ld-forms`添加联动时，动态获取数据条件和当前表单数据关联的功能[联动参数注入](./doc/ld-forms.md##联动参数动态注入)
-## 修复已知其他问题
-
+>  v.1.4.4
+## 为`ld-menu-tree`是否展示所有子节点参数
+## 默认展开`ld-doc`的大纲
+## 修复其他已知问题
 
 # 使用方式
 
