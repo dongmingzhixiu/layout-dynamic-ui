@@ -1,16 +1,13 @@
 <template>
-  <!-- <div>
-    {{trees}}
-  </div> -->
  <el-menu :mode="mode" :collapse="collapse" :background-color="backgroundColor" :text-color="textColor"
     :active-text-color="activeTextColor" :default-active="defaultActive" :unique-opened="uniqueOpened"
     :menu-trigger="menuTrigger" :collapse-transition="collapseTransition" :default-openeds="opens">
     <template v-for="(item,i) in trees">
-      <ld-menu-tree-item v-if="Object.keys(item).includes('children') &&item['children']&&item['children'].length>0" :item="item" :key='i' :index="`${i}`"
+      <ld-menu-tree-item :collapse="collapse" v-if="Object.keys(item).includes('children') &&item['children']&&item['children'].length>0" :item="item" :key='i' :index="`${i}`"
         @click="menuClick">
         <template #title="e">
           <i v-if="e['item']['icon']" :class="e['item']['icon']"></i>
-          <div v-if="!collapse||!item['icon']" class="el-menu-text-info ellipsis">{{e['item']['label']}}</div>
+          <div class="el-menu-text-info ellipsis">{{e['item']['label']}}</div>
         </template>
       </ld-menu-tree-item>
       <template v-else>

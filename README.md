@@ -9,9 +9,8 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
->  v.1.4.4
-## 为`ld-menu-tree`是否展示所有子节点参数
-## 默认展开`ld-doc`的大纲
+>   v.1.4.5
+## 为`ld-forms`的图片组件添加`accept`参数，在选择图片弹窗时，对文件类型进行过滤。
 ## 修复其他已知问题
 
 # 使用方式

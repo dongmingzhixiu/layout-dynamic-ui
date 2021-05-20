@@ -225,6 +225,7 @@
                   <template v-if="isControlsType(item,'image')">
                     <!-- TODO  :disabled="getDisabled(item)" -->
                     <ld-images :disabled="getDisabled(item)" :limit="item['limit']||1" :value="forms[item['prop']]"
+                    :accept="item['accept']||'image/x-png,image/gif,image/jpeg,image/jpg,image/bmp'"
                       @image="ldChangeValToForm(item,$event,i)" :clearable="false"></ld-images>
                   </template>
 
@@ -611,12 +612,6 @@
         return this.getDisabled(item) ? `${item['label']||''}` : text;
       },
       /**
-       * 加载远程数据
-       */
-      getRemoteOptions() {
-
-      },
-      /**
        * 保存方法
        */
       formSave(fn, checkErrorFn) {
@@ -668,7 +663,7 @@
           let val = valNumber.includes(item['type']) ? 0 : "";
           try {
             val = this.forms && this.forms[item['prop']] ? this.forms[item['prop']] : '';
-            val = val ? val : item['value'] ? item['value'] : '';
+            val = val ? val : item['value'] ? typeof item['value']=='function'?item['value']():item['value'] : '';
             val = valNumber.includes(item['type']) ? parseInt(val) : val;
             //转换数据类型 Array
             if (this.layoutTypeEmitParser.isParse && this.layoutTypeArray && this.layoutTypeArray
@@ -1054,7 +1049,8 @@
        */
       initSetChange(){
         this.layouts.map(item=>{
-          this.setChange(item,this.forms[item['prop']]||item['value']||'');
+          let _val=this.forms[item['prop']]||(typeof item['value']=='function'?item['value']():item['value'])||'';
+          this.setChange(item,_val);
         });
       }
 

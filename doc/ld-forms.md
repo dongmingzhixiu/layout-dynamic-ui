@@ -400,6 +400,7 @@ data(){
 |参数|说明	|类型|可选值|默认值|
 |-|-|-|-|-|
 |limit|图片最大选择数量|Number||	1|
+|accept|文件类型|String||"image/x-png,image/gif,image/jpeg,image/jpg,image/bmp" |
 
 ---
 ## number
