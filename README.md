@@ -9,9 +9,12 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
->   v.1.4.5
+>  v.1.4.6
 ## 为`ld-forms`的图片组件添加`accept`参数，在选择图片弹窗时，对文件类型进行过滤。
-## 修复其他已知问题
+## 为`ld-forms`组件change添加value联动值设置。
+## 优化`ld-doc`组件在地址栏不显示锚点信息
+## 优化`ld-menu-tree`组件折叠后鼠标悬浮不显示二级菜单问题。（当折叠后，鼠标悬浮显示二级菜单时会在控制台报`Maximum call stack size exceeded.`错误。不折叠时不会出现该错误！）该错误通过多种方式解决目前任然存在该问题,尽可能的保证鱼和熊掌都有。
+## 修复其他问题
 
 # 使用方式
 

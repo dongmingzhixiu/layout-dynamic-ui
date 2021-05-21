@@ -871,11 +871,18 @@
               return;
             }
 
+            const formsKey=['value']; //当为value时将值设置到forms中
+
             let _i = this.layouts.indexOf(lays[0]);
             Object.keys(changeResult[key]).map(_key => {
               let _v = changeResult[key][_key];
               if (typeof _v == "function") {
                 _v = _v(value, event);
+              }
+
+              if(formsKey.includes(_key)){
+                this.$set(this.forms,key,_v);
+                return;
               }
               this.$nextTick(() => {
                 this.$set(this.layouts[_i], _key, _v);

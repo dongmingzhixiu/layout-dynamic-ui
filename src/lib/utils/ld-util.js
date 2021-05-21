@@ -44,12 +44,15 @@ const changeImagePath = function(url, readImgPath, readImgDefaultPath) {
   }
   return url;
 }
-const uuid = function() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+const uuid = function(len,binary) {
+	len=len||16;
+  binary=binary||10;
+  let _s='xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 10 | 0,
       v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(10);
+    return v.toString(binary);
   });
+  return _s.substring(0,len>_s.length?_s.length:len);
 }
 
 //获取两个日期之间的时间差

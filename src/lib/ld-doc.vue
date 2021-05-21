@@ -24,19 +24,19 @@
               <div class="el-icon-s-operation m-r10" @click="expansion=!expansion"></div>
             </div>
             <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']" :default-expand-all="defaultExpandAlls||true"
-              @click="outLineClick"></ld-menu-tree>
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              :default-expand-all="defaultExpandAlls||true" @click="outLineClick"></ld-menu-tree>
           </div>
           <div v-else class="el-icon-s-operation m-r10 fs26 c-p m-t10 p-t4 pos-l0" @click="expansion=!expansion"></div>
         </template>
       </template>
       <div style="flex-grow: 2;" class="h over-a-y p10 box-b f-c">
         <div class="p-b10" :class="{'box-shadow':docWidths!='100%'}" :style="{'width':docWidths}">
-          <ld-doc-item class="b-f p10 r4" :doc="docs" :is-first="true" :codeLanguages="codeLanguages">
+          <ld-doc-item :hash="hash" class="b-f p10 r4" :doc="docs" :is-first="true" :codeLanguages="codeLanguages">
             <!-- 向上传递插槽： -->
             <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
               <div :key="`${j}`">
-                <slot :name="keys" :item="e['item']"></slot>
+                <slot :name="keys" :item="e['item']" :hash="hash"></slot>
               </div>
             </template>
           </ld-doc-item>
@@ -56,8 +56,8 @@
               <div class="ellipsis">{{title}}</div>
             </div>
             <ld-menu-tree :tree="outline" :background-color="menuTree['background-color']"
-              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"  :default-expand-all="defaultExpandAlls||true"
-              @click="outLineClick"></ld-menu-tree>
+              :text-color="menuTree['text-color']" :active-text-color="menuTree['active-text-color']"
+              :default-expand-all="defaultExpandAlls||true" @click="outLineClick"></ld-menu-tree>
           </div>
           <div v-else class="el-icon-s-operation m-l10 fs26 c-p m-t10 p-t4 pos-r0" @click="expansion=!expansion"></div>
         </template>
@@ -111,9 +111,13 @@
       /**
        * 是否展开大纲的所有子节点
        */
-      defaultExpandAll:{
+      defaultExpandAll: {
         type: Boolean,
         default: true,
+      },
+      openHash: {
+        type: Boolean,
+        default: false,
       },
     },
     watch: {
@@ -130,8 +134,8 @@
           'active-text-color': "#ffd04b"
         }
       },
-      defaultExpandAll(news){
-        this.defaultExpandAlls=news;
+      defaultExpandAll(news) {
+        this.defaultExpandAlls = news;
       },
       aligns(news) {
         this.align = news;
@@ -148,7 +152,7 @@
     },
     data() {
       return {
-        defaultExpandAlls:this.defaultExpandAll,
+        defaultExpandAlls: this.defaultExpandAll,
         docs: this.doc,
         docWidths: this.docWidth,
         align: this.aligns,
@@ -167,7 +171,8 @@
           'background-color': "#545c64",
           'text-color': "#fff",
           'active-text-color': "#ffd04b"
-        }
+        },
+        hash:this.openHash?this.$ld.util.uuid(6):'',
       }
     },
     methods: {
@@ -177,11 +182,17 @@
         }
         let maodian = `#`;
         window.location.hash = maodian;
-        let _v = e['label'].replace(/[.=*#\^\$"'`]/g, "_");
+        let _v = e['label'].replace(/[.=*#\^\$"'`]/g, "_") + this.hash;
         let el = document.querySelector(`[name$="${_v}"]`)
         el = el[0] || el;
         maodian = `#${el.getAttribute("name")}`;
         window.location.hash = maodian;
+        this.$nextTick(() => {
+          window.location.hash = "";
+        });
+        // setTimeout(()=>{
+        //   window.location.hash = "";
+        // },10);
       },
       getOutLine() {
         //根据doc获取到大纲
@@ -197,40 +208,46 @@
         }
         if (!Array.isArray(doc) && typeof doc == 'object') {
           Object.keys(doc).map(keys => {
-            let _val = {
-              label: doc[keys].replace(/[\^\$"`']/g, "")
-            };
-            if (['h1', 'h2', 'h3', 'title'].includes(keys.toLocaleLowerCase())) {
-              if (keys.toLocaleLowerCase() == 'title') {
-                this.title = doc[keys];
+            try {
+              let _val = {
+                label: doc[keys].replace(/[\^\$"`']/g, "")
+              };
+              if (['h1', 'h2', 'h3', 'title'].includes(keys.toLocaleLowerCase())) {
+                if (keys.toLocaleLowerCase() == 'title') {
+                  this.title = doc[keys];
+                }
+                if (keys.toLocaleLowerCase() == 'h1') {
+                  info.push(_val);
+                  return info;
+                }
+                if (keys.toLocaleLowerCase() == 'h2') {
+                  info[info.length - 1] = info[info.length - 1] || {
+                    label: '未设置'
+                  };
+                  info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
+                  info[info.length - 1]['children'].push(_val);
+                  return info;
+                }
+                if (keys.toLocaleLowerCase() == 'h3') {
+                  info[info.length - 1] = info[info.length - 1] || {
+                    label: '未设置'
+                  };
+                  info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
+                  info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1] = info[info
+                    .length -
+                    1]['children'][info[info.length - 1]['children'].length - 1] || {
+                    label: '未设置'
+                  };
+                  info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] =
+                    info[
+                      info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] || [];
+                  info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'].push(
+                    _val);
+                  return info;
+                }
               }
-              if (keys.toLocaleLowerCase() == 'h1') {
-                info.push(_val);
-                return info;
-              }
-              if (keys.toLocaleLowerCase() == 'h2') {
-                info[info.length - 1] = info[info.length - 1] || {
-                  label: '未设置'
-                };
-                info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
-                info[info.length - 1]['children'].push(_val);
-                return info;
-              }
-              if (keys.toLocaleLowerCase() == 'h3') {
-                info[info.length - 1] = info[info.length - 1] || {
-                  label: '未设置'
-                };
-                info[info.length - 1]['children'] = info[info.length - 1]['children'] || [];
-                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1] = info[info.length -
-                  1]['children'][info[info.length - 1]['children'].length - 1] || {
-                  label: '未设置'
-                };
-                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] = info[
-                  info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'] || [];
-                info[info.length - 1]['children'][info[info.length - 1]['children'].length - 1]['children'].push(
-                  _val);
-                return info;
-              }
+            } catch (e) {
+              //TODO handle the exception
             }
           });
         }
@@ -242,13 +259,13 @@
         return info;
       },
       createMdAnchorLinkTarget() {
-        setInterval(()=>{
-          let a=document.querySelectorAll('.ld-doc-markdown-preview a[href^="#"]');
-          for(let i=0;i<a.length;i++){
-            let _a=a[i];
-            _a.setAttribute("target",this.MdAnchorLinkTarget);
+        setInterval(() => {
+          let a = document.querySelectorAll('.ld-doc-markdown-preview a[href^="#"]');
+          for (let i = 0; i < a.length; i++) {
+            let _a = a[i];
+            _a.setAttribute("target", this.MdAnchorLinkTarget);
           }
-        },1000);
+        }, 1000);
       }
     },
     created() {

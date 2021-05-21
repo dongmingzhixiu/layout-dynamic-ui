@@ -12,8 +12,19 @@
       </ld-menu-tree-item>
       <template v-else>
         <el-menu-item :index="`${i}`" :key="i" @click="menuClick(item)">
-          <i v-if="item['icon']" :class="item['icon']"></i>
-          <div v-if="!collapse||!item['icon']" class="el-menu-text-info ellipsis">{{item['label']}}</div>
+          <template v-if="collapse">
+            <el-tooltip placement="right">
+              <div slot="content">
+                <div class="el-menu-text-info ellipsis ">{{item['label']}}</div>
+              </div>
+              <i v-if="item['icon']" :class="item['icon']" style="font-size:18px;width: 24px;height: 18px;text-align: center;"></i>
+              <div v-if="!collapse||!item['icon']" class="el-menu-text-info ellipsis">{{item['label']}}</div>
+            </el-tooltip>
+          </template>
+          <template v-else>
+            <i v-if="item['icon']" :class="item['icon']"></i>
+            <div v-if="!collapse||!item['icon']" class="el-menu-text-info ellipsis">{{item['label']}}</div>
+          </template>
         </el-menu-item>
       </template>
     </template>

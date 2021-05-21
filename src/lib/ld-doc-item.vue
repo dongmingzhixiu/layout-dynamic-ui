@@ -6,10 +6,10 @@
     <template v-else-if="typeof doc=='object'&&!Array.isArray(doc)">
       <template v-for="(key,i) in Object.keys(doc)">
         <template v-if="typeof doc[key]=='object'">
-          <ld-doc-item :doc="doc[key]" :key="`${index}_${i}`" :index="i" :is-frist="false">
+          <ld-doc-item :hash="hash" :doc="doc[key]" :key="`${index}_${i}`" :index="i" :is-frist="false">
             <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
               <div :key="`slot_${index}_${j}`">
-                <slot :name="keys" :item="doc[key]"></slot>
+                <slot :name="keys" :item="doc[key]"  :hash="hash"></slot>
               </div>
             </template>
           </ld-doc-item>
@@ -31,7 +31,7 @@
           </h3>
 
           <div v-else-if="key.toLocaleLowerCase()=='slot'" :key="`${index}_${i}`" class="m-b5">
-            <slot :name="`${doc[key]}`" :item="doc"></slot>
+            <slot :name="`${doc[key]}`" :item="doc"  :hash="hash"></slot>
           </div>
           <div v-else-if="key.toLocaleLowerCase().indexOf('tip')==0" :key="`${index}_${i}`" :class="getTipClass(key)"
             v-html="getHtml(doc[key])"></div>
@@ -54,12 +54,12 @@
     </template>
     <template v-else>
       <template v-for="(item ,i) in (Array.isArray(doc)?doc:[doc])">
-        <ld-doc-item :doc="item" :key="`${index}_${i}`" :index="i" :is-frist="false">
+        <ld-doc-item :hash="hash" :doc="item" :key="`${index}_${i}`" :index="i" :is-frist="false">
 
           <!-- 向上传递插槽： -->
           <template v-slot:[keys]="e" v-for="(keys,j) in Object.keys($scopedSlots)">
             <div :key="`slot_${index}_${j}`">
-              <slot :name="keys" :item="item"></slot>
+              <slot :name="keys" :item="item"  :hash="hash"></slot>
             </div>
           </template>
 
@@ -103,6 +103,10 @@
         type: Boolean,
         default: true,
       },
+      hash:{
+        type:String,
+        default:"",
+      }
     },
     data() {
       return {
@@ -112,7 +116,7 @@
     },
     methods: {
       getHrefKey(str) {
-        return str.replace(/[\^\$"`']/g, "").replace(/[.=*#\^\$"'`]/g, "_")
+        return str.replace(/[\^\$"`']/g, "").replace(/[.=*#\^\$"'`]/g, "_")+this.hash //添加hash
       },
       getTipClass(key) {
         if (key.length <= 0) {
