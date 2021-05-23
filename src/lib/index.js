@@ -26,7 +26,7 @@ import ldMenuTree from '@/lib/ld-menu-tree.vue'
 import ldPageTabs from '@/lib/ld-page-tabs.vue'
 import ldFrame from '@/lib/ld-frame.vue'
 import ldDoc from '@/lib/ld-doc.vue'
-
+import ldSkin from '@/lib/ld-skins.vue'
 
 
 
@@ -129,6 +129,8 @@ const install = (Vue, opts = {}) => {
   Vue.component('ld-frame', ldFrame);
 
   Vue.component('ld-doc', ldDoc);
+	
+  Vue.component('ld-skin', ldSkin);
 
 
 
