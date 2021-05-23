@@ -27,6 +27,9 @@ body {
   background: rgba(85, 170, 255, 0.4);
 }
 
+body{
+	background: #fff;
+}
 :root {
   --primarycolor: rgba(64, 158, 255, 1);
   --primarycolor9: rgba(64, 158, 255, .9);
@@ -193,4 +196,5 @@ body {
   --x520: 520px;
   --x560: 560px;
   --x600: 600px;
+	
 }

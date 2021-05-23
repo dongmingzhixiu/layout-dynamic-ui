@@ -19,9 +19,9 @@
       </div>
     </div>
     <!-- 右侧 -->
-    <div class="h b-i1 box-b" style="flex-grow: 2;" :style="{'width':`calc(100% - ${!collapse?'65px':'200px'})`}">
+    <div class="h box-b" style="flex-grow: 2;" :style="{'width':`calc(100% - ${!collapse?'65px':'200px'})`}">
       <!-- 头部 -->
-      <div class="w f-s b-f a-i-c box-b" style="height: 60px;">
+      <div class="w f-s a-i-c box-b" style="height: 60px;">
         <div class="m-l10 fs20 c6 head-select" @click="collapse=!collapse"
           :class="{'el-icon-s-fold':collapse,'el-icon-s-unfold':!collapse}"></div>
         <div class="f-e" style="flex-grow: 2;">
