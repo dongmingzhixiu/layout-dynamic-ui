@@ -44,15 +44,15 @@ const changeImagePath = function(url, readImgPath, readImgDefaultPath) {
   }
   return url;
 }
-const uuid = function(len,binary) {
-	len=len||16;
-  binary=binary||10;
-  let _s='xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+const uuid = function(len, binary) {
+  len = len || 16;
+  binary = binary || 10;
+  let _s = 'xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 10 | 0,
       v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(binary);
   });
-  return _s.substring(0,len>_s.length?_s.length:len);
+  return _s.substring(0, len > _s.length ? _s.length : len);
 }
 
 //获取两个日期之间的时间差
@@ -85,7 +85,7 @@ const getMonthDiff = function(endDate, startDate) {
   endDate = typeof endDate == "string" ? new Date(endDate) : endDate;
   var s1 = startDate.getMonth(),
     s2 = endDate.getMonth();
-  var month = s2 - s1+(getYearDiff(endDate,startDate)*12)
+  var month = s2 - s1 + (getYearDiff(endDate, startDate) * 12)
   return month;
 }
 /**
@@ -702,7 +702,7 @@ const getIp = function() {
 const setCookie = function(c_name, value, expiredays) {
   var exdate = new Date()
   exdate.setDate(exdate.getDate() + expiredays)
-  document.cookie = c_name + "=" + escape(value) +
+  document.cookie = c_name + "=" + (value ? escape(value) : '') +
     ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
 }
 
@@ -719,6 +719,23 @@ const getCookie = function(c_name) {
   }
   return ""
 }
+/**
+ *  清楚cookie
+ * @param {Object} name
+ */
+const clearCookie = function(name) {
+  var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+  if (keys) {
+    for (var i = keys.length; i--;) {
+      document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString(); //清除当前域名下的,例如：m.kevis.com
+      document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString(); //清除当前域名下的，例如 .m.kevis.com
+      if (name && keys[i] == name) {
+        return;
+      }
+    }
+  }
+}
+
 /**
  * 复制内容到剪贴板
  * @param {Object} selector ES6 document.querySelector支持的选择器 或者文本
@@ -815,7 +832,8 @@ export default {
 
   cookie: {
     get: getCookie,
-    set: setCookie
+    set: setCookie,
+    clear:clearCookie
   },
 
   copyToClipboard

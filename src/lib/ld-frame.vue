@@ -27,8 +27,8 @@
         <div class="f-e" style="flex-grow: 2;">
           <slot name="headCenter"></slot>
 					<div class="box-b m-r8">
-						<el-button class="el-icon-orange" circle type="warning" @click="toolClick('skin')"></el-button>
-						<ld-skin></ld-skin>
+						<el-button v-if="showSkin" class="el-icon-orange" circle type="warning" @click="toolClick('skin')"></el-button>
+						<ld-skin v-if="showSkin"></ld-skin>
 						<el-button class="el-icon-switch-button" circle type="primary" @click="toolClick('exit')"></el-button>
 					</div>
         </div>
@@ -97,7 +97,13 @@
         type: Boolean,
         default: true,
       },
-
+      /**
+       * 是否显示皮肤
+       */
+      showSkin:{
+        type: Boolean,
+        default: false,
+      },
 
     },
     watch: {
@@ -124,7 +130,7 @@
 			toolClick(key){
 				this.$emit("toolClick",{key:key});
 			},
-			
+
       pageTabsClick(e){
         let _index=this.pageTabs.indexOf(e);
         _index=_index<0?this.pageTabs.indexOf(this.pageTabs.filter(item=>item['prop']==e['prop'])[0]):_index;

@@ -75,14 +75,16 @@ const request = {
    */
   request: function(router, method, params = {}, timeout) {
     method = method || 'get';
-    timeout = typeof params == 'number' && !timeout ? params : timeout;
+    timeout = typeof params == 'number' && !timeout ? 2000 : timeout;
     params = typeof params == 'number' && !timeout ? {} : params;
 
     let isMock = false;
+    let serverRequestPath	= "";
     try {
       let requestSetting = this.$ld && this.$ld.requestSetting ? this.$ld.requestSetting : this
         .requestSetting;
       isMock = requestSetting.config.isMock ;
+      serverRequestPath=requestSetting.serverPath.get();
     } catch (e) {}
 
     // 为没个请求添加token拦截

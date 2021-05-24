@@ -909,6 +909,7 @@
         let remoteMethodType = this.editorFormsInitApis['remoteMethodType'];
         let remoteTimeout = this.editorFormsInitApis['remoteTimeout'];
         this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
+          debugger
           res = res.data;
           if (typeof this.editorFormsInitApis['getDataAfter'] == 'function') {
             res = this.editorFormsInitApis['getDataAfter'](res);

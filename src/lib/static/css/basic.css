@@ -1,6 +1,7 @@
 /**基本色*/
 body {
   margin: 0;
+  background-image: linear-gradient(#fff);
 }
 
 /* 设置滚动条的样式 */

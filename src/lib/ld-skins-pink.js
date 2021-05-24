@@ -12,5 +12,7 @@ export default {
 		'--primarycolor1': 'rgba(218, 121, 235, .1)'
 	},
 	file:'pink-el.css',
-	
+	body:{
+    'background-image': 'linear-gradient(to right, rgba(218, 121, 235, .3),rgb(244 67 54 / 50%),rgb(233 30 99 / 73%))'
+  }
 }
