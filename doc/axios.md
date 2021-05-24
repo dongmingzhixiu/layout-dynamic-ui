@@ -158,7 +158,7 @@ this.$ld.requestSetting.interceptor = {
 
 ```javascript
  this.$ld.requestSetting.init= (axios) => {
-    axios.defaults.withCredentials = true;
+    axios.defaults.withCredentials = true; //注意这里设置该属性后即可保证sessionid一致，如果使用mockjs进行数据模拟测试，则会影响jssessionId的值，因此也需要将mockjs的相关方法注释掉。
     return axios;
   }
 ```
