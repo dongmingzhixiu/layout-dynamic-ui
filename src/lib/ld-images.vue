@@ -1,7 +1,8 @@
 <template>
-  <div class="ld-image">
+  <div class="ld-image" :class="`${hash}`">
     <el-upload :file-list="fileList" :limit="limits" multiple action="#" list-type="picture-card"
-      :on-change="fileListChange" :before-remove="beforeRemove" :auto-upload="false" :on-exceed="selectImages">
+      :on-change="fileListChange" :before-remove="beforeRemove" :auto-upload="false" :on-exceed="selectImages"
+      :accept="accept">
       <i slot="default" class="el-icon-plus" @click="selectImages"></i>
       <div slot="file" slot-scope="{file}" class="w h position-relative">
         <el-image class="w h" fit="cover " :src="file.url" alt="" :preview-src-list="[file.url]">
@@ -34,14 +35,32 @@
           return [];
         }
       },
+      getImagePath: {
+        type: Function,
+        default: null
+      },
       accept: {
         type: String,
         default: "image/x-png,image/gif,image/jpeg,image/jpg,image/bmp",
+      },
+      isSplit: {
+        type: Boolean,
+        default: true,
+      },
+      splitChart: {
+        type: String,
+        default: ','
       }
     },
     watch: {
       limit(news) {
         this.limits = news;
+      },
+      value(news) {
+        this.fileListChange();
+        setTimeout(() => {
+          this.showAddButton();
+        }, 250);
       }
     },
     data() {
@@ -51,36 +70,68 @@
         dialogImageUrl: '',
         dialogVisible: false,
         fileList: [],
+        hash: this.$ld.util.randomChar(6)
       };
     },
     methods: {
-      setAccept() {
-        if(!this.accept){
+      // setAccept() {
+      // if(!this.accept){
+      //   return;
+      // }
+      // setTimeout(() => {
+      //   try {
+      //     document.querySelector(".ld-image").querySelector('input[type="file"]').setAttribute("accept", this
+      //       .accept);
+      //   } catch (e) {
+      //     //TODO handle the exception
+      //     this.setAccept();
+      //   }
+      // }, 250);
+      // },
+
+      changeFileList() {
+        if (!this.value || this.value.length <= 0) {
           return;
         }
-        setTimeout(() => {
-          try {
-            document.querySelector(".ld-image").querySelector('input[type="file"]').setAttribute("accept", this
-              .accept);
-          } catch (e) {
-            //TODO handle the exception
-            this.setAccept();
+        let arr = typeof this.value == 'string' ?
+          this.value.indexOf(this.splitChart) > 0 ?
+          this.isSplit && this.value.split(this.splitChart) : [this.value] : this.value;
+        if (arr.length <= 0) {
+          return;
+        }
+        arr.map(key => {
+          key = key.indexOf("?") > 0 ? key.substring(0, key.indexOf('?')) : key;
+          let name = key.substring(key.lastIndexOf('/') + 1);
+          let url = "";
+          if (typeof this.$ld.getImagePath == 'function') {
+            url = this.$ld.getImagePath(key);
+          } else if (typeof this.getImagePath == 'function') {
+            url = this.getImagePath(key);
+          } else {
+            url = key;
           }
-        }, 250);
+          this.$set(this.fileList, this.fileList.length, {
+            name: name,
+            url: url
+          })
+        });
+        this.showAddButton();
       },
-
       fileListChange(file, fileList) {
+        if (!file || !fileList) {
+          return;
+        }
         this.fileList = fileList;
         this.$emit("image", this.fileList);
         this.showAddButton();
-        this.setAccept();
+        // this.setAccept();
       },
       selectImages(files, fileList) {
         this.showAddButton();
         if (this.limits <= 1) {
           return;
         }
-        this.setAccept();
+        // this.setAccept();
         //this.$message.warning(`当前限制选择${this.limit}个文件，共选择了 ${this.fileList.length} 个文件`);
         // 得到已选文件个数
       },
@@ -88,16 +139,23 @@
         this.fileList = this.fileList.filter(item => item.uid != file.uid);
         this.$emit("image", this.fileList);
         this.showAddButton();
-        this.setAccept();
+        // this.setAccept();
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
-        this.setAccept();
+        // this.setAccept();
       },
       showAddButton() {
         try {
-          document.querySelector('.el-upload.el-upload--picture-card').style.display = this.fileList.length < this
-            .limits ? 'inline-block' : 'none'
+          let setInv = setInterval(() => {
+            if (document.querySelector(`.${this.hash} .el-upload.el-upload--picture-card`)) {
+              document.querySelector(`.${this.hash} .el-upload.el-upload--picture-card`).style.display
+              = this.fileList.length < this.limits ? 'inline-block' : 'none';
+              clearInterval(setInv);
+            }
+            return;
+          }, 10);
+
         } catch (e) {}
       }
 
@@ -105,7 +163,8 @@
 
     },
     created() {
-      this.setAccept();
+      this.changeFileList();
+      this.showAddButton();
     }
   }
 </script>

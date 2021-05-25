@@ -1,3 +1,11 @@
+# v.1.4.7
+## 为`ld-table`解决替换列因查询异常，导致数据替换失败问题
+## 为`this.$ld.util.request`相关方法打包后异常问题,并且添加`headers`设置
+## 为`ld-forms`的`save-forms-data-before`保存数据之前的装饰函数支持Promise模式
+## 优化`ld-image`插件，支持上传图片和图片显示，添加 `getImagePath`参数和全局`this.$ld.getImagePath`参数，支持对初始化加载图片路径的修改和补充
+## 添加`requestFile`文件上传请求方法，固定的`Content-type='multipart/form-data;boundary=时间戳'`
+## 修复其他问题
+
 # v.1.4.6
 ## 为`ld-doc`的猫链接添加hash值。
 ## 为`ld-forms`组件change添加value联动值设置。

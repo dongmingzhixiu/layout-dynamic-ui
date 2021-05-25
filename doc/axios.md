@@ -118,6 +118,7 @@ this.$ld.requestSetting.interceptor = {
 |2|methodType|String||get|请求方法：get`\|`post|'get'|
 |3|data|Object`\|`Array||{}|请求参数|`{userName:'188888888',password:'1111111'}`|
 |4|timeout|Number||60000|超时时间(毫秒);如需全局设置需要调用`this.$ld.requestSetting.config.timeout = 2000;`|1000*2|
+|5|headers|Object||null|请求头||
 
 
  > 除此之外对常用的两种请求类型(get;post)提供了额外的使用方式
@@ -166,4 +167,3 @@ this.$ld.requestSetting.interceptor = {
 ```javascript
 this.$ld.requestSetting.config.isMock=true;
 ```
-

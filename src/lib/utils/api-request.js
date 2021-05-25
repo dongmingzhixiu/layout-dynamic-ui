@@ -41,6 +41,12 @@ const request = {
      */
     timeout: (result) => {
       return result;
+    },
+    /**
+     * 异常处理程序
+     */
+    error:(error,option)=>{
+      return error;
     }
   },
 
@@ -73,10 +79,19 @@ const request = {
   /**
    * 请求方法
    */
-  request: function(router, method, params = {}, timeout) {
+  request: function(router, method, params = {}, timeout,headers=null) {
     method = method || 'get';
-    timeout = typeof params == 'number' && !timeout ? 2000 : timeout;
-    params = typeof params == 'number' && !timeout ? {} : params;
+    if(typeof params=='number'){
+      headers=timeout;
+      timeout=params;
+      params={};
+    }
+    if(typeof timeout=='object'){
+      headers=timeout;
+      timeout=null;
+    }
+    timeout = !timeout ? 2000 : timeout;
+    params = !params ? {} : params;
 
     let isMock = false;
     let serverRequestPath	= "";
@@ -94,7 +109,11 @@ const request = {
       method,
       url
     }
+    if(headers){
+      option['headers']=headers;
+    }
     option[method.toLocaleLowerCase() === 'get' ? 'params' : 'data'] = params
+
 
     const getinterceptor = () => {
       try {
@@ -137,7 +156,6 @@ const request = {
         axios);
       _axios.defaults.timeout = timeout || requestSetting.config.timeout || 1000 * 60;
     } catch (e) {}
-
     //执行拦截器
     let interceptor = getinterceptor();
     let _data = {
@@ -158,21 +176,27 @@ const request = {
         if (err.message.indexOf(`timeout of ${axios.defaults.timeout}ms exceeded`) == 0) {
           err = interceptor.timeout(err) || err;
         }
+        if (typeof interceptor.error=='function') {
+          interceptor.error(err.message,option);
+        }
         return Promise.reject(err)
       });
     }, option);
   },
 
   //POST请求
-  postRequest: function(router, params = {}, timeout) {
-    return this.request(router, 'post', params);
+  postRequest: function(router, params = {}, timeout,headers=null) {
+    return this.request(router, 'post', params,timeout,headers,false);
   },
 
   //GET请求
-  getRequest: function(router, params = {}, timeout) {
-    return this.request(router, 'get', params);
+  getRequest: function(router, params = {}, timeout,headers=null) {
+    return this.request(router, 'get', params, timeout,headers,false);
   },
 
+  uploadFile:function(router, params = {}, timeout){
+    return this.request(router,'post',params, timeout, {'Content-Type': `multipart/form-data;boundary=${new Date().getTime()}`});
+  }
 
 }
 export default request

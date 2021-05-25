@@ -226,7 +226,9 @@
                     <!-- TODO  :disabled="getDisabled(item)" -->
                     <ld-images :disabled="getDisabled(item)" :limit="item['limit']||1" :value="forms[item['prop']]"
                     :accept="item['accept']||'image/x-png,image/gif,image/jpeg,image/jpg,image/bmp'"
-                      @image="ldChangeValToForm(item,$event,i)" :clearable="false"></ld-images>
+                    :get-image-path="item['getImagePath']"  @image="ldChangeValToForm(item,$event,i)"
+                    :is-split="item['isSplit']" :split-chart="item['splitChart']"
+                    :clearable="false"></ld-images>
                   </template>
 
                   <!-- 计数器 -->
@@ -632,25 +634,34 @@
         } else {
           remoteParam = this.$ld.saveFormsDataBefore(remoteParam);
         }
-        let remotePath = this.autoSaveApi['remotePath'];
-        let remoteMethodType = this.autoSaveApi['remoteMethodType'];
-        let remoteTimeout = this.autoSaveApi['remoteTimeout'];
-        this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
-          this.$emit("saveAfter", res);
+        const executeFn=(remoteParam)=>{
+          let remotePath = this.autoSaveApi['remotePath'];
+          let remoteMethodType = this.autoSaveApi['remoteMethodType'];
+          let remoteTimeout = this.autoSaveApi['remoteTimeout'];
+          this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
+            this.$emit("saveAfter", res);
 
-          if (typeof this.saveFormsDataAfter == 'function') {
-            this.saveFormsDataAfter(res);
-          } else {
-            this.$ld.saveFormsDataAfter(res);
-          }
-          if (typeof fn == 'function') {
-            fn(res);
-          }
-        }, error => {
-          if (typeof fn == 'function') {
-            fn(error);
-          }
-        });
+            if (typeof this.saveFormsDataAfter == 'function') {
+              this.saveFormsDataAfter(res);
+            } else {
+              this.$ld.saveFormsDataAfter(res);
+            }
+            if (typeof fn == 'function') {
+              fn(res);
+            }
+          }, error => {
+            if (typeof fn == 'function') {
+              fn(error);
+            }
+          });
+        }
+        if(remoteParam  instanceof Promise){
+          remoteParam.then(_result=>{
+            executeFn(_result);
+          })
+          return;
+        }
+        executeFn(remoteParam);
       },
 
       /**
@@ -909,7 +920,6 @@
         let remoteMethodType = this.editorFormsInitApis['remoteMethodType'];
         let remoteTimeout = this.editorFormsInitApis['remoteTimeout'];
         this.$ld.request(remotePath, remoteMethodType, remoteParam, remoteTimeout).then(res => {
-          debugger
           res = res.data;
           if (typeof this.editorFormsInitApis['getDataAfter'] == 'function') {
             res = this.editorFormsInitApis['getDataAfter'](res);

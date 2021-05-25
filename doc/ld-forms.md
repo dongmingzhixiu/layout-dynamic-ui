@@ -401,6 +401,9 @@ data(){
 |-|-|-|-|-|
 |limit|图片最大选择数量|Number||	1|
 |accept|文件类型|String||"image/x-png,image/gif,image/jpeg,image/jpg,image/bmp" |
+|is-split|是否对图片进行分割处理。即:value字符串是否是多个图片地址|String|||
+|split-chart|多个图片链接时的分割字符|String||,|
+|getImagePath|获取图片的路径;对图片路径进行修改和补充，可通过全局设置`this.$ld.getImagePath`|function(image)||
 
 ---
 ## number

@@ -523,10 +523,16 @@
           } else {
             let param = {};
             param[info[3]] = info[4];
-            this.$ld.request(info[0], info[1], param).then(res => {
+            this.$ld.request(info[0], info[1], param,3000).then(res => {
               count++;
               let d = res.data.data || res.data;
               map[key] = d[info[2]] || '';
+              if (count >= Object.keys(map).length) {
+                this.replaceMapToList(map);
+              }
+            }).catch(err=>{
+              count++;
+              map[key] ="";
               if (count >= Object.keys(map).length) {
                 this.replaceMapToList(map);
               }

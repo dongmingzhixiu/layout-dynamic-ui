@@ -2,6 +2,7 @@
 import '@/lib/static/css/basic.css';
 import '@/lib/static/css/base.css';
 import '@/lib/static/css/other.css';
+import axios from 'axios';
 
 //引入axios 请求封装方法
 import apiRequest from '@/lib/utils/api-request.js';
@@ -77,6 +78,7 @@ const install = (Vue, opts = {}) => {
     request: apiRequest.request,
     postRequest: apiRequest.postRequest,
     getRequest: apiRequest.getRequest,
+    uploadFile: apiRequest.uploadFile,
 
     //`ld-table`获取表格数据之后，装载数据到表格之前，处理数据的函数
     getTableRemoteDataAfter: function(data, isPagination) {
@@ -99,6 +101,12 @@ const install = (Vue, opts = {}) => {
     //`ld-forms`保存数据之后的 , 处理函数
     saveFormsDataAfter: function(result) {
 
+    },
+    /**
+     * 全局动态设置图片路径
+     */
+    getImagePath:function(images){
+      return images;
     },
 
     //工具包
@@ -129,7 +137,7 @@ const install = (Vue, opts = {}) => {
   Vue.component('ld-frame', ldFrame);
 
   Vue.component('ld-doc', ldDoc);
-	
+
   Vue.component('ld-skin', ldSkin);
 
 
@@ -154,5 +162,6 @@ export default {
   ldAddress,
   ldParams,
   ldImages,
+  axios,
 
 }

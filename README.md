@@ -9,11 +9,12 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
->  v.1.4.6
-## 为`ld-forms`的图片组件添加`accept`参数，在选择图片弹窗时，对文件类型进行过滤。
-## 为`ld-forms`组件change添加value联动值设置。
-## 优化`ld-doc`组件在地址栏不显示锚点信息
-## 优化`ld-menu-tree`组件折叠后鼠标悬浮不显示二级菜单问题。（当折叠后，鼠标悬浮显示二级菜单时会在控制台报`Maximum call stack size exceeded.`错误。不折叠时不会出现该错误！）该错误通过多种方式解决目前任然存在该问题,尽可能的保证鱼和熊掌都有。
+>  v.1.4.7
+## 为`ld-table`解决替换列因查询异常，导致数据替换失败问题
+## 为`this.$ld.util.request`相关方法打包后异常问题,并且添加`headers`设置
+## 为`ld-forms`的`save-forms-data-before`保存数据之前的装饰函数支持Promise模式
+## 优化`ld-image`插件，支持上传图片和图片显示，添加 `getImagePath`参数和全局`this.$ld.getImagePath`参数，支持对初始化加载图片路径的修改和补充
+## 添加`requestFile`文件上传请求方法，固定的`Content-type='multipart/form-data;boundary=时间戳'`
 ## 修复其他问题
 
 # 使用方式
