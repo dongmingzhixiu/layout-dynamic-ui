@@ -154,7 +154,10 @@ const request = {
         .requestSetting;
       _axios = requestSetting.init(
         axios);
-      _axios.defaults.timeout = timeout || requestSetting.config.timeout || 1000 * 60;
+      let _to= timeout || requestSetting.config.timeout || 1000 * 60;
+      if(_to>0){
+        _axios.defaults.timeout =_to;
+      }
     } catch (e) {}
     //执行拦截器
     let interceptor = getinterceptor();
@@ -177,9 +180,9 @@ const request = {
           err = interceptor.timeout(err) || err;
         }
         if (typeof interceptor.error=='function') {
-          interceptor.error(err.message,option);
+          interceptor.error(err,option);
         }
-        return Promise.reject(err)
+        return Promise.rejected.reject(err)
       });
     }, option);
   },

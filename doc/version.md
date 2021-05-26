@@ -1,3 +1,8 @@
+# v.1.4.8
+## 修复`ld-forms`中`image`组件因为hash问题引起的异常
+
+
+
 # v.1.4.7
 ## 为`ld-table`解决替换列因查询异常，导致数据替换失败问题
 ## 为`this.$ld.util.request`相关方法打包后异常问题,并且添加`headers`设置

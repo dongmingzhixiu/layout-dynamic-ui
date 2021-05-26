@@ -439,16 +439,18 @@
         type: Object,
         default: () => {
           return null
-          // {
-          // remotePath: '',
-          // remoteParam: {},
-          // remoteMethodType: "get",
-          // getDataAfter: (data) => {
-          // 	return data;
-          // }
-          // }
         }
-      }
+      },
+      /**
+       * 编辑数据加载完成后触发事件
+       */
+      editorFormsInitAfter: {
+        type: Object,
+        default: () => {
+          return null
+        }
+      },
+
 
     },
     data() {
@@ -649,9 +651,9 @@
             if (typeof fn == 'function') {
               fn(res);
             }
-          }, error => {
+          }, err => {
             if (typeof fn == 'function') {
-              fn(error);
+              fn(err);
             }
           });
         }
@@ -847,7 +849,9 @@
         let event = {
           prop: item['prop'],
           value: value,
-          form: this.forms
+          form: this.forms,
+          item:item,
+          selectOption:item['options']&&item['options'].length>0?item['options'].filter(item=>item['value']==value):[]
         }
         this.$emit("rowChangeBefore", Object.assign({}, event, {
           layout: this.layouts
@@ -926,6 +930,9 @@
           }
           this.forms = res.data || res;
           this.formReset();
+          if(typeof this.editorFormsInitAfter=='function'){
+            this.editorFormsInitAfter();
+          }
         });
 
       },

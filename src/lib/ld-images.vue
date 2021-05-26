@@ -1,5 +1,5 @@
 <template>
-  <div class="ld-image" :class="`${hash}`">
+  <div class="ld-image" :class="`ld-image-${hash}`">
     <el-upload :file-list="fileList" :limit="limits" multiple action="#" list-type="picture-card"
       :on-change="fileListChange" :before-remove="beforeRemove" :auto-upload="false" :on-exceed="selectImages"
       :accept="accept">
@@ -70,7 +70,7 @@
         dialogImageUrl: '',
         dialogVisible: false,
         fileList: [],
-        hash: this.$ld.util.randomChar(6)
+        hash:this.$ld.util.randomChar(6)
       };
     },
     methods: {
@@ -147,14 +147,16 @@
       },
       showAddButton() {
         try {
+          let count=0;
           let setInv = setInterval(() => {
-            if (document.querySelector(`.${this.hash} .el-upload.el-upload--picture-card`)) {
-              document.querySelector(`.${this.hash} .el-upload.el-upload--picture-card`).style.display
+            if (document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`)||count>50) {
+              document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`).style.display
               = this.fileList.length < this.limits ? 'inline-block' : 'none';
               clearInterval(setInv);
             }
+            count++;
             return;
-          }, 10);
+          }, 100);
 
         } catch (e) {}
       }
