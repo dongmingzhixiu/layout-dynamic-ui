@@ -30,7 +30,7 @@ import ldDoc from '@/lib/ld-doc.vue'
 import ldSkin from '@/lib/ld-skins.vue'
 
 
-
+let toolsTemp={};
 
 const install = (Vue, opts = {}) => {
 
@@ -107,6 +107,21 @@ const install = (Vue, opts = {}) => {
      */
     getImagePath:function(images){
       return images;
+    },
+    /**
+     *头部小工具信息，在头部小工具操作后，会将对于的记录添加到该对象中
+     */
+    headToolInfo:{
+      get:()=>{
+        return toolsTemp;
+      },
+      set:function(key,val){
+        toolsTemp[key]=val;
+        //通过页面对 headToolInfo进行key:function(val)设置后，以下事件就可以进行通知
+        if(Object.keys(this).includes('full screen')&&typeof this[key]=='function'){
+          this[key](val);
+        }
+      }
     },
 
     //工具包

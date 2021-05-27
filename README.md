@@ -9,9 +9,10 @@
 # [文档项目GitHub代码](https://github.com/dongmingzhixiu/layout-dynamic-ui-doc)
 
 # [升级日志](./doc/version.md)
->  v.1.4.8
+>   v.1.4.9
 ## 修复`ld-forms`中`image`组件因为hash问题引起的异常
-
+## 添加`ld-frame`中添加头部小工具最大最小化
+## 添加全局变量`headToolInfo`,通过 get set获取和设置头部工具的操作状态
 ## 修复其他问题
 
 # 使用方式

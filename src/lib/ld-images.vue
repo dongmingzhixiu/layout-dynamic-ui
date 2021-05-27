@@ -70,25 +70,10 @@
         dialogImageUrl: '',
         dialogVisible: false,
         fileList: [],
-        hash:this.$ld.util.randomChar(6)
+        hash: this.$ld.util.randomChar(6)
       };
     },
     methods: {
-      // setAccept() {
-      // if(!this.accept){
-      //   return;
-      // }
-      // setTimeout(() => {
-      //   try {
-      //     document.querySelector(".ld-image").querySelector('input[type="file"]').setAttribute("accept", this
-      //       .accept);
-      //   } catch (e) {
-      //     //TODO handle the exception
-      //     this.setAccept();
-      //   }
-      // }, 250);
-      // },
-
       changeFileList() {
         if (!this.value || this.value.length <= 0) {
           return;
@@ -131,9 +116,6 @@
         if (this.limits <= 1) {
           return;
         }
-        // this.setAccept();
-        //this.$message.warning(`当前限制选择${this.limit}个文件，共选择了 ${this.fileList.length} 个文件`);
-        // 得到已选文件个数
       },
       removeImage(file) {
         this.fileList = this.fileList.filter(item => item.uid != file.uid);
@@ -146,19 +128,21 @@
         // this.setAccept();
       },
       showAddButton() {
-        try {
-          let count=0;
-          let setInv = setInterval(() => {
-            if (document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`)||count>50) {
-              document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`).style.display
-              = this.fileList.length < this.limits ? 'inline-block' : 'none';
-              clearInterval(setInv);
-            }
-            count++;
-            return;
-          }, 100);
 
-        } catch (e) {}
+        let count = 0;
+        let setInv = setInterval(() => {
+          if (document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`) || count > 50) {
+            clearInterval(setInv);
+            try {
+              document.querySelector(`.ld-image-${this.hash} .el-upload.el-upload--picture-card`).style.display =
+                this.fileList.length < this.limits ? 'inline-block' : 'none';
+            } catch (e) {}
+          }
+          count++;
+          return;
+        }, 100);
+
+
       }
 
 

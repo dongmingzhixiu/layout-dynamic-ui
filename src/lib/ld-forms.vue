@@ -445,10 +445,8 @@
        * 编辑数据加载完成后触发事件
        */
       editorFormsInitAfter: {
-        type: Object,
-        default: () => {
-          return null
-        }
+        type: Function,
+        default:  null
       },
 
 

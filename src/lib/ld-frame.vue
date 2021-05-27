@@ -1,5 +1,5 @@
 <template>
-  <div class="w h f-s box-b">
+  <div class="w h f-s box-b ld-frame">
     <!-- 左侧 -->
     <div class="w h f-n-c-w box-b over-h " :class="{'w-200 move_right':collapse,'w-64 move_left':!collapse}"
       style="background-color: #545c64;color: #fff;">
@@ -13,29 +13,43 @@
       </div>
       <slot name="logo" :item="{collapse:collapse}"></slot>
       <div class="w box-b" style="height: calc(100% - 60px); overflow: auto;">
-        <ld-menu-tree :uniqueOpened="menuTreeUniqueOpened" class="w h" :default-active="menuTreeDefaultActive" :default-expand-all="defaultExpandAlls"
-          :tree="menuTrees" @click="menuClick" :collapse="!collapse" background-color="#545c64" text-color="#fff"
-          :collapse-transition="false" active-text-color="#ffd04b"></ld-menu-tree>
+        <ld-menu-tree :uniqueOpened="menuTreeUniqueOpened" class="w h" :default-active="menuTreeDefaultActive"
+          :default-expand-all="defaultExpandAlls" :tree="menuTrees" @click="menuClick" :collapse="!collapse"
+          background-color="#545c64" text-color="#fff" :collapse-transition="false" active-text-color="#ffd04b">
+        </ld-menu-tree>
       </div>
     </div>
     <!-- 右侧 -->
     <div class="h box-b" style="flex-grow: 2;" :style="{'width':`calc(100% - ${!collapse?'65px':'200px'})`}">
       <!-- 头部 -->
-      <div class="w f-s a-i-c box-b" style="height: 60px;">
+      <div v-if="fullScreen" class="w f-s a-i-c box-b" style="height: 60px;">
         <div class="m-l10 fs20 c6 head-select" @click="collapse=!collapse"
           :class="{'el-icon-s-fold':collapse,'el-icon-s-unfold':!collapse}"></div>
         <div class="f-e" style="flex-grow: 2;">
           <slot name="headCenter"></slot>
-					<div class="box-b m-r8">
-						<el-button v-if="showSkin" class="el-icon-orange" circle type="warning" @click="toolClick('skin')"></el-button>
-						<ld-skin v-if="showSkin"></ld-skin>
-						<el-button class="el-icon-switch-button" circle type="primary" @click="toolClick('exit')"></el-button>
-					</div>
+          <div class="box-b m-r8">
+            <el-button title="最大化" :loading="toolLoading" v-if="headTools.includes('full screen')"
+              :class="{'el-icon-full-screen':fullScreen,'el-icon-copy-document':!fullScreen}" circle
+              @click="setFullScreen"></el-button>
+            <el-button :loading="toolLoading" v-if="headTools.includes('skin')" class="el-icon-orange" circle
+              type="warning" @click="toolClick('skin',null)"></el-button>
+            <ld-skin v-if="headTools.includes('skin')"></ld-skin>
+            <el-button title="退出" :loading="toolLoading" v-if="headTools.includes('exit')" class="el-icon-switch-button" circle
+              type="primary" @click="toolClick('exit',null)"></el-button>
+          </div>
         </div>
       </div>
+      <div v-else class="full-screen b-b3 r2 p5 m-r5 f-e a-i-c box-b">
+        <el-button title="普通窗口" :loading="toolLoading" v-if="headTools.includes('full screen')"
+          :class="{'el-icon-full-screen':fullScreen,'el-icon-copy-document':!fullScreen}" circle
+          @click="setFullScreen"></el-button>
+        <el-button title="折叠/恢复" :loading="toolLoading" v-if="headTools.includes('full screen')" circle  @click="collapse=!collapse"
+            :class="{'el-icon-s-fold':collapse,'el-icon-s-unfold':!collapse}"  type="warning"></el-button>
+      </div>
       <!-- 主体 -->
-      <div class="w box-b" style="height: calc(100% - 60px);">
-        <ld-page-tabs ref="pageTabs" class="w h" :tabs="pageTabs" :selected="tabSelected" :show-confirm="showConfirm" @click="pageTabsClick" @close="closeTabPage" @events="getEvents">
+      <div class="w box-b frame-context" :style="{'height': `calc(100% - ${fullScreen?'60px':'0px'})`}">
+        <ld-page-tabs ref="pageTabs" class="w h" :tabs="pageTabs" :selected="tabSelected" :show-confirm="showConfirm"
+          @click="pageTabsClick" @close="closeTabPage" @events="getEvents">
           <template v-if="$scopedSlots.page" v-slot:page="e">
             <slot name="page" :item="e.item"></slot>
           </template>
@@ -93,17 +107,31 @@
       /**
        *是否展开菜单树的子节点
        */
-      defaultExpandAll:{
+      defaultExpandAll: {
         type: Boolean,
         default: true,
       },
       /**
        * 是否显示皮肤
        */
-      showSkin:{
+      showSkin: {
         type: Boolean,
         default: false,
       },
+
+      /**
+       * 头部控制小工具
+       */
+      headTool: {
+        type: Array,
+        default: () => {
+          return [
+            'full screen',
+            // 'skin',
+            'exit'
+          ]
+        }
+      }
 
     },
     watch: {
@@ -111,29 +139,52 @@
         this.menuTrees = news;
         this.selectFirstPage();
       },
-      defaultExpandAll(news){
-        this.defaultExpandAlls=news;
+      defaultExpandAll(news) {
+        this.defaultExpandAlls = news;
+      },
+      headTool(news) {
+        this.headTools = news;
       }
+
     },
     data() {
       return {
-        defaultExpandAlls:this.defaultExpandAll,
+        defaultExpandAlls: this.defaultExpandAll,
         collapse: true,
         menuTreeDefaultActive: '',
         menuTrees: this.menuTree || [],
         headHeight: '80px',
         pageTabs: [],
         tabSelected: 0,
+        fullScreen: true,
+        headTools: this.headTool,
+        toolLoading: false,
       }
     },
     methods: {
-			toolClick(key){
-				this.$emit("toolClick",{key:key});
-			},
+      setFullScreen() {
+        this.fullScreen = !this.fullScreen;
+        this.collapse = this.fullScreen;
+        this.toolLoading = true;
+        this.toolClick('full screen',this.fullScreen);
+        //防止连续点击
+        setTimeout(() => {
+          this.toolLoading = false;
+        }, 200);
+      },
 
-      pageTabsClick(e){
-        let _index=this.pageTabs.indexOf(e);
-        _index=_index<0?this.pageTabs.indexOf(this.pageTabs.filter(item=>item['prop']==e['prop'])[0]):_index;
+      toolClick(key,value) {
+        this.$ld.headToolInfo.set(key,value);
+        this.$emit("toolClick", {
+          key: key,
+          value:value
+        });
+      },
+
+      pageTabsClick(e) {
+        let _index = this.pageTabs.indexOf(e);
+        _index = _index < 0 ? this.pageTabs.indexOf(this.pageTabs.filter(item => item['prop'] == e['prop'])[0]) :
+        _index;
         this.tabSelected = _index;
       },
       menuClick(e) {
@@ -146,8 +197,9 @@
         }
         //选中
         this.$nextTick(() => {
-					let _index=this.pageTabs.indexOf(e);
-					_index=_index<0?this.pageTabs.indexOf(this.pageTabs.filter(item=>item['prop']==e['prop'])[0]):_index;
+          let _index = this.pageTabs.indexOf(e);
+          _index = _index < 0 ? this.pageTabs.indexOf(this.pageTabs.filter(item => item['prop'] == e['prop'])[0]) :
+            _index;
           this.tabSelected = _index;
         })
       },
@@ -203,12 +255,12 @@
        * 刷新页面
        * @param {Object} prop
        */
-      refreshTabByProp(prop){
-        let _item=this.pageTabs.filter(item=>item['prop']==prop);
-        if(_item.length<=0){
+      refreshTabByProp(prop) {
+        let _item = this.pageTabs.filter(item => item['prop'] == prop);
+        if (_item.length <= 0) {
           return;
         }
-				this.menuClick(_item[0]);
+        this.menuClick(_item[0]);
         this.$refs.pageTabs.refreshTab(_item[0]);
       }
     },
@@ -279,5 +331,16 @@
 
   .el-tabs--border-card>.el-tabs__header {
     /* box-shadow: 0 var(--x4) var(--x12) 0 rgba(0, 0, 0, 0.1); */
+  }
+
+  .ld-frame .full-screen {
+    position: fixed;
+    right: 10px;
+    top: 0px;
+    z-index: 9;
+    height: 38px;
+  }
+  .ld-frame .full-screen .el-button.is-circle{
+    padding: 6px!important;
   }
 </style>
