@@ -182,7 +182,7 @@ const request = {
         if (typeof interceptor.error=='function') {
           interceptor.error(err,option);
         }
-        return Promise.rejected.reject(err)
+        return Promise.reject(err)
       });
     }, option);
   },
