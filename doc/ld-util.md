@@ -14,6 +14,7 @@
 ## 6.[`getTime`](#getTime) 获取时间。
 ## 7.[`getDateTime`](#getDateTime) 获取日期时间。
 ## 8.[`getTimeSplit`](#getTimeSplit) 获取时间段，形如：早晨，中午，上午，晚上，凌晨等。
+## [新增]9.1.[`getYearWeek`](#getYearWeek)  获取指定日期所在年的多少周；如2021-05-23=>2021 第 21 周
 ## 9.[`pingyin`](#pingyin)  获取拼音检索码
 <!-- ## 9.[`encryption`](#encryption) 加解密字符串。 -->
 ## 10.[`randomNum`](#randomNum) 得到随机数字 (包前不包后)。
@@ -283,6 +284,27 @@ this.$ld.util.getTimeSplit(); //"上午"
 this.$ld.util.getTimeSplit('2020-4-28 17:43:08');//"傍晚"
 
 ```
+
+## getYearWeek
+
+ > 获取时间段，形如：早晨，中午，上午，晚上，凌晨等。
+
+### 参数
+|参数名称|类型|为空|说明|
+|:---|:---|:---|:---|
+|date|String|可为空|要计算的日期[yyyy-MM-dd HH:mm:ss] ，默认为当前日期|
+
+### 示例
+```javascript
+
+//1.普通使用 获取当前时间
+this.$ld.util.getYearWeek(); //"2021 第 22 周"
+
+//2.返回负值
+this.$ld.util.getYearWeek('2020-05-23 17:43:08');//"2021 第 21 周"
+
+```
+
 ## pingyin
 
  > 获取拼音检索码

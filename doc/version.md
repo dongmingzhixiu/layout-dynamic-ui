@@ -1,3 +1,8 @@
+# v.1.5.0
+## 优化 `ld-table`多级表头的嵌套模式，只需要在对应列中包含`children`关键字即可。形如 `{label:'地址',prop:'address',children:[{label:'市',prop:'city'},{label:'街道',prop:'town'}]}`
+## 修复其他问题
+
+
 # v.1.4.9
 ## 修复`ld-forms`中`image`组件因为hash问题引起的异常
 ## 添加`ld-frame`中添加头部小工具最大最小化

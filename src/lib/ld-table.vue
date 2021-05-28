@@ -26,10 +26,10 @@
       <!-- 数据列 -->
       <template v-if="col['visabled']!=false" v-for="(col,i) in layouts">
         <el-table-column :align="col['align']||'center'" :prop="col.prop"
-          :label="typeof col.label=='string'?col.label:col.label['label']"
-          :width="col.width?col.width:tableConfig.defaultWidth" :sortable="col.sortable||false" :key="i">
-          <template v-if="typeof col.label=='object'&&col.label&&col.label['children']&&col.label['children'].length>0">
-            <template v-for="(item,c) in col.label['children']">
+          :label="col.label||''"
+          :width="getWidth(col)" :sortable="col.sortable||false" :key="i">
+          <template v-if="col['children']&&col['children'].length>0">
+            <template v-for="(item,c) in col['children']">
               <ld-table-column-item :table-config="tableConfig" :item="item" :key="c">
                 <template #replace="{item,row}">
                   <template v-if="row[`${item['prop']}_reqplace_val`]">
@@ -266,6 +266,15 @@
       }
     },
     methods: {
+      /**
+       * 获取宽度
+       */
+      getWidth(item){
+        if(item['width']){
+          return item['width'];
+        }
+        return this.tableConfig.width;
+      },
       /**
        * 获取html
        * @param {Object} col

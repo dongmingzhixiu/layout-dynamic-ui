@@ -35,7 +35,7 @@
 |replace|Object|需要替换的请求方法参数||在加载表格式，有时需要将外键关联的另一张表数据中的字符显示到表格中。这时需要该参数。比如：需要显示创建人名称，而该字段所对应的值为人员表的编号，此时可以通过该参数配置。具体详见[replace](##replace)；注意：replace、format、html，多个存在时，按照以上顺序只有一个会生效|
 |visabled|Boolean|是否显示||默认值为true；false不显示|
 |sortable|Boolean|是否排序列||默认为false|
-|width|String|宽度||形如`100px` `80%` `calc(100% - 100px)`等,默认值为'auto'|
+|width|String,Number|宽度||形如`100px` `80%` `calc(100% - 100px)`等,默认值为'auto'|
 
 ### layout布局参数结构如下
 ```javascript
@@ -172,7 +172,7 @@ layout:[
 
 
 # 多级表头的使用
->多级表头使用非常简单，只需要对布局参数的`label`进行深层嵌套即可；只需遵从`label:{label:'表头名称',children:[{...}...]}`即可实现多层表格嵌套,参数格式如下
+>多级表头使用非常简单，只需要对布局参数的`label`进行深层嵌套即可；只需遵从`children:[{...}...]`即可实现多层表格嵌套,参数格式如下
 
 ```javascript
 layout:[{
@@ -190,14 +190,14 @@ layout:[{
 			{prop: 'createdBy',label: '创建人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
 			{prop: 'updatedBy',label: '修改人', replace: {  method: 'test/getUserById',methodType:'get', label: 'nickName', value: 'id'} },
 			//理论上，可以无限使用{label:'',children:[{}]}结构进行嵌套，但实际中为了节省资源，请谨慎使用
-			{prop: '',label:{
-				label:'地址',
+			// 在v 1.5.0之后，直接通过对象中的 children关键字，进行多层嵌套
+      {prop: '',label:'地址',
 				children:[
 					{prop:'province',label:'省份',format:(val)=>{return"甘肃省"}},
 					{prop:'city',label:'市区',format:(val)=>{return"兰州市"}},
 					{prop:'address',label:'地址',format:(val)=>{return"城关区"}},
 				]
-			}},
+			},
 		]
 	}
 },

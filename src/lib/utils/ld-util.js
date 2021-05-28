@@ -88,6 +88,23 @@ const getMonthDiff = function(endDate, startDate) {
   var month = s2 - s1 + (getYearDiff(endDate, startDate) * 12)
   return month;
 }
+
+//获取日期所属的年终的第几周
+const getYearWeek = function(date) {
+  date = date || new Date();
+  var day = date instanceof Date ? date : new Date(date);
+  var firstDay = new Date(day.getFullYear(), 0, 1);
+  var dayOfWeek = firstDay.getDay();
+  var spendDay = 1;
+  if (dayOfWeek != 0) {
+    spendDay = 7 - dayOfWeek + 1;
+  }
+  firstDay = new Date(day.getFullYear(), 0, 1 + spendDay);
+  var d = Math.ceil((day.valueOf() - firstDay.valueOf()) / 86400000);
+  var result = Math.ceil(d / 7);
+  return `${day.getFullYear()} 第 ${result+1} 周`;
+}
+
 /**
  * 得到当前日期  年月日
  */
@@ -794,6 +811,7 @@ export default {
   getNowDT,
   getNowT,
   getTimeSplit,
+  getYearWeek,
 
   encryption,
 
@@ -833,7 +851,7 @@ export default {
   cookie: {
     get: getCookie,
     set: setCookie,
-    clear:clearCookie
+    clear: clearCookie
   },
 
   copyToClipboard

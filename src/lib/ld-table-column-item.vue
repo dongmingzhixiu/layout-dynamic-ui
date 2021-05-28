@@ -1,21 +1,18 @@
 <template>
-  <el-table-column :prop="item['prop']" :label="typeof item.label=='string'?item.label:item.label['label']"
-    :align="item['align']||'center'" :width="item.width?item.width:tableConfig.defaultWidth">
-
-    <template v-if="typeof item.label=='object'&&item.label&&item.label['children']&&item.label['children'].length>0">
-      <template v-for="(item2,c) in  item.label['children']">
+ <el-table-column :prop="items['prop']" :label="items.label" :align="items['align']||'center'" :width="getWidth(items)">
+    <template v-if="items['children']&&items['children'].length>0">
+      <template v-for="(item2,c) in items['children']">
         <ld-table-column-item :table-config="tableConfig" :item="item2" :key="c">
           <template #replace="{item,row}">
-            <slot name="replace" :item="item" :row="row"></slot>
+            <slot name="replace" :item="items" :row="row"></slot>
           </template>
         </ld-table-column-item>
       </template>
     </template>
-
     <template slot-scope="scope">
-      <ld-table-item :item="item" :row="scope.row">
+      <ld-table-item :item="items" :row="scope.row">
         <template #replace="{item,row}">
-          <slot name="replace" :item="item" :row="scope.row"></slot>
+          <slot name="replace" :item="items" :row="scope.row"></slot>
         </template>
       </ld-table-item>
     </template>
@@ -54,6 +51,16 @@
       }
     },
     methods: {
+
+       /**
+        * 获取宽度
+        */
+       getWidth(item){
+         if(item['width']){
+           return item['width'];
+         }
+         return this.tableConfig.width;
+       },
       /**
        * 出现null字符串是处理
        * @param {Object} val
