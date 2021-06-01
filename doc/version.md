@@ -1,3 +1,8 @@
+# v.1.5.1
+## 优化 `ld-forms`中的`ld-image`添加旋转图片参数；优化图片最大数量显示处理。
+## 修复其他问题
+
+
 # v.1.5.0
 ## 优化 `ld-table`多级表头的嵌套模式，只需要在对应列中包含`children`关键字即可。形如 `{label:'地址',prop:'address',children:[{label:'市',prop:'city'},{label:'街道',prop:'town'}]}`
 ## 修复其他问题

@@ -311,6 +311,9 @@
             type: 'image',
             label: '头像',
             limit: 4,
+            isSplit:true,
+            splitChart:',',
+						value:'http://ki.orange-info.cn:80/kin/static/img/logo.png?rotate=90,http://ki.orange-info.cn:80/kin/static/img/logo.png?rotate=90,http://ki.orange-info.cn:80/kin/static/img/logo.png?rotate=180&,http://ki.orange-info.cn:80/kin/static/img/logo.png'
           }, {
             prop: 'dataInfo',
             type: 'slot',

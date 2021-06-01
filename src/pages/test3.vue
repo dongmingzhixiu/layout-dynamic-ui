@@ -77,24 +77,56 @@
           //   },
           // ]
           [{
-            label: {
-              label: '用户信息',
-              children:[
-                {prop: 'nickName',label: '用户名称' },
-                {prop: 'phone',label: '电话号码' },
-                {prop: 'remake',label: '描述'},
-                {prop: 'sex',label: '性别',html:(val)=>{return `<div class="${val==1?'c-d':'c-s'}">${val==1?'男':'女'}</div>`}},
-                {prop: 'userType',label: '用户类别',format:(val)=>{return val==1?'普通用户':'超级管理员'} },
-                {prop: 'birthday',label: '出生日期',format:(val)=>{
-                return val?'': this.$ld.util.getNowD(val)} },
-                {prop: 'createdTime',label: '创建时间',format:(val)=>{
-                return val?'': this.$ld.util.getNowDT(val)} },
-                {prop: 'updatedTime',label: '修改时间',format:(val)=>{
-                return val?'': this.$ld.util.getNowDT(val)} },
-              ]
-            }
-          },
-        ],
+            label: '用户信息',
+            children: [{
+                prop: 'nickName',
+                label: '用户名称'
+              },
+              {
+                prop: 'phone',
+                label: '电话号码'
+              },
+              {
+                prop: 'remake',
+                label: '描述'
+              },
+              {
+                prop: 'sex',
+                label: '性别',
+                html: (val) => {
+                  return `<div class="${val==1?'c-d':'c-s'}">${val==1?'男':'女'}</div>`
+                }
+              },
+              {
+                prop: 'userType',
+                label: '用户类别',
+                format: (val) => {
+                  return val == 1 ? '普通用户' : '超级管理员'
+                }
+              },
+              {
+                prop: 'birthday',
+                label: '出生日期',
+                format: (val) => {
+                  return val ? '' : this.$ld.util.getNowD(val)
+                }
+              },
+              {
+                prop: 'createdTime',
+                label: '创建时间',
+                format: (val) => {
+                  return val ? '' : this.$ld.util.getNowDT(val)
+                }
+              },
+              {
+                prop: 'updatedTime',
+                label: '修改时间',
+                format: (val) => {
+                  return val ? '' : this.$ld.util.getNowDT(val)
+                }
+              },
+            ]
+          }, ],
         list: [],
         objectSpanMethod: ({
           row,

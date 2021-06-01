@@ -78,7 +78,7 @@
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       clearable :show-password="item['password']" :placeholder="getPlaceholder(item)"
                       :disabled="getDisabled(item)" @change="regexFormVal(item,i,true)" @input="regexFormVal(item,i)"
-                      @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @blur="regexFormVal(item,i);inputBlur(item)" @focus="regexFormVal(item,i);inputFocus(item)">
                       <template v-if="item['prepend']" slot="prepend"><span v-html="item['prepend']"></span></template>
                       <template v-if="item['append']" slot="suffix"><span v-html="item['append']"></span></template>
                     </el-input>
@@ -90,7 +90,7 @@
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :disabled="getDisabled(item)" type="textarea" clearable :show-password="item['password']"
                       :placeholder="getPlaceholder(item)" :rows="item['rows']||4" @change="regexFormVal(item,i,true)"
-                      @input="regexFormVal(item,i)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @input="regexFormVal(item,i)" @blur="regexFormVal(item,i);inputBlur(item)" @focus="regexFormVal(item,i);inputFocus(item)">
                     </el-input>
                   </template>
 
@@ -100,7 +100,7 @@
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :disabled="getDisabled(item)" clearable :allow-create="item['allowCreate']||false"
                       :filterable="item['filterable']||item['allowCreate']||false" :multiple="item['multiple']||false"
-                      collapse-tags style="margin-left: 20px;" placeholder="请选择" @change="regexFormVal(item,i,true)"
+                      collapse-tags style="margin-left: 20px;" :placeholder="getPlaceholder(item)" @change="regexFormVal(item,i,true)"
                       @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
                       <el-option v-for="opt in item['options']" :key="opt.value" :label="opt.label" :value="opt.value"
                         :disabled="opt.disabled||false">
@@ -153,7 +153,7 @@
                       :align="item['align']||'left'" :format="item['format']||'yyyy 第 WW 周'"
                       :type="item['dateType']||'date'" :placeholder="getPlaceholder(item)" v-model="forms[item['prop']]"
                       :readonly="getDisabled(item)" :picker-options="item['pickerOptions']"
-                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i);inputBlur(item)" @focus="regexFormVal(item,i);inputFocus(item)">
                     </el-date-picker>
                     <el-date-picker v-else-if="item['dateType'].indexOf('range')>0" class="w" style="width: 100%;"
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
@@ -163,14 +163,14 @@
                       :end-placeholder="item['endPlaceholder']||`结束${rangePlaceholder[item['dateType']]}`"
                       :type="item['dateType']||'date'" :placeholder="getPlaceholder(item)" v-model="forms[item['prop']]"
                       :readonly="getDisabled(item)" :picker-options="item['pickerOptions']"
-                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i);inputBlur(item)" @focus="regexFormVal(item,i);inputFocus(item)">
                     </el-date-picker>
                     <el-date-picker v-else class="w" style="width: 100%;"
                       :class="getStyleOrCss({'error-bor-d':item['error']==true},item,'css')" :style="item['style']"
                       :align="item['align']||'left'" :value-format="layoutDateFormat[item['dateType']||'date']"
                       :type="item['dateType']||'date'" :placeholder="getPlaceholder(item)" v-model="forms[item['prop']]"
                       :readonly="getDisabled(item)" :picker-options="item['pickerOptions']"
-                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i)" @focus="regexFormVal(item,i)">
+                      @change="regexFormVal(item,i,true)" @blur="regexFormVal(item,i);inputBlur(item)" @focus="regexFormVal(item,i);inputFocus(item)">
                     </el-date-picker>
                   </template>
 
@@ -227,7 +227,8 @@
                     <ld-images :disabled="getDisabled(item)" :limit="item['limit']||1" :value="forms[item['prop']]"
                     :accept="item['accept']||'image/x-png,image/gif,image/jpeg,image/jpg,image/bmp'"
                     :get-image-path="item['getImagePath']"  @image="ldChangeValToForm(item,$event,i)"
-                    :is-split="item['isSplit']" :split-chart="item['splitChart']"
+                    :is-split="item['isSplit']" :split-chart="item['splitChart']" :show-rotate="item['showRotate']"
+                    :multiple="item['multiple']"  
                     :clearable="false"></ld-images>
                   </template>
 
@@ -526,6 +527,21 @@
       }
     },
     methods: {
+      /**
+       * 获取焦点
+       * @param {Object} item
+       */
+      inputFocus(e){
+        this.$emit('inputFocus',e);
+      },
+      /**
+       * 失去焦点
+       * @param {Object} item
+       */
+      inputBlur(e){
+        this.$emit('inputBlur',e);
+      },
+
       showInputSuffix(item) {
         // if(item['type']=='slider'&&typeof item['marks']!=undefined){
         //   return false;

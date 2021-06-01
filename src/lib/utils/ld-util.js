@@ -631,7 +631,10 @@ const objToParam = function(obj, isStartChart) {
  * @param {Object} isStartChart
  */
 const urlToObj = function(url) {
-  url = url.indexOf('?') >= 0 ? url : '?' + url;
+  url = url.replace(/^\s|&?\s?$/, '');
+  url = url.indexOf('?') >= 0 ? url :
+    url.toLocaleLowerCase().indexOf("http://") == 0 || url.toLocaleLowerCase().indexOf("https://") == 0 ?
+    url : ('?' + url);
   let _url = url.split("?");
   if (_url.length <= 1) {
     return {
