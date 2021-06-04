@@ -633,7 +633,9 @@ const objToParam = function(obj, isStartChart) {
 const urlToObj = function(url) {
   url = url.replace(/^\s|&?\s?$/, '');
   url = url.indexOf('?') >= 0 ? url :
-    url.toLocaleLowerCase().indexOf("http://") == 0 || url.toLocaleLowerCase().indexOf("https://") == 0 ?
+    url.toLocaleLowerCase().indexOf("http://") == 0 ||
+    url.toLocaleLowerCase().indexOf("https://") == 0 ||
+    (url.indexOf("/") >= 0 && url.indexOf("&") < 0 && url.indexOf("=") < 0) ?
     url : ('?' + url);
   let _url = url.split("?");
   if (_url.length <= 1) {
@@ -739,21 +741,17 @@ const getCookie = function(c_name) {
   }
   return ""
 }
+
+//取回cookie
+const removeCookie = function(c_name) {
+  setCookie(c_name, '', -1);
+}
 /**
  *  清楚cookie
  * @param {Object} name
  */
 const clearCookie = function(name) {
-  var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-  if (keys) {
-    for (var i = keys.length; i--;) {
-      document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString(); //清除当前域名下的,例如：m.kevis.com
-      document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString(); //清除当前域名下的，例如 .m.kevis.com
-      if (name && keys[i] == name) {
-        return;
-      }
-    }
-  }
+  setCookie(c_name, '', -1);
 }
 
 /**
@@ -854,7 +852,8 @@ export default {
   cookie: {
     get: getCookie,
     set: setCookie,
-    clear: clearCookie
+    clear: clearCookie,
+    remove: removeCookie,
   },
 
   copyToClipboard

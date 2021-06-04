@@ -117,13 +117,13 @@
                       <el-radio-group v-model="forms[item['prop']]" @change="regexFormVal(item,i,true)"
                         :disabled="getDisabled(item)">
                         <template v-if="item['isButton']===true">
-                          <el-radio-button v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value"
+                          <el-radio-button v-for="(opt,j) in item['options']" class="p-b2 p-t2" :disabled="opt.disabled||false" :label="opt.value"
                             :border="item[' border']||false" :key="j">
                             {{opt.label}}
                           </el-radio-button>
                         </template>
                         <template v-else>
-                          <el-radio v-for="(opt,j) in item['options']" class="p-b2 p-t2" :label="opt.value" :key="j">
+                          <el-radio v-for="(opt,j) in item['options']" :disabled="opt.disabled||false" class="p-b2 p-t2" :label="opt.value" :key="j">
                             {{opt.label}}
                           </el-radio>
                         </template>
@@ -228,7 +228,7 @@
                     :accept="item['accept']||'image/x-png,image/gif,image/jpeg,image/jpg,image/bmp'"
                     :get-image-path="item['getImagePath']"  @image="ldChangeValToForm(item,$event,i)"
                     :is-split="item['isSplit']" :split-chart="item['splitChart']" :show-rotate="item['showRotate']"
-                    :multiple="item['multiple']"  
+                    :multiple="item['multiple']"
                     :clearable="false"></ld-images>
                   </template>
 
